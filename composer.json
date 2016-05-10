@@ -18,7 +18,7 @@
     "php": ">=5.6.0",
     "vain/entity" : "dev-master",
     "vain/event" : "dev-master",
-    "mmjitsu/vain-operation" : "dev-master"
+    "vain/operation" : "dev-master"
   },
   "repositories": [
     {
