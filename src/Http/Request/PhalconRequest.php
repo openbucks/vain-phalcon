@@ -8,18 +8,76 @@
 
 namespace Vain\Phalcon\Http\Request;
 
+use Phalcon\FilterInterface as PhalconFilterInterface;
 use Phalcon\Http\RequestInterface as PhalconHttpRequestInterface;
 use Phalcon\Http\Request as PhalconHttpRequest;
 use Vain\Http\Request\AbstractServerRequest;
+use Vain\Http\Stream\VainStreamInterface;
+use Vain\Http\Uri\VainUriInterface;
 
 class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequestInterface
 {
+    private $filter;
+
+    /**
+     * PhalconRequest constructor.
+     * @param PhalconFilterInterface $filter
+     * @param array $serverParams
+     * @param array $uploadedFiles
+     * @param array $cookies
+     * @param array $queryParams
+     * @param array $attributes
+     * @param string $parsedBody
+     * @param string $protocol
+     * @param VainUriInterface $method
+     * @param VainUriInterface $uri
+     * @param VainStreamInterface $stream
+     * @param array $headers
+     */
+    public function __construct(PhalconFilterInterface $filter, array $serverParams, $uploadedFiles, array $cookies, array $queryParams, array $attributes, $parsedBody, $protocol, $method, VainUriInterface $uri, VainStreamInterface $stream, array $headers)
+    {
+        $this->filter = $filter;
+        parent::__construct($serverParams, $uploadedFiles, $cookies, $queryParams, $attributes, $parsedBody, $protocol, $method, $uri, $stream, $headers);
+    }
+
     /**
      * @inheritDoc
      */
     public function get($name = null, $filters = null, $defaultValue = null)
     {
-        // TODO: Implement get() method.
+        if ($this->isGet()) {
+            return $this->getQuery($name, $filters, $defaultValue);
+        }
+
+        return $this->getPost($name, $filters, $defaultValue);
+    }
+
+    /**
+     * @param array $data
+     * @param string $name
+     * @param array $filters
+     * @param mixed $defaultValue
+     *
+     * @return mixed
+     */
+    protected function getRequestValue(array $data, $name, $filters, $defaultValue)
+    {
+        if (null === $name) {
+            return $data;
+        }
+
+        if (false === array_key_exists($name, $data)) {
+            return $defaultValue;
+        }
+
+        $value = $data[$name];
+
+        if (null === $filters) {
+            return $value;
+
+        }
+
+        return $this->filter->sanitize($value, $filters);
     }
 
     /**
@@ -27,7 +85,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
      */
     public function getPost($name = null, $filters = null, $defaultValue = null)
     {
-        // TODO: Implement getPost() method.
+        return $this->getRequestValue($this->getParsedBody(), $name, $filters, $defaultValue);
     }
 
     /**
@@ -35,7 +93,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
      */
     public function getQuery($name = null, $filters = null, $defaultValue = null)
     {
-        // TODO: Implement getQuery() method.
+        return $this->getRequestValue($this->getQueryParams(), $name, $filters, $defaultValue);
     }
 
     /**
@@ -99,7 +157,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
      */
     public function getClientAddress($trustForwardedHeader = false)
     {
-        // TODO: Implement getClientAddress() method.
+        return $this->getServer('REMOTE_ADDR');
     }
 
     /**
@@ -131,7 +189,15 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
      */
     public function hasFiles($onlySuccessful = false)
     {
-        // TODO: Implement hasFiles() method.
+        $count = 0;
+        foreach ($this->getUploadedFiles() as $file) {
+            if (UPLOAD_ERR_OK !== $file->getError()) {
+                continue;
+            }
+            $count++;
+        }
+
+        return $count;
     }
 
     /**
