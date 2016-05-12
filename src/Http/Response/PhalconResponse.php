@@ -18,7 +18,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
      */
     public function setStatusCode($code, $message = null)
     {
-        // TODO: Implement setStatusCode() method.
+        return $this->withStatus($code, $message);
     }
 
     /**
@@ -34,15 +34,8 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
      */
     public function setRawHeader($header)
     {
-        // TODO: Implement setRawHeader() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function resetHeaders()
-    {
-        // TODO: Implement resetHeaders() method.
+        list ($headerName, $headerValue) = explode(':', $header);
+        return $this->addHeader($headerName, $headerValue);
     }
 
     /**
@@ -50,7 +43,10 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
      */
     public function setExpires(\DateTime $datetime)
     {
-        // TODO: Implement setExpires() method.
+        $cloned = clone $datetime;
+        $cloned->setTimezone(new \DateTimeZone("UTC"));
+
+        return $this->addHeader('Expires', $datetime->format("D, d M Y H:i:s") . " GMT");
     }
 
     /**
@@ -58,7 +54,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
      */
     public function setNotModified()
     {
-        // TODO: Implement setNotModified() method.
+        return $this->withStatus(304, 'Not modified');
     }
 
     /**
@@ -66,7 +62,11 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
      */
     public function setContentType($contentType, $charset = null)
     {
-        // TODO: Implement setContentType() method.
+        if (null === $charset) {
+            return $this->addHeader('Content-Type', $contentType);
+        }
+
+        return $this->addHeader('Content-Type', sprintf('%s";charset=%s"', $contentType, $charset));
     }
 
     /**
@@ -82,7 +82,9 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
      */
     public function setContent($content)
     {
-        // TODO: Implement setContent() method.
+        $this->getBody()->write($content);
+
+        return $this;
     }
 
     /**
@@ -90,7 +92,10 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
      */
     public function setJsonContent($content)
     {
-        // TODO: Implement setJsonContent() method.
+        if (false === ($encoded = json_encode($content))) {
+            
+        }
+        return $this->setContent($encoded);
     }
 
     /**
@@ -98,7 +103,9 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
      */
     public function appendContent($content)
     {
-        // TODO: Implement appendContent() method.
+        $this->getBody()->write($content);
+
+        return $this;
     }
 
     /**
@@ -106,7 +113,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
      */
     public function getContent()
     {
-        // TODO: Implement getContent() method.
+        return $this->getBody()->getContents();
     }
 
     /**
