@@ -6,7 +6,7 @@
  * Time: 12:34 PM
  */
 
-namespace Vain\Phalcon\Http;
+namespace Vain\Phalcon\Http\Request;
 
 use Phalcon\Http\RequestInterface as PhalconHttpRequestInterface;
 use Phalcon\Http\Request as PhalconHttpRequest;

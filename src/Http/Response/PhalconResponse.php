@@ -6,7 +6,7 @@
  * Time: 12:42 PM
  */
 
-namespace Vain\Phalcon\Http;
+namespace Vain\Phalcon\Http\Response;
 
 use Phalcon\Http\ResponseInterface as PhalconHttpResponseInterface;
 use Vain\Http\Response\AbstractResponse;
