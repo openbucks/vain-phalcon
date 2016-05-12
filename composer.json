@@ -46,12 +46,12 @@
       "url": "http://gitlab.cosmonova.net.ua/mmjitsu/vain-operation.git"
     },
     {
-      "type": "vcs",
-      "url": "https://github.com/allflame/vain-event"
+      "type": "git",
+      "url": "http://gitlab.cosmonova.net.ua/mmjitsu/vain-event.git"
     },
     {
-      "type": "vcs",
-      "url": "https://github.com/allflame/vain-entity"
+      "type": "git",
+      "url": "http://gitlab.cosmonova.net.ua/mmjitsu/vain-entity.git"
     }
   ],
   "config": {
