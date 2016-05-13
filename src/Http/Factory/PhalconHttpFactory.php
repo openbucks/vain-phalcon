@@ -8,17 +8,50 @@
 
 namespace Vain\Phalcon\Http\Factory;
 
+use Phalcon\FilterInterface as PhalconFilterInterface;
+use Vain\Http\Cookie\Factory\CookieFactoryInterface;
+use Vain\Http\Cookie\VainCookieInterface;
 use Vain\Http\Exception\UnsupportedUriException;
 use Vain\Http\File\Factory\FileFactoryInterface;
+use Vain\Http\Header\Factory\HeaderFactoryInterface;
+use Vain\Http\Header\VainHeaderInterface;
+use Vain\Http\Request\Factory\RequestFactoryInterface;
+use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Http\Stream\Factory\StreamFactoryInterface;
 use Vain\Http\Uri\Factory\UriFactoryInterface;
 use Vain\Phalcon\Exception\UnreachableFileException;
+use Vain\Phalcon\Http\Cookie\PhalconCookie;
 use Vain\Phalcon\Http\File\PhalconFile;
+use Vain\Phalcon\Http\Header\PhalconHeader;
+use Vain\Phalcon\Http\Header\Storage\PhalconHeadersStorage;
+use Vain\Phalcon\Http\Request\PhalconRequest;
 use Vain\Phalcon\Http\Stream\PhalconStream;
 use Vain\Phalcon\Http\Uri\PhalconUri;
 
-class PhalconHttpFactory implements FileFactoryInterface, UriFactoryInterface, StreamFactoryInterface
+class PhalconHttpFactory implements
+    FileFactoryInterface,
+    UriFactoryInterface,
+    StreamFactoryInterface,
+    CookieFactoryInterface,
+    RequestFactoryInterface,
+    ResponseFactoryInterface,
+    HeaderFactoryInterface
 {
+    private $filter;
+
+    private $headerFactory;
+
+    /**
+     * PhalconHttpFactory constructor.
+     * @param PhalconFilterInterface $phalconFilter
+     * @param HeaderFactoryInterface $headerFactory
+     */
+    public function __construct(PhalconFilterInterface $phalconFilter, HeaderFactoryInterface $headerFactory)
+    {
+        $this->filter = $phalconFilter;
+        $this->headerFactory = $headerFactory;
+    }
+
     /**
      * @inheritDoc
      */
@@ -54,7 +87,6 @@ class PhalconHttpFactory implements FileFactoryInterface, UriFactoryInterface, S
         return $array[$element];
     }
 
-
     /**
      * @inheritDoc
      */
@@ -71,4 +103,55 @@ class PhalconHttpFactory implements FileFactoryInterface, UriFactoryInterface, S
 
         return new PhalconUri(...$extractedParts);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function createCookie($name, $value, \DateTime $expiryDate = null, $path = '/', $domain = null, $secure = false, $httpOnly = false)
+    {
+        return new PhalconCookie($name, $value, $expiryDate, $path, $domain, $secure, $httpOnly);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function createHeader($name, array $values)
+    {
+        return new PhalconHeader($name, $values);
+    }
+
+    protected function createFiles(array $filesData)
+    {
+
+    }
+
+    protected function createCookies(array $cookiesData)
+    {
+
+    }
+
+    protected function transformProtocol($protocol)
+    {
+
+    }
+
+
+    public function createRequest(array $serverParams, array $queryParams, array $attributes, $body, array $filesData, array $cookiesData, $streamSource)
+    {
+        $files = $this->createFiles($filesData);
+        $cookies = $this->createCookies($cookiesData);
+        $headerStorage = new PhalconHeadersStorage($this->headerFactory);
+        foreach (getallheaders() as $headerName => $headerValue) {
+            $headerStorage->createHeader($headerName, $headerValue);
+        }
+
+        return new PhalconRequest($this->filter, $serverParams , $files, $cookies, $queryParams, $attributes, $body, $this->transformProtocol($serverParams['REQUEST_PROTOCOL']) ,$serverParams['REQUEST_METHOD'], $this->createUri($serverParams['REQUEST_URI']), $this->createStream($streamSource, 'r'), $headerStorage);
+    }
+
+    public function createResponse()
+    {
+        // TODO: Implement createResponse() method.
+    }
+
+
 }
