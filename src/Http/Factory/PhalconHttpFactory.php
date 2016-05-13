@@ -8,12 +8,14 @@
 
 namespace Vain\Phalcon\Http\Factory;
 
-use Psr\Http\Message\StreamInterface;
-use Psr\Http\Message\UploadedFileInterface;
+use Vain\Http\Exception\UnsupportedUriException;
 use Vain\Http\File\Factory\FileFactoryInterface;
 use Vain\Http\Stream\Factory\StreamFactoryInterface;
 use Vain\Http\Uri\Factory\UriFactoryInterface;
-use Vain\Http\Uri\VainUriInterface;
+use Vain\Phalcon\Exception\UnreachableFileException;
+use Vain\Phalcon\Http\File\PhalconFile;
+use Vain\Phalcon\Http\Stream\PhalconStream;
+use Vain\Phalcon\Http\Uri\PhalconUri;
 
 class PhalconHttpFactory implements FileFactoryInterface, UriFactoryInterface, StreamFactoryInterface
 {
@@ -22,7 +24,7 @@ class PhalconHttpFactory implements FileFactoryInterface, UriFactoryInterface, S
      */
     public function createFile($source, $size, $error, $fileName, $mediaType)
     {
-        // TODO: Implement createFile() method.
+        return new PhalconFile($source, $size, $error, $fileName, $mediaType);
     }
 
     /**
@@ -30,14 +32,43 @@ class PhalconHttpFactory implements FileFactoryInterface, UriFactoryInterface, S
      */
     public function createStream($source, $mode)
     {
-        // TODO: Implement createStream() method.
+        if (false === ($resource = @fopen($source, $mode))) {
+            throw new UnreachableFileException($source, $mode);
+        }
+
+        return new PhalconStream($resource);
     }
+
+    /**
+     * @param string $element
+     * @param array $array
+     *
+     * @return string|null
+     */
+    protected function extractKey($element, array $array)
+    {
+        if (false === array_key_exists($element, $array)) {
+            return null;
+        }
+
+        return $array[$element];
+    }
+
 
     /**
      * @inheritDoc
      */
     public function createUri($uri)
     {
-        // TODO: Implement createUri() method.
+        if (false === ($explode = parse_url($uri))) {
+            throw new UnsupportedUriException($this, $uri);
+        }
+
+        $extractedParts = [];
+        foreach ([PHP_URL_SCHEME, PHP_URL_USER, PHP_URL_PASS, PHP_URL_HOST, PHP_URL_PORT, PHP_URL_PATH, PHP_URL_QUERY, PHP_URL_FRAGMENT] as $element) {
+            $extractedParts[] = $this->extractKey($element, $explode);
+        }
+
+        return new PhalconUri(...$extractedParts);
     }
 }

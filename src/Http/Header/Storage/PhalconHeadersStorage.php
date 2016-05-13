@@ -73,5 +73,4 @@ class PhalconHeadersStorage extends AbstractHeaderStorage implements PhalconHead
 
         return $instance;
     }
-
 }
