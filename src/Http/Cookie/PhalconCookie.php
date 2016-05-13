@@ -9,31 +9,17 @@
 namespace Vain\Phalcon\Http\Cookie;
 
 use Phalcon\Http\CookieInterface as PhalconCookieInterface;
+use Vain\Http\Cookie\AbstractCookie;
+use Vain\Phalcon\Exception\UnsupportedCookieCallException;
 
-class PhalconCookie implements PhalconCookieInterface
+class PhalconCookie extends AbstractCookie implements PhalconCookieInterface
 {
-    /**
-     * @inheritDoc
-     */
-    public function setValue($value)
-    {
-        // TODO: Implement setValue() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getValue($filters = null, $defaultValue = null)
-    {
-        // TODO: Implement getValue() method.
-    }
-
     /**
      * @inheritDoc
      */
     public function send()
     {
-        // TODO: Implement send() method.
+        throw new UnsupportedCookieCallException($this, __METHOD__);
     }
 
     /**
@@ -41,7 +27,7 @@ class PhalconCookie implements PhalconCookieInterface
      */
     public function delete()
     {
-        // TODO: Implement delete() method.
+        throw new UnsupportedCookieCallException($this, __METHOD__);
     }
 
     /**
@@ -49,7 +35,7 @@ class PhalconCookie implements PhalconCookieInterface
      */
     public function useEncryption($useEncryption)
     {
-        // TODO: Implement useEncryption() method.
+        throw new UnsupportedCookieCallException($this, __METHOD__);
     }
 
     /**
@@ -57,7 +43,7 @@ class PhalconCookie implements PhalconCookieInterface
      */
     public function isUsingEncryption()
     {
-        // TODO: Implement isUsingEncryption() method.
+        throw new UnsupportedCookieCallException($this, __METHOD__);
     }
 
     /**
@@ -65,7 +51,7 @@ class PhalconCookie implements PhalconCookieInterface
      */
     public function setExpiration($expire)
     {
-        // TODO: Implement setExpiration() method.
+        return $this->setExpiryDate(new \DateTime($expire));
     }
 
     /**
@@ -73,55 +59,7 @@ class PhalconCookie implements PhalconCookieInterface
      */
     public function getExpiration()
     {
-        // TODO: Implement getExpiration() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setPath($path)
-    {
-        // TODO: Implement setPath() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getName()
-    {
-        // TODO: Implement getName() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getPath()
-    {
-        // TODO: Implement getPath() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setDomain($domain)
-    {
-        // TODO: Implement setDomain() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getDomain()
-    {
-        // TODO: Implement getDomain() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setSecure($secure)
-    {
-        // TODO: Implement setSecure() method.
+        return $this->getExpiryDate()->getTimestamp();
     }
 
     /**
@@ -129,15 +67,7 @@ class PhalconCookie implements PhalconCookieInterface
      */
     public function getSecure()
     {
-        // TODO: Implement getSecure() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setHttpOnly($httpOnly)
-    {
-        // TODO: Implement setHttpOnly() method.
+        return $this->isSecure();
     }
 
     /**
@@ -145,6 +75,7 @@ class PhalconCookie implements PhalconCookieInterface
      */
     public function getHttpOnly()
     {
-        // TODO: Implement getHttpOnly() method.
+        return $this->isHttpOnly();
     }
+
 }

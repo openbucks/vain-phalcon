@@ -10,6 +10,7 @@ namespace Vain\Phalcon\Http\Response;
 
 use Phalcon\Http\ResponseInterface as PhalconHttpResponseInterface;
 use Vain\Http\Response\AbstractResponse;
+use Vain\Phalcon\Exception\UnsupportedResponseCallException;
 
 class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInterface
 {
@@ -121,7 +122,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
      */
     public function sendHeaders()
     {
-        // TODO: Implement sendHeaders() method.
+        throw new UnsupportedResponseCallException($this, __METHOD__);
     }
 
     /**
@@ -129,7 +130,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
      */
     public function sendCookies()
     {
-        // TODO: Implement sendCookies() method.
+        throw new UnsupportedResponseCallException($this, __METHOD__);
     }
 
     /**
