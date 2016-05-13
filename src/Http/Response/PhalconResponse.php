@@ -9,11 +9,28 @@
 namespace Vain\Phalcon\Http\Response;
 
 use Phalcon\Http\ResponseInterface as PhalconHttpResponseInterface;
+use Vain\Http\Header\Storage\HeaderStorageInterface;
 use Vain\Http\Response\AbstractResponse;
-use Vain\Phalcon\Exception\UnsupportedResponseCallException;
+use Vain\Http\Stream\VainStreamInterface;
+use Vain\Phalcon\Exception\JsonErrorException;
 
 class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInterface
 {
+    private $cookies;
+
+    /**
+     * PhalconResponse constructor.
+     * @param array $cookies
+     * @param \Vain\Http\Stream\VainStreamInterface $code
+     * @param VainStreamInterface $stream
+     * @param HeaderStorageInterface $headerStorage
+     */
+    public function __construct(array $cookies = [], $code, VainStreamInterface $stream, HeaderStorageInterface $headerStorage)
+    {
+        $this->cookies = $cookies;
+        parent::__construct($code, $stream, $headerStorage);
+    }
+
     /**
      * @inheritDoc
      */
@@ -27,7 +44,9 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
      */
     public function setHeader($name, $value)
     {
-        return $this->addHeader($name, $value);
+        $this->getHeaderStorage()->createHeader($name, $value);
+
+        return $this;
     }
 
     /**
@@ -36,7 +55,9 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     public function setRawHeader($header)
     {
         list ($headerName, $headerValue) = explode(':', $header);
-        return $this->addHeader($headerName, $headerValue);
+        $this->getHeaderStorage()->createHeader($headerName, $headerValue);
+
+        return $this;
     }
 
     /**
@@ -46,8 +67,9 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     {
         $cloned = clone $datetime;
         $cloned->setTimezone(new \DateTimeZone("UTC"));
+        $this->getHeaderStorage()->createHeader('Expires', $datetime->format("D, d M Y H:i:s") . " GMT");
 
-        return $this->addHeader('Expires', $datetime->format("D, d M Y H:i:s") . " GMT");
+        return $this;
     }
 
     /**
@@ -64,10 +86,12 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     public function setContentType($contentType, $charset = null)
     {
         if (null === $charset) {
-            return $this->addHeader('Content-Type', $contentType);
+            $this->getHeaderStorage()->createHeader('Content-Type', $contentType);
+        } else {
+            $this->getHeaderStorage()->createHeader('Content-Type', sprintf('%s";charset=%s"', $contentType, $charset));
         }
 
-        return $this->addHeader('Content-Type', sprintf('%s";charset=%s"', $contentType, $charset));
+        return $this;
     }
 
     /**
@@ -94,8 +118,9 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     public function setJsonContent($content)
     {
         if (false === ($encoded = json_encode($content))) {
-            
+            throw new JsonErrorException($this, $content);
         }
+        
         return $this->setContent($encoded);
     }
 
@@ -118,19 +143,43 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     }
 
     /**
-     * @inheritDoc
+     * @return $this
      */
     public function sendHeaders()
     {
-        throw new UnsupportedResponseCallException($this, __METHOD__);
+        if (headers_sent()) {
+            return $this;
+        }
+
+        foreach ($this->getHeaderStorage()->getHeaders() as $header) {
+            $header->send();
+        }
+
+        header(sprintf('HTTP/%s %s %s', $this->getProtocolVersion(), $this->getStatusCode(), $this->getReasonPhrase()), true, $this->getStatusCode());
+
+        return $this;
     }
 
     /**
-     * @inheritDoc
+     * @return $this
      */
     public function sendCookies()
     {
-        throw new UnsupportedResponseCallException($this, __METHOD__);
+        foreach ($this->cookies as $cookie) {
+            $cookie->send();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function sendBody()
+    {
+        echo $this->getBody();
+
+        return $this;
     }
 
     /**
@@ -138,7 +187,47 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
      */
     public function send()
     {
-        // TODO: Implement send() method.
+        $this
+            ->sendHeaders()
+            ->sendCookies()
+            ->sendBody();
+
+        switch (true) {
+            case function_exists('fastcgi_finish_request'):
+                fastcgi_finish_request();
+                break;
+            case 'cli' !== PHP_SAPI:
+                $this->closeBuffers();
+                break;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function closeBuffers()
+    {
+        $status = ob_get_status(true);
+        $level = count($status);
+        $flags = PHP_OUTPUT_HANDLER_REMOVABLE | PHP_OUTPUT_HANDLER_FLUSHABLE;
+        while ($level-- > 0 && ($s = $status[$level]) && (!isset($s['del']) ? !isset($s['flags']) || $flags === ($s['flags'] & $flags) : $s['del'])) {
+            ob_end_flush();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function resetHeaders()
+    {
+        $copy = clone $this;
+        $copy->getHeaderStorage()->resetHeaders();
+
+        return $copy;
     }
 
     /**
@@ -146,6 +235,19 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
      */
     public function setFileToSend($filePath, $attachmentName = null)
     {
-        // TODO: Implement setFileToSend() method.
+        $this->getHeaderStorage()->resetHeaders();
+
+        $basePath = $attachmentName;
+
+        if ('string' === gettype($attachmentName)) {
+            $basePath = basename($attachmentName);
+        }
+
+        $this->getBody()->write(readfile($filePath));
+        
+        return $this->setHeader('Content-Description', 'File Transfer')
+			->setHeader('Content-Type', 'application/octet-stream')
+			->setHeader('Content-Disposition', sprintf('attachment; filename=%s', $basePath))
+			->setHeader('Content-Transfer-Encoding', 'binary');
     }
 }

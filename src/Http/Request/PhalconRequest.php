@@ -11,6 +11,7 @@ namespace Vain\Phalcon\Http\Request;
 use Phalcon\FilterInterface as PhalconFilterInterface;
 use Phalcon\Http\RequestInterface as PhalconHttpRequestInterface;
 use Phalcon\Http\Request as PhalconHttpRequest;
+use Vain\Http\Header\Storage\HeaderStorageInterface;
 use Vain\Http\Request\AbstractServerRequest;
 use Vain\Http\Stream\VainStreamInterface;
 use Vain\Http\Uri\VainUriInterface;
@@ -32,12 +33,12 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
      * @param VainUriInterface $method
      * @param VainUriInterface $uri
      * @param VainStreamInterface $stream
-     * @param array $headers
+     * @param HeaderStorageInterface $headerStorage
      */
-    public function __construct(PhalconFilterInterface $filter, array $serverParams, $uploadedFiles, array $cookies, array $queryParams, array $attributes, $parsedBody, $protocol, $method, VainUriInterface $uri, VainStreamInterface $stream, array $headers)
+    public function __construct(PhalconFilterInterface $filter, array $serverParams, $uploadedFiles, array $cookies, array $queryParams, array $attributes, $parsedBody, $protocol, $method, VainUriInterface $uri, VainStreamInterface $stream, HeaderStorageInterface $headerStorage)
     {
         $this->filter = $filter;
-        parent::__construct($serverParams, $uploadedFiles, $cookies, $queryParams, $attributes, $parsedBody, $protocol, $method, $uri, $stream, $headers);
+        parent::__construct($serverParams, $uploadedFiles, $cookies, $queryParams, $attributes, $parsedBody, $protocol, $method, $uri, $stream, $headerStorage);
     }
 
     /**
