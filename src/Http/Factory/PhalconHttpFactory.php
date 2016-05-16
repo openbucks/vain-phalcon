@@ -10,15 +10,15 @@ namespace Vain\Phalcon\Http\Factory;
 
 use Phalcon\FilterInterface as PhalconFilterInterface;
 use Vain\Http\Cookie\Factory\CookieFactoryInterface;
-use Vain\Http\Cookie\VainCookieInterface;
 use Vain\Http\Exception\UnsupportedUriException;
 use Vain\Http\File\Factory\FileFactoryInterface;
 use Vain\Http\Header\Factory\HeaderFactoryInterface;
-use Vain\Http\Header\VainHeaderInterface;
 use Vain\Http\Request\Factory\RequestFactoryInterface;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Http\Stream\Factory\StreamFactoryInterface;
 use Vain\Http\Uri\Factory\UriFactoryInterface;
+use Vain\Phalcon\Exception\UnknownFilesException;
+use Vain\Phalcon\Exception\UnknownProtocolException;
 use Vain\Phalcon\Exception\UnreachableFileException;
 use Vain\Phalcon\Http\Cookie\PhalconCookie;
 use Vain\Phalcon\Http\File\PhalconFile;
@@ -57,7 +57,7 @@ class PhalconHttpFactory implements
      */
     public function createFile($source, $size, $error, $fileName, $mediaType)
     {
-        return new PhalconFile($source, $size, $error, $fileName, $mediaType);
+        return new PhalconFile($this->createStream($source, 'r+'), $size, $error, $fileName, $mediaType);
     }
 
     /**
@@ -120,38 +120,93 @@ class PhalconHttpFactory implements
         return new PhalconHeader($name, $values);
     }
 
-    protected function createFiles(array $filesData)
+    /**
+     * @param array $data
+     *
+     * @return array
+     * @throws UnknownFilesException
+     */
+    protected function createFiles(array $data)
     {
+        $files = [];
+        foreach ($data as $key => $fileSpec) {
+            switch (true) {
+                case is_array($fileSpec) && array_key_exists('tmp_name', $fileSpec):
+                    $files[$key] = $this->processFile($fileSpec['tmp_name'], $fileSpec['size'], $fileSpec['error'], $fileSpec['name'], $fileSpec['type']);
+                    break;
+                case is_array($fileSpec):
+                    $files[$key] = $this->createFiles($fileSpec);
+                    break;
+                default:
+                    throw new UnknownFilesException($this, $key);
+            }
+        }
 
+        return $files;
     }
 
-    protected function createCookies(array $cookiesData)
+    /**
+     * @param $tmpName
+     * @param $size
+     * @param $error
+     * @param $name
+     * @param $type
+     * @return array|\Psr\Http\Message\UploadedFileInterface|PhalconFile
+     */
+    protected function processFile($tmpName, $size, $error, $name, $type)
     {
+        if (false === is_array($tmpName)) {
+            return $this->createFile($tmpName, $size, $error, $name, $type);
+        }
+        $files = [];
+        foreach (array_keys($tmpName) as $tmpFileName) {
+            $files[$tmpFileName] = $this->processFile($tmpFileName, $size[$tmpFileName], $error[$tmpFileName], $name[$tmpFileName], $type[$tmpFileName]);
+        }
 
+        return $files;
     }
 
+    /**
+     * @param string $protocol
+     *
+     * @return string mixed
+     * @throws UnknownProtocolException
+     */
     protected function transformProtocol($protocol)
     {
-
+        $matches = preg_match('HTTP/([\d\.]*)', $protocol, $matches);
+        switch ($matches) {
+            case 1:
+                return $matches[1];
+                break;
+            default:
+                throw new UnknownProtocolException($this, $protocol);
+        }
     }
 
-
+    /**
+     * @inheritDoc
+     */
     public function createRequest(array $serverParams, array $queryParams, array $attributes, $body, array $filesData, array $cookiesData, $streamSource)
     {
         $files = $this->createFiles($filesData);
-        $cookies = $this->createCookies($cookiesData);
+        $cookies = [];
+        foreach ($cookiesData as $cookieName => $cookieValue) {
+            $cookies[] = $this->createCookie($cookieName, $cookieValue);
+        }
         $headerStorage = new PhalconHeadersStorage($this->headerFactory);
         foreach (getallheaders() as $headerName => $headerValue) {
             $headerStorage->createHeader($headerName, $headerValue);
         }
 
-        return new PhalconRequest($this->filter, $serverParams , $files, $cookies, $queryParams, $attributes, $body, $this->transformProtocol($serverParams['REQUEST_PROTOCOL']) ,$serverParams['REQUEST_METHOD'], $this->createUri($serverParams['REQUEST_URI']), $this->createStream($streamSource, 'r'), $headerStorage);
+        return new PhalconRequest($this->filter, $serverParams, $files, $cookies, $queryParams, $attributes, $body, $this->transformProtocol($serverParams['REQUEST_PROTOCOL']), $serverParams['REQUEST_METHOD'], $this->createUri($serverParams['REQUEST_URI']), $this->createStream($streamSource, 'r'), $headerStorage);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function createResponse()
     {
         // TODO: Implement createResponse() method.
     }
-
-
 }
