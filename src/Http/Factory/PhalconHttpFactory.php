@@ -9,6 +9,7 @@
 namespace Vain\Phalcon\Http\Factory;
 
 use Phalcon\FilterInterface as PhalconFilterInterface;
+use Psr\Http\Message\UploadedFileInterface;
 use Vain\Http\Cookie\Factory\CookieFactoryInterface;
 use Vain\Http\Exception\UnsupportedUriException;
 use Vain\Http\File\Factory\FileFactoryInterface;
@@ -146,12 +147,13 @@ class PhalconHttpFactory implements
     }
 
     /**
-     * @param $tmpName
-     * @param $size
-     * @param $error
-     * @param $name
-     * @param $type
-     * @return array|\Psr\Http\Message\UploadedFileInterface|PhalconFile
+     * @param string $tmpName
+     * @param int $size
+     * @param int $error
+     * @param string $name
+     * @param string $type
+     *
+     * @return UploadedFileInterface[]|UploadedFileInterface
      */
     protected function processFile($tmpName, $size, $error, $name, $type)
     {
