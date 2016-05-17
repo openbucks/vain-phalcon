@@ -9,7 +9,9 @@
 namespace Vain\Phalcon\Bootstrapper\Factory;
 
 use Phalcon\Filter;
+use Vain\Http\Header\Provider\Server\ServerHeaderProvider;
 use Vain\Phalcon\Bootstrapper\Bootstrapper;
+use Vain\Phalcon\Bootstrapper\BootstrapperInterface;
 use Vain\Phalcon\Bootstrapper\Decorator\Request\RequestBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Router\RouterBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Url\UrlBootstrapperDecorator;
@@ -19,11 +21,32 @@ use Vain\Phalcon\Http\Header\Factory\PhalconHeaderFactory;
 
 class MvcBootstrapperFactory implements BootstrapperFactoryInterface
 {
+
+    /**
+     * @param BootstrapperInterface $bootstrapper
+     *
+     * @return RequestBootstrapperDecorator
+     */
+    protected function createRequestDecorator(BootstrapperInterface $bootstrapper)
+    {
+        return new RequestBootstrapperDecorator($bootstrapper, new PhalconHttpFactory(new Filter(), new ServerHeaderProvider(), new PhalconHeaderFactory()));
+    }
+
+    /**
+     * @param BootstrapperInterface $bootstrapper
+     *
+     * @return ViewBootstrapperDecorator
+     */
+    protected function createViewDecorator(BootstrapperInterface $bootstrapper)
+    {
+        return new ViewBootstrapperDecorator($bootstrapper, '../www/views/');
+    }
+
     /**
      * @inheritDoc
      */
     public function createBootstrapper()
     {
-        return new RequestBootstrapperDecorator(new PhalconHttpFactory(new Filter(), new PhalconHeaderFactory()), new UrlBootstrapperDecorator(new RouterBootstrapperDecorator(new ViewBootstrapperDecorator(new Bootstrapper(), '../www/views/'))));
+        return $this->createRequestDecorator(new UrlBootstrapperDecorator(new RouterBootstrapperDecorator($this->createViewDecorator(new Bootstrapper()))));
     }
 }

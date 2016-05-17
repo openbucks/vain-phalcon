@@ -21,10 +21,10 @@ class RequestBootstrapperDecorator extends AbstractBootstrapperDecorator
 
     /**
      * RequestBootstrapperDecorator constructor.
-     * @param RequestFactoryInterface $requestFactory
      * @param BootstrapperInterface $bootstrapper
+     * @param RequestFactoryInterface $requestFactory
      */
-    public function __construct(RequestFactoryInterface $requestFactory, BootstrapperInterface $bootstrapper)
+    public function __construct(BootstrapperInterface $bootstrapper, RequestFactoryInterface $requestFactory)
     {
         $this->requestFactory = $requestFactory;
         parent::__construct($bootstrapper);
