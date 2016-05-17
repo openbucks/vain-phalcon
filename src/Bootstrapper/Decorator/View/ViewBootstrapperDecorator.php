@@ -33,12 +33,9 @@ class ViewBootstrapperDecorator extends AbstractBootstrapperDecorator
      */
     public function bootstrap(PhalconDiInjectable $application, PhalconDiInterface $di)
     {
-        $di->set('view', function () {
-            $view = new \Phalcon\Mvc\View();
-            $view->setViewsDir($this->directory);
-
-            return $view;
-        });
+        $view = new \Phalcon\Mvc\View();
+        $view->setViewsDir($this->directory);
+        $di->setShared('view', $view);
 
         return parent::bootstrap($application, $di);
     }
