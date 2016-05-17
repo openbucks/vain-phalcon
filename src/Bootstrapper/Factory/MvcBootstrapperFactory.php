@@ -8,10 +8,14 @@
 
 namespace Vain\Phalcon\Bootstrapper\Factory;
 
+use Phalcon\Filter;
 use Vain\Phalcon\Bootstrapper\Bootstrapper;
+use Vain\Phalcon\Bootstrapper\Decorator\Request\RequestBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Router\RouterBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Url\UrlBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\View\ViewBootstrapperDecorator;
+use Vain\Phalcon\Http\Factory\PhalconHttpFactory;
+use Vain\Phalcon\Http\Header\Factory\PhalconHeaderFactory;
 
 class MvcBootstrapperFactory implements BootstrapperFactoryInterface
 {
@@ -20,6 +24,6 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
      */
     public function createBootstrapper()
     {
-        return new UrlBootstrapperDecorator(new RouterBootstrapperDecorator(new ViewBootstrapperDecorator(new Bootstrapper(), '../www/views/')));
+        return new RequestBootstrapperDecorator(new PhalconHttpFactory(new Filter(), new PhalconHeaderFactory()), new UrlBootstrapperDecorator(new RouterBootstrapperDecorator(new ViewBootstrapperDecorator(new Bootstrapper(), '../www/views/'))));
     }
 }
