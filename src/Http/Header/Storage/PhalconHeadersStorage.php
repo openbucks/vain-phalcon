@@ -62,7 +62,7 @@ class PhalconHeadersStorage extends AbstractHeaderStorage implements PhalconHead
     /**
      * @inheritDoc
      */
-    public static function __set_state($data)
+    public static function __set_state(array $data)
     {
         $instance = new self(new PhalconHeaderFactory());
         if (false === array_key_exists('_headers', $data)) {
