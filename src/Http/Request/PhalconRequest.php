@@ -11,6 +11,7 @@ namespace Vain\Phalcon\Http\Request;
 use Phalcon\FilterInterface as PhalconFilterInterface;
 use Phalcon\Http\RequestInterface as PhalconHttpRequestInterface;
 use Phalcon\Http\Request as PhalconHttpRequest;
+use Vain\Http\File\VainFileInterface;
 use Vain\Http\Header\Storage\HeaderStorageInterface;
 use Vain\Http\Request\AbstractServerRequest;
 use Vain\Http\Stream\VainStreamInterface;
@@ -267,6 +268,16 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
         }
 
         return ['username' => $user, 'password' => $password];
+    }
+
+    /**
+     * @param bool $onlySuccessful
+     *
+     * @return VainFileInterface[]
+     */
+    public function getUploadedFiles($onlySuccessful = null)
+    {
+        return parent::getUploadedFiles();
     }
 
     /**
