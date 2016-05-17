@@ -172,9 +172,10 @@ class PhalconHttpFactory implements
      */
     protected function transformProtocol($protocol)
     {
-        $matches = preg_match('HTTP/([\d\.]*)', $protocol, $matches);
-        switch ($matches) {
-            case 1:
+        $matches = [];
+        preg_match('HTTP/([\d\.]*)', $protocol, $matches);
+        switch (count($matches)) {
+            case 2:
                 return $matches[1];
                 break;
             default:
@@ -197,7 +198,7 @@ class PhalconHttpFactory implements
             $headerStorage->createHeader($headerName, $headerValue);
         }
 
-        return new PhalconRequest($this->filter, $serverParams, $files, $cookies, $queryParams, $attributes, $body, $this->transformProtocol($serverParams['REQUEST_PROTOCOL']), $serverParams['REQUEST_METHOD'], $this->createUri($serverParams['REQUEST_URI']), $this->createStream($streamSource, 'r'), $headerStorage);
+        return new PhalconRequest($this->filter, $serverParams, $files, $cookies, $queryParams, $attributes, $body, $this->transformProtocol($serverParams['SERVER_PROTOCOL']), $serverParams['REQUEST_METHOD'], $this->createUri($serverParams['REQUEST_URI']), $this->createStream($streamSource, 'r'), $headerStorage);
     }
 
     /**
