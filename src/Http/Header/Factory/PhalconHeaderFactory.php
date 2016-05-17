@@ -17,8 +17,13 @@ class PhalconHeaderFactory implements HeaderFactoryInterface
     /**
      * @inheritDoc
      */
-    public function createHeader($name, array $values)
+    public function createHeader($name, $value)
     {
-        return new PhalconHeader($name, $values);
+        $transformedValue = $value;
+        if (false === is_array($value)) {
+            $transformedValue = [$value];
+        }
+
+        return new PhalconHeader($name, $transformedValue);
     }
 }

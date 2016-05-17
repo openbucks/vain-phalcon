@@ -24,7 +24,6 @@ use Vain\Phalcon\Exception\UnknownProtocolException;
 use Vain\Phalcon\Exception\UnreachableFileException;
 use Vain\Phalcon\Http\Cookie\PhalconCookie;
 use Vain\Phalcon\Http\File\PhalconFile;
-use Vain\Phalcon\Http\Header\PhalconHeader;
 use Vain\Phalcon\Http\Header\Storage\PhalconHeadersStorage;
 use Vain\Phalcon\Http\Request\PhalconRequest;
 use Vain\Phalcon\Http\Stream\PhalconStream;
@@ -36,8 +35,7 @@ class PhalconHttpFactory implements
     StreamFactoryInterface,
     CookieFactoryInterface,
     RequestFactoryInterface,
-    ResponseFactoryInterface,
-    HeaderFactoryInterface
+    ResponseFactoryInterface
 {
     private $filter;
 
@@ -118,13 +116,6 @@ class PhalconHttpFactory implements
         return new PhalconCookie($name, $value, $expiryDate, $path, $domain, $secure, $httpOnly);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function createHeader($name, array $values)
-    {
-        return new PhalconHeader($name, $values);
-    }
 
     /**
      * @param array $data
