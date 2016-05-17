@@ -14,6 +14,7 @@ use Vain\Http\Cookie\Factory\CookieFactoryInterface;
 use Vain\Http\Exception\UnsupportedUriException;
 use Vain\Http\File\Factory\FileFactoryInterface;
 use Vain\Http\Header\Factory\HeaderFactoryInterface;
+use Vain\Http\Header\Provider\HeaderProviderInterface;
 use Vain\Http\Request\Factory\RequestFactoryInterface;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Http\Stream\Factory\StreamFactoryInterface;
@@ -40,16 +41,20 @@ class PhalconHttpFactory implements
 {
     private $filter;
 
+    private $headerProvider;
+
     private $headerFactory;
 
     /**
      * PhalconHttpFactory constructor.
      * @param PhalconFilterInterface $phalconFilter
+     * @param HeaderProviderInterface $headerProvider
      * @param HeaderFactoryInterface $headerFactory
      */
-    public function __construct(PhalconFilterInterface $phalconFilter, HeaderFactoryInterface $headerFactory)
+    public function __construct(PhalconFilterInterface $phalconFilter, HeaderProviderInterface $headerProvider, HeaderFactoryInterface $headerFactory)
     {
         $this->filter = $phalconFilter;
+        $this->headerProvider = $headerProvider;
         $this->headerFactory = $headerFactory;
     }
 
@@ -197,7 +202,7 @@ class PhalconHttpFactory implements
             $cookies[] = $this->createCookie($cookieName, $cookieValue);
         }
         $headerStorage = new PhalconHeadersStorage($this->headerFactory);
-        foreach (getallheaders() as $headerName => $headerValue) {
+        foreach ($this->headerProvider->getHeaders() as $headerName => $headerValue) {
             $headerStorage->createHeader($headerName, $headerValue);
         }
 
