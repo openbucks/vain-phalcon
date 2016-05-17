@@ -20,7 +20,7 @@ class ViewBootstrapperDecorator extends AbstractBootstrapperDecorator
     /**
      * ViewBootstrapperDecorator constructor.
      * @param BootstrapperInterface $bootstrapper
-     * @param string  $directory
+     * @param string $directory
      */
     public function __construct(BootstrapperInterface $bootstrapper, $directory)
     {
@@ -36,6 +36,7 @@ class ViewBootstrapperDecorator extends AbstractBootstrapperDecorator
         $di->set('view', function () {
             $view = new \Phalcon\Mvc\View();
             $view->setViewsDir($this->directory);
+
             return $view;
         });
 
