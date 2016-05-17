@@ -173,7 +173,7 @@ class PhalconHttpFactory implements
     protected function transformProtocol($protocol)
     {
         $matches = [];
-        preg_match('HTTP/([\d\.]*)', $protocol, $matches);
+        preg_match('/HTTP/([\d\.]*)/', $protocol, $matches);
         switch (count($matches)) {
             case 2:
                 return $matches[1];
