@@ -16,6 +16,7 @@ use Vain\Http\File\Factory\FileFactoryInterface;
 use Vain\Http\Header\Factory\HeaderFactoryInterface;
 use Vain\Http\Header\Provider\HeaderProviderInterface;
 use Vain\Http\Request\Factory\RequestFactoryInterface;
+use Vain\Http\Response\Emitter\EmitterInterface;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Http\Stream\Factory\StreamFactoryInterface;
 use Vain\Http\Uri\Factory\UriFactoryInterface;
@@ -26,6 +27,7 @@ use Vain\Phalcon\Http\Cookie\PhalconCookie;
 use Vain\Phalcon\Http\File\PhalconFile;
 use Vain\Phalcon\Http\Header\Storage\PhalconHeadersStorage;
 use Vain\Phalcon\Http\Request\PhalconRequest;
+use Vain\Phalcon\Http\Response\PhalconResponse;
 use Vain\Phalcon\Http\Stream\PhalconStream;
 use Vain\Phalcon\Http\Uri\PhalconUri;
 
@@ -37,6 +39,8 @@ class PhalconHttpFactory implements
     RequestFactoryInterface,
     ResponseFactoryInterface
 {
+    private $emitter;
+
     private $filter;
 
     private $headerProvider;
@@ -46,12 +50,14 @@ class PhalconHttpFactory implements
     /**
      * PhalconHttpFactory constructor.
      * @param PhalconFilterInterface $phalconFilter
+     * @param EmitterInterface $emitter
      * @param HeaderProviderInterface $headerProvider
      * @param HeaderFactoryInterface $headerFactory
      */
-    public function __construct(PhalconFilterInterface $phalconFilter, HeaderProviderInterface $headerProvider, HeaderFactoryInterface $headerFactory)
+    public function __construct( PhalconFilterInterface $phalconFilter, EmitterInterface $emitter, HeaderProviderInterface $headerProvider, HeaderFactoryInterface $headerFactory)
     {
         $this->filter = $phalconFilter;
+        $this->emitter = $emitter;
         $this->headerProvider = $headerProvider;
         $this->headerFactory = $headerFactory;
     }
@@ -204,8 +210,13 @@ class PhalconHttpFactory implements
     /**
      * @inheritDoc
      */
-    public function createResponse()
+    public function createResponse($statusCode, array $headersData, $destinationStream)
     {
-        // TODO: Implement createResponse() method.
+        $headerStorage = new PhalconHeadersStorage($this->headerFactory);
+        foreach ($headersData as $headerName => $headerValue) {
+            $headerStorage->createHeader($headerName, $headerValue);
+        }
+
+        return new PhalconResponse($this->emitter, $statusCode, $this->createStream('php://temp', 'w+'), $headerStorage);
     }
 }
