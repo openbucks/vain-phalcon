@@ -18,6 +18,7 @@ use Vain\Phalcon\Bootstrapper\Decorator\Response\ResponseBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Router\RouterBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Url\UrlBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\View\ViewBootstrapperDecorator;
+use Vain\Phalcon\Http\Cookie\Factory\PhalconCookieFactory;
 use Vain\Phalcon\Http\Factory\PhalconHttpFactory;
 use Vain\Phalcon\Http\Header\Factory\PhalconHeaderFactory;
 
@@ -31,7 +32,7 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
      */
     protected function createRequestDecorator(BootstrapperInterface $bootstrapper)
     {
-        return new RequestBootstrapperDecorator($bootstrapper, new PhalconHttpFactory(new Filter(), new SapiEmitter(), new ServerHeaderProvider(), new PhalconHeaderFactory()));
+        return new RequestBootstrapperDecorator($bootstrapper, new PhalconHttpFactory(new Filter(), new SapiEmitter(), new ServerHeaderProvider(), new PhalconCookieFactory(), new PhalconHeaderFactory()));
     }
 
     /**
@@ -41,7 +42,7 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
      */
     protected function createResponseDecorator(BootstrapperInterface $bootstrapper)
     {
-        return new ResponseBootstrapperDecorator($bootstrapper, new PhalconHttpFactory(new Filter(), new SapiEmitter(), new ServerHeaderProvider(), new PhalconHeaderFactory()));
+        return new ResponseBootstrapperDecorator($bootstrapper, new PhalconHttpFactory(new Filter(), new SapiEmitter(), new ServerHeaderProvider(), new PhalconCookieFactory(), new PhalconHeaderFactory()));
     }
 
     /**
