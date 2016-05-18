@@ -23,7 +23,8 @@ use Vain\Http\Uri\Factory\UriFactoryInterface;
 use Vain\Phalcon\Exception\UnknownFilesException;
 use Vain\Phalcon\Exception\UnknownProtocolException;
 use Vain\Phalcon\Exception\UnreachableFileException;
-use Vain\Phalcon\Http\Cookie\PhalconCookie;
+use Vain\Phalcon\Http\Cookie\Factory\PhalconCookieFactory;
+use Vain\Phalcon\Http\Cookie\Storage\PhalconCookieStorage;
 use Vain\Phalcon\Http\File\PhalconFile;
 use Vain\Phalcon\Http\Header\Storage\PhalconHeadersStorage;
 use Vain\Phalcon\Http\Request\PhalconRequest;
@@ -35,7 +36,6 @@ class PhalconHttpFactory implements
     FileFactoryInterface,
     UriFactoryInterface,
     StreamFactoryInterface,
-    CookieFactoryInterface,
     RequestFactoryInterface,
     ResponseFactoryInterface
 {
@@ -45,6 +45,8 @@ class PhalconHttpFactory implements
 
     private $headerProvider;
 
+    private $cookieFactory;
+
     private $headerFactory;
 
     /**
@@ -52,13 +54,15 @@ class PhalconHttpFactory implements
      * @param PhalconFilterInterface $phalconFilter
      * @param EmitterInterface $emitter
      * @param HeaderProviderInterface $headerProvider
+     * @param CookieFactoryInterface $cookieFactory
      * @param HeaderFactoryInterface $headerFactory
      */
-    public function __construct( PhalconFilterInterface $phalconFilter, EmitterInterface $emitter, HeaderProviderInterface $headerProvider, HeaderFactoryInterface $headerFactory)
+    public function __construct( PhalconFilterInterface $phalconFilter, EmitterInterface $emitter, HeaderProviderInterface $headerProvider, CookieFactoryInterface $cookieFactory, HeaderFactoryInterface $headerFactory)
     {
         $this->filter = $phalconFilter;
         $this->emitter = $emitter;
         $this->headerProvider = $headerProvider;
+        $this->cookieFactory = $cookieFactory;
         $this->headerFactory = $headerFactory;
     }
 
@@ -112,14 +116,6 @@ class PhalconHttpFactory implements
         }
 
         return new PhalconUri(...$extractedParts);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function createCookie($name, $value, \DateTime $expiryDate = null, $path = '/', $domain = null, $secure = false, $httpOnly = false)
-    {
-        return new PhalconCookie($name, $value, $expiryDate, $path, $domain, $secure, $httpOnly);
     }
 
 
@@ -195,16 +191,20 @@ class PhalconHttpFactory implements
     public function createRequest(array $serverParams, array $queryParams, array $attributes, $body, array $filesData, array $cookiesData, $streamSource)
     {
         $files = $this->createFiles($filesData);
-        $cookies = [];
+        $cookieStorage = new PhalconCookieStorage(new PhalconCookieFactory());
         foreach ($cookiesData as $cookieName => $cookieValue) {
-            $cookies[] = $this->createCookie($cookieName, $cookieValue);
+            $cookies[] = $cookieStorage->createCookie($cookieName, $cookieValue);
         }
         $headerStorage = new PhalconHeadersStorage($this->headerFactory);
         foreach ($this->headerProvider->getHeaders() as $headerName => $headerValue) {
             $headerStorage->createHeader($headerName, $headerValue);
         }
 
-        return new PhalconRequest($this->filter, $serverParams, $files, $cookies, $queryParams, $attributes, $body, $this->transformProtocol($serverParams['SERVER_PROTOCOL']), $serverParams['REQUEST_METHOD'], $this->createUri($serverParams['REQUEST_URI']), $this->createStream($streamSource, 'r'), $headerStorage);
+        return new PhalconRequest(
+            $this->filter,
+            $serverParams,
+            $files,
+            $cookieStorage, $queryParams, $attributes, $body, $this->transformProtocol($serverParams['SERVER_PROTOCOL']), $serverParams['REQUEST_METHOD'], $this->createUri($serverParams['REQUEST_URI']), $this->createStream($streamSource, 'r'), $headerStorage);
     }
 
     /**
