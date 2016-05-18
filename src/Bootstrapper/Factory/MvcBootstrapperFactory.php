@@ -10,9 +10,11 @@ namespace Vain\Phalcon\Bootstrapper\Factory;
 
 use Phalcon\Filter;
 use Vain\Http\Header\Provider\Server\ServerHeaderProvider;
+use Vain\Http\Response\Emitter\Sapi\SapiEmitter;
 use Vain\Phalcon\Bootstrapper\Bootstrapper;
 use Vain\Phalcon\Bootstrapper\BootstrapperInterface;
 use Vain\Phalcon\Bootstrapper\Decorator\Request\RequestBootstrapperDecorator;
+use Vain\Phalcon\Bootstrapper\Decorator\Response\ResponseBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Router\RouterBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Url\UrlBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\View\ViewBootstrapperDecorator;
@@ -29,7 +31,17 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
      */
     protected function createRequestDecorator(BootstrapperInterface $bootstrapper)
     {
-        return new RequestBootstrapperDecorator($bootstrapper, new PhalconHttpFactory(new Filter(), new ServerHeaderProvider(), new PhalconHeaderFactory()));
+        return new RequestBootstrapperDecorator($bootstrapper, new PhalconHttpFactory(new Filter(), new SapiEmitter(), new ServerHeaderProvider(), new PhalconHeaderFactory()));
+    }
+
+    /**
+     * @param BootstrapperInterface $bootstrapper
+     *
+     * @return RequestBootstrapperDecorator
+     */
+    protected function createResponseDecorator(BootstrapperInterface $bootstrapper)
+    {
+        return new ResponseBootstrapperDecorator($bootstrapper, new PhalconHttpFactory(new Filter(), new SapiEmitter(), new ServerHeaderProvider(), new PhalconHeaderFactory()));
     }
 
     /**
@@ -47,6 +59,6 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
      */
     public function createBootstrapper()
     {
-        return $this->createRequestDecorator(new UrlBootstrapperDecorator(new RouterBootstrapperDecorator($this->createViewDecorator(new Bootstrapper()))));
+        return $this->createRequestDecorator($this->createResponseDecorator(new UrlBootstrapperDecorator(new RouterBootstrapperDecorator($this->createViewDecorator(new Bootstrapper())))));
     }
 }

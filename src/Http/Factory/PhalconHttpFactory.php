@@ -210,7 +210,7 @@ class PhalconHttpFactory implements
     /**
      * @inheritDoc
      */
-    public function createResponse($statusCode, array $headersData, $destinationStream)
+    public function createResponse($destinationStream, $statusCode = 200, array $headersData = [])
     {
         $headerStorage = new PhalconHeadersStorage($this->headerFactory);
         foreach ($headersData as $headerName => $headerValue) {
