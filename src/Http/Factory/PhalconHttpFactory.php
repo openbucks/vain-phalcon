@@ -204,7 +204,16 @@ class PhalconHttpFactory implements
             $this->filter,
             $serverParams,
             $files,
-            $cookieStorage, $queryParams, $attributes, $body, $this->transformProtocol($serverParams['SERVER_PROTOCOL']), $serverParams['REQUEST_METHOD'], $this->createUri($serverParams['REQUEST_URI']), $this->createStream($streamSource, 'r'), $headerStorage);
+            $queryParams,
+            $attributes,
+            $body,
+            $this->transformProtocol($serverParams['SERVER_PROTOCOL']),
+            $serverParams['REQUEST_METHOD'],
+            $this->createUri($serverParams['REQUEST_URI']),
+            $this->createStream($streamSource, 'r'),
+            $cookieStorage,
+            $headerStorage
+        );
     }
 
     /**

@@ -22,7 +22,7 @@ class HttpFactoryException extends CoreException
      * @param int $code
      * @param \Exception $previous
      */
-    public function __construct(RequestFactoryInterface $factory, $message, $code, $previous)
+    public function __construct(RequestFactoryInterface $factory, $message, $code, \Exception $previous = null)
     {
         $this->httpFactory = $factory;
         parent::__construct($message, $code, $previous);
