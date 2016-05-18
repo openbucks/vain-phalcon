@@ -10,7 +10,7 @@ namespace Vain\Phalcon\Http\Header\Storage;
 
 use Phalcon\Http\Response\HeadersInterface as PhalconHeadersInterface;
 use Vain\Http\Header\Storage\AbstractHeaderStorage;
-use Vain\Phalcon\Exception\UnsupportedStorageCallException;
+use Vain\Phalcon\Exception\UnsupportedHeaderStorageCallException;
 use Vain\Phalcon\Http\Header\Factory\PhalconHeaderFactory;
 
 class PhalconHeadersStorage extends AbstractHeaderStorage implements PhalconHeadersInterface
@@ -40,7 +40,7 @@ class PhalconHeadersStorage extends AbstractHeaderStorage implements PhalconHead
      */
     public function setRaw($header)
     {
-        throw new UnsupportedStorageCallException($this, __METHOD__);
+        throw new UnsupportedHeaderStorageCallException($this, __METHOD__);
     }
 
     /**
@@ -48,7 +48,7 @@ class PhalconHeadersStorage extends AbstractHeaderStorage implements PhalconHead
      */
     public function send()
     {
-        throw new UnsupportedStorageCallException($this, __METHOD__);
+        throw new UnsupportedHeaderStorageCallException($this, __METHOD__);
     }
 
     /**
