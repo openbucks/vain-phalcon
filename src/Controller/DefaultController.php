@@ -12,9 +12,13 @@ use Phalcon\Mvc\Controller as PhalconMvcController;
 
 class DefaultController extends PhalconMvcController
 {
-    
+    /**
+     * @return DefaultController
+     */
     public function indexAction()
     {
-        echo 'Hello World';
+        $this->response->appendContent('Hello World');
+
+        return $this;
     }
 }
