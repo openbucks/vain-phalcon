@@ -11,9 +11,12 @@ namespace Vain\Phalcon\Application;
 use \Phalcon\DiInterface as PhalconDiInterface;
 use Phalcon\Mvc\Application as PhalconMvcApplication;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
+use Vain\Http\Response\VainResponseInterface;
 
 class PhalconApplication extends PhalconMvcApplication
 {
+    private $responseFactory;
+
     /**
      * PhalconApplication constructor.
      * @param ResponseFactoryInterface $responseFactory
@@ -26,7 +29,9 @@ class PhalconApplication extends PhalconMvcApplication
     }
 
     /**
-     * @inheritdoc
+     * @param null $uri
+     *
+     * @return VainResponseInterface
      */
     public function handle($uri = null)
     {
