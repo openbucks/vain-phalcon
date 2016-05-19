@@ -158,7 +158,8 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
      */
     public function sendHeaders()
     {
-        throw new UnsupportedResponseCallException($this, __METHOD__);
+        return $this;
+        //throw new UnsupportedResponseCallException($this, __METHOD__);
     }
 
     /**
@@ -166,7 +167,8 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
      */
     public function sendCookies()
     {
-        throw new UnsupportedResponseCallException($this, __METHOD__);
+        return $this;
+        //throw new UnsupportedResponseCallException($this, __METHOD__);
     }
 
     /**
