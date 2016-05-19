@@ -12,6 +12,7 @@ use \Phalcon\DiInterface as PhalconDiInterface;
 use Phalcon\Mvc\Application as PhalconMvcApplication;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Http\Response\VainResponseInterface;
+use Vain\Phalcon\Http\Response\PhalconResponse;
 
 class PhalconApplication extends PhalconMvcApplication
 {
@@ -31,7 +32,7 @@ class PhalconApplication extends PhalconMvcApplication
     /**
      * @param null $uri
      *
-     * @return VainResponseInterface
+     * @return PhalconResponse
      */
     public function handle($uri = null)
     {
