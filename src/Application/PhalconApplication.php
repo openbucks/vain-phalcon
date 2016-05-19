@@ -11,7 +11,6 @@ namespace Vain\Phalcon\Application;
 use \Phalcon\DiInterface as PhalconDiInterface;
 use Phalcon\Mvc\Application as PhalconMvcApplication;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
-use Vain\Http\Response\VainResponseInterface;
 use Vain\Phalcon\Http\Response\PhalconResponse;
 
 class PhalconApplication extends PhalconMvcApplication
