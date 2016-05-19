@@ -18,7 +18,9 @@
     "php": ">=5.6.0",
     "vain/entity" : "dev-master",
     "vain/event" : "dev-master",
-    "vain/operation" : "dev-master"
+    "vain/operation" : "dev-master",
+    "vain/http" : "dev-master",
+    "vain/config" : "dev-master"
   },
   "repositories": [
     {
@@ -52,6 +54,10 @@
     {
       "type": "git",
       "url": "http://gitlab.cosmonova.net.ua/mmjitsu/vain-entity.git"
+    },
+    {
+      "type": "git",
+      "url": "http://gitlab.cosmonova.net.ua/taras.girnyk/vain-config.git"
     }
   ],
   "config": {

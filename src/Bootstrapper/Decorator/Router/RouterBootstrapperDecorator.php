@@ -10,22 +10,21 @@ namespace Vain\Phalcon\Bootstrapper\Decorator\Router;
 
 use Vain\Phalcon\Bootstrapper\Decorator\AbstractBootstrapperDecorator;
 use Phalcon\Di\Injectable as PhalconDiInjectable;
-use Phalcon\DiInterface as PhalconDiInterface;
 
 class RouterBootstrapperDecorator extends AbstractBootstrapperDecorator
 {
     /**
      * @inheritDoc
      */
-    public function bootstrap(PhalconDiInjectable $application, PhalconDiInterface $di)
+    public function bootstrap(PhalconDiInjectable $application)
     {
-        $di->set('router', function () {
+        $application->getDI()->setShared('router', function () {
             $router = new \Phalcon\Mvc\Router(false);
             $router->setDefaults(['controller' => 'Vain\Phalcon\Controller\Default', 'action' => 'index']);
 
             return $router;
         });
 
-        return parent::bootstrap($application, $di);
+        return parent::bootstrap($application);
     }
 }

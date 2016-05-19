@@ -10,7 +10,6 @@ namespace Vain\Phalcon\Bootstrapper\Decorator;
 
 use Vain\Phalcon\Bootstrapper\BootstrapperInterface;
 use Phalcon\Di\Injectable as PhalconDiInjectable;
-use Phalcon\DiInterface as PhalconDiInterface;
 
 abstract class AbstractBootstrapperDecorator implements BootstrapperInterface
 {
@@ -28,9 +27,9 @@ abstract class AbstractBootstrapperDecorator implements BootstrapperInterface
     /**
      * @inheritDoc
      */
-    public function bootstrap(PhalconDiInjectable $application, PhalconDiInterface $di)
+    public function bootstrap(PhalconDiInjectable $application)
     {
-        return $this->bootstrapper->bootstrap($application, $di);
+        return $this->bootstrapper->bootstrap($application);
     }
 
     /**

@@ -13,17 +13,30 @@ use Vain\Http\Response\Factory\ResponseFactoryInterface;
 
 class PhalconApplication extends Application
 {
+    /**
+     * @var ResponseFactoryInterface
+     */
     private $responseFactory;
 
     /**
      * PhalconApplication constructor.
-     * @param ResponseFactoryInterface $responseFactory
      * @param \Phalcon\DiInterface $dependencyInjector
      */
-    public function __construct(ResponseFactoryInterface $responseFactory, \Phalcon\DiInterface $dependencyInjector)
+    public function __construct(\Phalcon\DiInterface $dependencyInjector)
+    {
+        parent::__construct($dependencyInjector);
+    }
+
+    /**
+     * @param ResponseFactoryInterface $responseFactory
+     *
+     * @return PhalconApplication
+     */
+    public function setResponseFactory(ResponseFactoryInterface $responseFactory)
     {
         $this->responseFactory = $responseFactory;
-        parent::__construct($dependencyInjector);
+
+        return $this;
     }
 
     /**

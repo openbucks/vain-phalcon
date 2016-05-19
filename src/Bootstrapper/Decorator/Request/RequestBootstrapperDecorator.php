@@ -12,7 +12,6 @@ use Vain\Http\Request\Factory\RequestFactoryInterface;
 use Vain\Phalcon\Bootstrapper\BootstrapperInterface;
 use Vain\Phalcon\Bootstrapper\Decorator\AbstractBootstrapperDecorator;
 use Phalcon\Di\Injectable as PhalconDiInjectable;
-use Phalcon\DiInterface as PhalconDiInterface;
 
 class RequestBootstrapperDecorator extends AbstractBootstrapperDecorator
 {
@@ -33,11 +32,11 @@ class RequestBootstrapperDecorator extends AbstractBootstrapperDecorator
     /**
      * @inheritDoc
      */
-    public function bootstrap(PhalconDiInjectable $application, PhalconDiInterface $di)
+    public function bootstrap(PhalconDiInjectable $application)
     {
         $request = $this->requestFactory->createRequest($_SERVER, $_GET, [], $_POST, $_FILES, $_COOKIE, 'php://input');
-        $di->setShared('request', $request);
+        $application->getDI()->setShared('request', $request);
 
-        return parent::bootstrap($application, $di);
+        return parent::bootstrap($application);
     }
 }

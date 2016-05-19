@@ -2,30 +2,32 @@
 /**
  * Created by PhpStorm.
  * User: allflame
- * Date: 5/18/16
- * Time: 11:39 AM
+ * Date: 5/19/16
+ * Time: 12:24 PM
  */
 
-namespace Vain\Phalcon\Bootstrapper\Decorator\Response;
+namespace Vain\Phalcon\Bootstrapper\Decorator\Application;
 
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
+use Vain\Phalcon\Application\PhalconApplication;
 use Vain\Phalcon\Bootstrapper\BootstrapperInterface;
 use Vain\Phalcon\Bootstrapper\Decorator\AbstractBootstrapperDecorator;
 use Phalcon\Di\Injectable as PhalconDiInjectable;
 
-class ResponseBootstrapperDecorator extends AbstractBootstrapperDecorator
+class ApplicationBootstrapperDecorator extends AbstractBootstrapperDecorator
 {
+    
     private $responseFactory;
-
+    
     /**
-     * ResponseBootstrapperDecorator constructor.
+     * ApplicationBootstrapperDecorator constructor.
      * @param BootstrapperInterface $bootstrapper
      * @param ResponseFactoryInterface $responseFactory
      */
     public function __construct(BootstrapperInterface $bootstrapper, ResponseFactoryInterface $responseFactory)
     {
-        parent::__construct($bootstrapper);
         $this->responseFactory = $responseFactory;
+        parent::__construct($bootstrapper);
     }
 
     /**
@@ -33,9 +35,10 @@ class ResponseBootstrapperDecorator extends AbstractBootstrapperDecorator
      */
     public function bootstrap(PhalconDiInjectable $application)
     {
-        $response = $this->responseFactory->createResponse('php://temp');
-        $application->getDI()->setShared('response', $response);
-
+        if ($application instanceof PhalconApplication) {
+            return $application->setResponseFactory($this->responseFactory);
+        }
+        
         return parent::bootstrap($application);
     }
 }

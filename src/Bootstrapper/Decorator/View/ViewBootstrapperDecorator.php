@@ -11,7 +11,6 @@ namespace Vain\Phalcon\Bootstrapper\Decorator\View;
 use Vain\Phalcon\Bootstrapper\BootstrapperInterface;
 use Vain\Phalcon\Bootstrapper\Decorator\AbstractBootstrapperDecorator;
 use Phalcon\Di\Injectable as PhalconDiInjectable;
-use Phalcon\DiInterface as PhalconDiInterface;
 
 class ViewBootstrapperDecorator extends AbstractBootstrapperDecorator
 {
@@ -31,12 +30,16 @@ class ViewBootstrapperDecorator extends AbstractBootstrapperDecorator
     /**
      * @inheritDoc
      */
-    public function bootstrap(PhalconDiInjectable $application, PhalconDiInterface $di)
+    public function bootstrap(PhalconDiInjectable $application)
     {
-        $view = new \Phalcon\Mvc\View();
-        $view->setViewsDir($this->directory);
-        $di->setShared('view', $view);
+        $directory = $this->directory;
+        $application->getDI()->setShared('view', function () use($directory) {
+            $view = new \Phalcon\Mvc\View();
+            $view->setViewsDir($directory);
 
-        return parent::bootstrap($application, $di);
+            return $view;
+        });
+
+        return parent::bootstrap($application);
     }
 }
