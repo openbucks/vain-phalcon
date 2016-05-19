@@ -13,7 +13,6 @@ use Vain\Http\Request\Factory\RequestFactoryInterface;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Phalcon\Bootstrapper\Bootstrapper;
 use Vain\Phalcon\Bootstrapper\BootstrapperInterface;
-use Vain\Phalcon\Bootstrapper\Decorator\Application\ApplicationBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Request\RequestBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Response\ResponseBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Router\RouterBootstrapperDecorator;
@@ -68,26 +67,20 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
         return new ViewBootstrapperDecorator($bootstrapper, '../www/views/');
     }
 
-    protected function createApplicationDecorator(BootstrapperInterface $bootstrapper)
-    {
-        return new ApplicationBootstrapperDecorator($bootstrapper, $this->responseFactory);
-    }
-
     /**
      * @inheritDoc
      */
     public function createBootstrapper()
     {
-        return $this->createApplicationDecorator(
-            $this->createRequestDecorator(
-                $this->createResponseDecorator(
-                    $this->createViewDecorator(
-                        new UrlBootstrapperDecorator(
-                            new RouterBootstrapperDecorator(new Bootstrapper())
-                        )
+        return $this->createRequestDecorator(
+            $this->createResponseDecorator(
+                $this->createViewDecorator(
+                    new UrlBootstrapperDecorator(
+                        new RouterBootstrapperDecorator(new Bootstrapper())
                     )
                 )
             )
         );
+
     }
 }

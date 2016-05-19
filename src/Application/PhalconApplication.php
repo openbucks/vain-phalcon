@@ -8,35 +8,21 @@
 
 namespace Vain\Phalcon\Application;
 
-use Phalcon\Mvc\Application;
+use \Phalcon\DiInterface as PhalconDiInterface;
+use Phalcon\Mvc\Application as PhalconMvcApplication;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
 
-class PhalconApplication extends Application
+class PhalconApplication extends PhalconMvcApplication
 {
     /**
-     * @var ResponseFactoryInterface
-     */
-    private $responseFactory;
-
-    /**
      * PhalconApplication constructor.
-     * @param \Phalcon\DiInterface $dependencyInjector
-     */
-    public function __construct(\Phalcon\DiInterface $dependencyInjector)
-    {
-        parent::__construct($dependencyInjector);
-    }
-
-    /**
      * @param ResponseFactoryInterface $responseFactory
-     *
-     * @return PhalconApplication
+     * @param PhalconDiInterface $dependencyInjector
      */
-    public function setResponseFactory(ResponseFactoryInterface $responseFactory)
+    public function __construct(ResponseFactoryInterface $responseFactory, PhalconDiInterface $dependencyInjector)
     {
         $this->responseFactory = $responseFactory;
-
-        return $this;
+        parent::__construct($dependencyInjector);
     }
 
     /**
