@@ -9,7 +9,7 @@
 namespace Vain\Phalcon\Config\Data\Reader\Factory;
 
 use Vain\Config\Data\Reader\Factory\ReaderFactoryInterface;
-use Vain\Config\Handler\Yaml\YamlHandler;
+use Vain\Config\Data\Handler\Yaml\YamlHandler;
 
 class PhalconReaderFactory implements ReaderFactoryInterface
 {
