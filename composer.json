@@ -16,6 +16,8 @@
   },
   "require": {
     "php": ">=5.6.0",
+    "symfony/dependency-injection" : "dev-master",
+    "symfony/config" : "dev-master",
     "vain/entity" : "dev-master",
     "vain/event" : "dev-master",
     "vain/operation" : "dev-master",

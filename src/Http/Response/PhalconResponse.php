@@ -15,7 +15,6 @@ use Vain\Http\Response\Emitter\EmitterInterface;
 use Vain\Http\Stream\VainStreamInterface;
 use Vain\Phalcon\Exception\BadRedirectCodeException;
 use Vain\Phalcon\Exception\JsonErrorException;
-use Vain\Phalcon\Exception\UnsupportedResponseCallException;
 
 class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInterface
 {
