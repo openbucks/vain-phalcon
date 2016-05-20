@@ -21,20 +21,20 @@ class SymfonyDiFactory implements DiFactoryInterface
 
     private $applicationPath;
 
-    private $cacheDir;
+    private $configFile;
 
     private $cacheFile;
 
     /**
      * SymfonyDiFactory constructor.
      * @param string $applicationDir
-     * @param string $cacheDir
+     * @param string $configFile
      * @param string $cacheFile
      */
-    public function __construct($applicationDir, $cacheDir, $cacheFile)
+    public function __construct($applicationDir, $configFile, $cacheFile)
     {
         $this->applicationPath = $applicationDir;
-        $this->cacheDir = $cacheDir;
+        $this->configFile = $configFile;
         $this->cacheFile = $cacheFile;
     }
 
@@ -45,7 +45,7 @@ class SymfonyDiFactory implements DiFactoryInterface
     {
         $builder = new SymfonyContainerBuilder;
         $loader = new YamlFileLoader($builder, new FileLocator($this->applicationPath));
-        $loader->load('di.yml');
+        $loader->load($this->configFile);
         $builder->compile();
 
         return $builder;
@@ -71,7 +71,7 @@ class SymfonyDiFactory implements DiFactoryInterface
      */
     public function createDi()
     {
-        $cachedContainerSource = $this->applicationPath . DIRECTORY_SEPARATOR . $this->cacheDir . DIRECTORY_SEPARATOR . $this->cacheFile ;
+        $cachedContainerSource = $this->applicationPath . DIRECTORY_SEPARATOR . $this->cacheFile ;
         if (false === file_exists($cachedContainerSource)) {
             $container = $this->dumpContainer($this->createContainer(), $cachedContainerSource);
 
