@@ -75,11 +75,13 @@ class SymfonyDiFactory implements DiFactoryInterface
         if (false === file_exists($cachedContainerSource)) {
             $container = $this->dumpContainer($this->createContainer(), $cachedContainerSource);
 
-            return new SymfonyContainerAdapter($container);
+            $container = new SymfonyContainerAdapter($container);
+
+            return $container;
         }
 
         require_once $cachedContainerSource;
 
-        return new SymfonyContainerAdapter(new CachedSymfonyContainer());
+        return new SymfonyContainerAdapter(new \CachedSymfonyContainer());
     }
 }
