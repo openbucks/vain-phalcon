@@ -9,10 +9,13 @@
 namespace Vain\Phalcon\Bootstrapper\Factory;
 
 use Phalcon\Filter;
+use Vain\Config\Provider\ConfigProviderInterface;
+use Vain\Event\Dispatcher\EventDispatcherInterface;
 use Vain\Http\Request\Factory\RequestFactoryInterface;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Phalcon\Bootstrapper\Bootstrapper;
 use Vain\Phalcon\Bootstrapper\BootstrapperInterface;
+use Vain\Phalcon\Bootstrapper\Decorator\Event\EventBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Request\RequestBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Response\ResponseBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Router\RouterBootstrapperDecorator;
@@ -26,15 +29,28 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
 
     private $responseFactory;
 
+    private $eventDispatcher;
+
+    private $configProvider;
+
     /**
      * MvcBootstrapperFactory constructor.
      * @param RequestFactoryInterface $requestFactory
      * @param ResponseFactoryInterface $responseFactory
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param ConfigProviderInterface $configProvider
      */
-    public function __construct(RequestFactoryInterface $requestFactory, ResponseFactoryInterface $responseFactory)
+    public function __construct(
+        RequestFactoryInterface $requestFactory,
+        ResponseFactoryInterface $responseFactory,
+        EventDispatcherInterface $eventDispatcher,
+        ConfigProviderInterface $configProvider)
+
     {
         $this->requestFactory = $requestFactory;
         $this->responseFactory = $responseFactory;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->configProvider = $configProvider;
     }
 
     /**
@@ -68,19 +84,30 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
     }
 
     /**
+     * @param BootstrapperInterface $bootstrapper
+     *
+     * @return EventBootstrapperDecorator
+     */
+    protected function createEventDecorator(BootstrapperInterface $bootstrapper)
+    {
+        return new EventBootstrapperDecorator($bootstrapper, $this->eventDispatcher);
+    }
+
+    /**
      * @inheritDoc
      */
     public function createBootstrapper()
     {
-        return $this->createRequestDecorator(
-            $this->createResponseDecorator(
-                $this->createViewDecorator(
-                    new UrlBootstrapperDecorator(
-                        new RouterBootstrapperDecorator(new Bootstrapper())
+        return $this->createEventDecorator(
+            $this->createRequestDecorator(
+                $this->createResponseDecorator(
+                    $this->createViewDecorator(
+                        new UrlBootstrapperDecorator(
+                            new RouterBootstrapperDecorator(new Bootstrapper(), $this->configProvider->getConfig('router'))
+                        )
                     )
                 )
             )
         );
-
     }
 }
