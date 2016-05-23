@@ -9,7 +9,6 @@
 namespace Vain\Phalcon\Http\Request;
 
 use Phalcon\FilterInterface as PhalconFilterInterface;
-use Phalcon\Http\RequestInterface as PhalconHttpRequestInterface;
 use Phalcon\Http\Request as PhalconHttpRequest;
 use Vain\Http\Cookie\Storage\CookieStorageInterface;
 use Vain\Http\File\VainFileInterface;
@@ -18,7 +17,7 @@ use Vain\Http\Request\AbstractServerRequest;
 use Vain\Http\Stream\VainStreamInterface;
 use Vain\Http\Uri\VainUriInterface;
 
-class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequestInterface
+class PhalconRequest extends AbstractServerRequest implements PhalconRequestInterface
 {
     private $filter;
 

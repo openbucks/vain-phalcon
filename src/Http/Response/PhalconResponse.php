@@ -8,7 +8,6 @@
 
 namespace Vain\Phalcon\Http\Response;
 
-use Phalcon\Http\ResponseInterface as PhalconHttpResponseInterface;
 use Vain\Http\Header\Storage\HeaderStorageInterface;
 use Vain\Http\Response\AbstractResponse;
 use Vain\Http\Response\Emitter\EmitterInterface;
@@ -16,7 +15,7 @@ use Vain\Http\Stream\VainStreamInterface;
 use Vain\Phalcon\Exception\BadRedirectCodeException;
 use Vain\Phalcon\Exception\JsonErrorException;
 
-class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInterface
+class PhalconResponse extends AbstractResponse implements PhalconResponseInterface
 {
     private $emitter;
     
