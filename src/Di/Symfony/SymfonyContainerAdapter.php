@@ -8,11 +8,12 @@
 
 namespace Vain\Phalcon\Di\Symfony;
 
+use Phalcon\Di\InjectionAwareInterface as PhalconDiAwareInterface;
 use \Phalcon\DiInterface as PhalconDiInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainerInterface;
 use Vain\Phalcon\Exception\UnsupportedDiCallException;
 
-class SymfonyContainerAdapter implements PhalconDiInterface 
+class SymfonyContainerAdapter implements PhalconDiInterface
 {
     private $symfonyContainer;
 
@@ -60,7 +61,13 @@ class SymfonyContainerAdapter implements PhalconDiInterface
      */
     public function get($name, $parameters = null)
     {
-        return $this->symfonyContainer->get($name);
+        $result = $this->symfonyContainer->get($name);
+
+        if ($result instanceof  PhalconDiAwareInterface) {
+            $result->setDI($this);
+        }
+
+        return $result;
     }
 
     /**
