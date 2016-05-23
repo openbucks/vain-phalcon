@@ -15,12 +15,11 @@ use Vain\Http\Request\Factory\RequestFactoryInterface;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Phalcon\Bootstrapper\Bootstrapper;
 use Vain\Phalcon\Bootstrapper\BootstrapperInterface;
-use Vain\Phalcon\Bootstrapper\Decorator\Event\EventBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Request\RequestBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Response\ResponseBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Router\RouterBootstrapperDecorator;
-use Vain\Phalcon\Bootstrapper\Decorator\Url\UrlBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\View\ViewBootstrapperDecorator;
+use \Phalcon\Mvc\View as PhalconMvcView;
 
 class MvcBootstrapperFactory implements BootstrapperFactoryInterface
 {
@@ -28,6 +27,8 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
     private $requestFactory;
 
     private $responseFactory;
+
+    private $view;
 
     private $eventDispatcher;
 
@@ -37,18 +38,21 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
      * MvcBootstrapperFactory constructor.
      * @param RequestFactoryInterface $requestFactory
      * @param ResponseFactoryInterface $responseFactory
+     * @param PhalconMvcView $view
      * @param EventDispatcherInterface $eventDispatcher
      * @param ConfigProviderInterface $configProvider
      */
     public function __construct(
         RequestFactoryInterface $requestFactory,
         ResponseFactoryInterface $responseFactory,
+        PhalconMvcView $view,
         EventDispatcherInterface $eventDispatcher,
         ConfigProviderInterface $configProvider)
 
     {
         $this->requestFactory = $requestFactory;
         $this->responseFactory = $responseFactory;
+        $this->view = $view;
         $this->eventDispatcher = $eventDispatcher;
         $this->configProvider = $configProvider;
     }
@@ -80,17 +84,7 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
      */
     protected function createViewDecorator(BootstrapperInterface $bootstrapper)
     {
-        return new ViewBootstrapperDecorator($bootstrapper, '../www/views/');
-    }
-
-    /**
-     * @param BootstrapperInterface $bootstrapper
-     *
-     * @return EventBootstrapperDecorator
-     */
-    protected function createEventDecorator(BootstrapperInterface $bootstrapper)
-    {
-        return new EventBootstrapperDecorator($bootstrapper, $this->eventDispatcher);
+        return new ViewBootstrapperDecorator($bootstrapper, $this->view, '../www/views/');
     }
 
     /**
@@ -98,14 +92,10 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
      */
     public function createBootstrapper()
     {
-        return $this->createEventDecorator(
-            $this->createRequestDecorator(
-                $this->createResponseDecorator(
-                    $this->createViewDecorator(
-                        new UrlBootstrapperDecorator(
-                            new RouterBootstrapperDecorator(new Bootstrapper(), $this->configProvider->getConfig('router'))
-                        )
-                    )
+        return $this->createRequestDecorator(
+            $this->createResponseDecorator(
+                $this->createViewDecorator(
+                    new RouterBootstrapperDecorator(new Bootstrapper(), $this->configProvider->getConfig('router'))
                 )
             )
         );
