@@ -67,7 +67,7 @@ class SymfonyContainerAdapter implements PhalconDiInterface
     {
         $result = $this->symfonyContainer->get($name);
 
-        if ($result instanceof  PhalconDiAwareInterface) {
+        if ($result instanceof PhalconDiAwareInterface) {
             $result->setDI($this);
         }
 
