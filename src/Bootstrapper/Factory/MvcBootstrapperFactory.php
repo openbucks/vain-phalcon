@@ -106,7 +106,9 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
     {
         return $this->createRequestDecorator(
             $this->createResponseDecorator(
-                new RouterBootstrapperDecorator(new Bootstrapper(), $this->configProvider->getConfig('router'))
+                $this->createViewDecorator(
+                    new RouterBootstrapperDecorator(new Bootstrapper(), $this->configProvider->getConfig('router'))
+                )
             )
         );
     }
