@@ -30,7 +30,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getCurrentRequest()
     {
-        return $this->requestQueue->current();
+        return $this->requestQueue->top();
     }
 
     /**

@@ -47,7 +47,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function getCurrentResponse()
     {
-        return $this->responseQueue->current();
+        return $this->responseQueue->top();
     }
 
     /**
