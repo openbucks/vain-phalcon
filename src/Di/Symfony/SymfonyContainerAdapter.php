@@ -17,6 +17,10 @@ class SymfonyContainerAdapter implements PhalconDiInterface
 {
     private $symfonyContainer;
 
+    /**
+     * SymfonyContainerAdapter constructor.
+     * @param SymfonyContainerInterface $symfonyContainer
+     */
     public function __construct(SymfonyContainerInterface $symfonyContainer)
     {
         $this->symfonyContainer = $symfonyContainer;
