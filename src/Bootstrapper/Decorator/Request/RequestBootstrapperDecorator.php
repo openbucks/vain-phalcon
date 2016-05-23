@@ -12,19 +12,24 @@ use Vain\Http\Request\Factory\RequestFactoryInterface;
 use Vain\Phalcon\Bootstrapper\BootstrapperInterface;
 use Vain\Phalcon\Bootstrapper\Decorator\AbstractBootstrapperDecorator;
 use Phalcon\Di\Injectable as PhalconDiInjectable;
+use Vain\Phalcon\Http\Request\Proxy\PhalconRequestProxyInterface;
 
 class RequestBootstrapperDecorator extends AbstractBootstrapperDecorator
 {
+
+    private $requestProxy;
 
     private $requestFactory;
 
     /**
      * RequestBootstrapperDecorator constructor.
      * @param BootstrapperInterface $bootstrapper
+     * @param PhalconRequestProxyInterface $requestProxy
      * @param RequestFactoryInterface $requestFactory
      */
-    public function __construct(BootstrapperInterface $bootstrapper, RequestFactoryInterface $requestFactory)
+    public function __construct(BootstrapperInterface $bootstrapper, PhalconRequestProxyInterface $requestProxy, RequestFactoryInterface $requestFactory)
     {
+        $this->requestProxy = $requestProxy;
         $this->requestFactory = $requestFactory;
         parent::__construct($bootstrapper);
     }
@@ -34,8 +39,7 @@ class RequestBootstrapperDecorator extends AbstractBootstrapperDecorator
      */
     public function bootstrap(PhalconDiInjectable $application)
     {
-        $request = $this->requestFactory->createRequest($_SERVER, $_GET, [], $_POST, $_FILES, $_COOKIE, 'php://input');
-        $application->getDI()->setShared('request', $request);
+        $this->requestProxy->addRequest($this->requestFactory->createRequest($_SERVER, $_GET, [], $_POST, $_FILES, $_COOKIE, 'php://input'));
 
         return parent::bootstrap($application);
     }
