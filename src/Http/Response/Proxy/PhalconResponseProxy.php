@@ -10,8 +10,9 @@ namespace Vain\Phalcon\Http\Response\Proxy;
 
 use Psr\Http\Message\StreamInterface;
 use Vain\Http\Response\VainResponseInterface;
+use Phalcon\Http\ResponseInterface as PhalconHttpResponseInterface;
 
-class PhalconResponseProxy implements PhalconResponseProxyInterface
+class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttpResponseInterface, VainResponseInterface
 {
     private $responseQueue;
 

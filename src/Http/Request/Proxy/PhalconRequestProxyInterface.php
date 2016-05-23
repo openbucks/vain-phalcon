@@ -9,9 +9,9 @@
 namespace Vain\Phalcon\Http\Request\Proxy;
 
 use Vain\Http\Request\VainServerRequestInterface;
-use Vain\Phalcon\Http\Request\PhalconRequestInterface;
+use Phalcon\Http\RequestInterface as PhalconHttpRequestInterface;;
 
-interface PhalconRequestProxyInterface extends PhalconRequestInterface
+interface PhalconRequestProxyInterface
 {
     /**
      * @param VainServerRequestInterface $phalconRequest
@@ -26,7 +26,7 @@ interface PhalconRequestProxyInterface extends PhalconRequestInterface
     public function popRequest();
 
     /**
-     * @return PhalconRequestInterface
+     * @return PhalconHttpRequestInterface
      */
     public function getCurrentRequest();
 }

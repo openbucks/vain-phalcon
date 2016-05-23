@@ -8,11 +8,10 @@
 
 namespace Vain\Phalcon\Http\Response\Proxy;
 
-
 use Vain\Http\Response\VainResponseInterface;
-use Vain\Phalcon\Http\Response\PhalconResponseInterface;
+use Phalcon\Http\ResponseInterface as PhalconHttpResponseInterface;
 
-interface PhalconResponseProxyInterface extends PhalconResponseInterface
+interface PhalconResponseProxyInterface
 {
     /**
      * @param VainResponseInterface $vainResponse
@@ -22,12 +21,12 @@ interface PhalconResponseProxyInterface extends PhalconResponseInterface
     public function addResponse(VainResponseInterface $vainResponse);
 
     /**
-     * @return PhalconResponseInterface
+     * @return VainResponseInterface
      */
     public function popResponse();
 
     /**
-     * @return PhalconResponseInterface
+     * @return PhalconHttpResponseInterface
      */
     public function getCurrentResponse();
 }

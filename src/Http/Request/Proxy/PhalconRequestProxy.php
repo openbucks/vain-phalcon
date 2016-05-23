@@ -11,8 +11,9 @@ namespace Vain\Phalcon\Http\Request\Proxy;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 use Vain\Http\Request\VainServerRequestInterface;
+use Phalcon\Http\RequestInterface as PhalconHttpRequestInterface;
 
-class PhalconRequestProxy implements PhalconRequestProxyInterface
+class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRequestInterface, PhalconHttpRequestInterface
 {
     private $requestQueue;
 
@@ -398,9 +399,9 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface
     /**
      * @inheritDoc
      */
-    public function getUploadedFiles()
+    public function getUploadedFiles($onlySuccessful = false)
     {
-        return $this->getCurrentRequest()->getUploadedFiles();
+        return $this->getCurrentRequest()->getUploadedFiles($onlySuccessful);
     }
 
     /**
@@ -472,7 +473,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface
      */
     public function getServer($name, $default = null)
     {
-        return $this->getCurrentRequest()->getServer($name, $default);
+        return $this->getCurrentRequest()->getServer($name);
     }
 
     /**
@@ -502,9 +503,9 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface
     /**
      * @inheritDoc
      */
-    public function get($name, $default = null)
+    public function get($name = null, $filters = null, $default = null)
     {
-        return $this->getCurrentRequest()->get($name, $default);
+        return $this->getCurrentRequest()->get($name, $filters, $default);
     }
 
     /**
