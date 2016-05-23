@@ -22,8 +22,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function __construct()
     {
-        $this->requestQueue = new \SplQueue();
-        $this->requestQueue->setIteratorMode(\SplDoublyLinkedList::IT_MODE_LIFO);
+        $this->requestQueue = new \SplStack();
     }
 
     /**
@@ -39,8 +38,8 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function addRequest(VainServerRequestInterface $phalconRequest)
     {
-        $this->requestQueue->enqueue($phalconRequest);
-        
+        $this->requestQueue->push($phalconRequest);
+
         return $this;
     }
 
@@ -49,7 +48,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function popRequest()
     {
-        return $this->requestQueue->dequeue();
+        return $this->requestQueue->pop();
     }
 
     /**

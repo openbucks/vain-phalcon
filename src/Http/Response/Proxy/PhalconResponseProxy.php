@@ -21,8 +21,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function __construct()
     {
-        $this->responseQueue = new \SplQueue();
-        $this->responseQueue->setIteratorMode(\SplDoublyLinkedList::IT_MODE_LIFO);
+        $this->responseQueue = new \SplStack();
     }
 
     /**
@@ -30,7 +29,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function addResponse(VainResponseInterface $vainResponse)
     {
-        $this->responseQueue->enqueue($vainResponse);
+        $this->responseQueue->push($vainResponse);
 
         return $this;
     }
@@ -40,7 +39,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function popResponse()
     {
-        return $this->responseQueue->dequeue();
+        return $this->responseQueue->pop();
     }
 
     /**
