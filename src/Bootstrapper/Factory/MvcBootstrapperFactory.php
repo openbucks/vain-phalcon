@@ -18,8 +18,9 @@ use Vain\Phalcon\Bootstrapper\BootstrapperInterface;
 use Vain\Phalcon\Bootstrapper\Decorator\Request\RequestBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Response\ResponseBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Router\RouterBootstrapperDecorator;
-use Vain\Phalcon\Bootstrapper\Decorator\View\ViewBootstrapperDecorator;
 use \Phalcon\Mvc\View as PhalconMvcView;
+use Vain\Phalcon\Http\Request\Proxy\PhalconRequestProxyInterface;
+use Vain\Phalcon\Http\Response\Proxy\PhalconResponseProxyInterface;
 
 class MvcBootstrapperFactory implements BootstrapperFactoryInterface
 {
@@ -30,6 +31,10 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
 
     private $view;
 
+    private $responseProxy;
+
+    private $requestProxy;
+
     private $eventDispatcher;
 
     private $configProvider;
@@ -39,6 +44,8 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
      * @param RequestFactoryInterface $requestFactory
      * @param ResponseFactoryInterface $responseFactory
      * @param PhalconMvcView $view
+     * @param PhalconResponseProxyInterface $responseProxy ,
+     * @param PhalconRequestProxyInterface $requestProxy ,
      * @param EventDispatcherInterface $eventDispatcher
      * @param ConfigProviderInterface $configProvider
      */
@@ -46,6 +53,8 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
         RequestFactoryInterface $requestFactory,
         ResponseFactoryInterface $responseFactory,
         PhalconMvcView $view,
+        PhalconResponseProxyInterface $responseProxy,
+        PhalconRequestProxyInterface $requestProxy,
         EventDispatcherInterface $eventDispatcher,
         ConfigProviderInterface $configProvider)
 
@@ -53,6 +62,8 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
         $this->requestFactory = $requestFactory;
         $this->responseFactory = $responseFactory;
         $this->view = $view;
+        $this->responseProxy = $responseProxy;
+        $this->requestProxy = $requestProxy;
         $this->eventDispatcher = $eventDispatcher;
         $this->configProvider = $configProvider;
     }
@@ -64,7 +75,7 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
      */
     protected function createRequestDecorator(BootstrapperInterface $bootstrapper)
     {
-        return new RequestBootstrapperDecorator($bootstrapper, $this->requestFactory);
+        return new RequestBootstrapperDecorator($bootstrapper, $this->requestProxy, $this->requestFactory);
     }
 
     /**
@@ -74,17 +85,7 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
      */
     protected function createResponseDecorator(BootstrapperInterface $bootstrapper)
     {
-        return new ResponseBootstrapperDecorator($bootstrapper, $this->responseFactory);
-    }
-
-    /**
-     * @param BootstrapperInterface $bootstrapper
-     *
-     * @return ViewBootstrapperDecorator
-     */
-    protected function createViewDecorator(BootstrapperInterface $bootstrapper)
-    {
-        return new ViewBootstrapperDecorator($bootstrapper, $this->view, '../www/views/');
+        return new ResponseBootstrapperDecorator($bootstrapper, $this->responseProxy, $this->responseFactory);
     }
 
     /**
@@ -94,9 +95,7 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
     {
         return $this->createRequestDecorator(
             $this->createResponseDecorator(
-                $this->createViewDecorator(
-                    new RouterBootstrapperDecorator(new Bootstrapper(), $this->configProvider->getConfig('router'))
-                )
+                new RouterBootstrapperDecorator(new Bootstrapper(), $this->configProvider->getConfig('router'))
             )
         );
     }

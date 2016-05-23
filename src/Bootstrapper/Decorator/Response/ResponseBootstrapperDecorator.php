@@ -12,20 +12,25 @@ use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Phalcon\Bootstrapper\BootstrapperInterface;
 use Vain\Phalcon\Bootstrapper\Decorator\AbstractBootstrapperDecorator;
 use Phalcon\Di\Injectable as PhalconDiInjectable;
+use Vain\Phalcon\Http\Response\Proxy\PhalconResponseProxyInterface;
 
 class ResponseBootstrapperDecorator extends AbstractBootstrapperDecorator
 {
+    private $responseProxy;
+
     private $responseFactory;
 
     /**
      * ResponseBootstrapperDecorator constructor.
      * @param BootstrapperInterface $bootstrapper
+     * @param PhalconResponseProxyInterface $responseProxy
      * @param ResponseFactoryInterface $responseFactory
      */
-    public function __construct(BootstrapperInterface $bootstrapper, ResponseFactoryInterface $responseFactory)
+    public function __construct(BootstrapperInterface $bootstrapper, PhalconResponseProxyInterface $responseProxy, ResponseFactoryInterface $responseFactory)
     {
-        parent::__construct($bootstrapper);
+        $this->responseProxy = $responseProxy;
         $this->responseFactory = $responseFactory;
+        parent::__construct($bootstrapper);
     }
 
     /**
@@ -33,8 +38,7 @@ class ResponseBootstrapperDecorator extends AbstractBootstrapperDecorator
      */
     public function bootstrap(PhalconDiInjectable $application)
     {
-        $response = $this->responseFactory->createResponse('php://temp');
-        $application->getDI()->setShared('response', $response);
+        $this->responseProxy->addResponse($this->responseFactory->createResponse('php://temp'));
 
         return parent::bootstrap($application);
     }
