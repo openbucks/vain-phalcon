@@ -19,6 +19,7 @@ use Vain\Phalcon\Bootstrapper\Decorator\Request\RequestBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Response\ResponseBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Router\RouterBootstrapperDecorator;
 use \Phalcon\Mvc\View as PhalconMvcView;
+use Vain\Phalcon\Bootstrapper\Decorator\View\ViewBootstrapperDecorator;
 use Vain\Phalcon\Http\Request\Proxy\PhalconRequestProxyInterface;
 use Vain\Phalcon\Http\Response\Proxy\PhalconResponseProxyInterface;
 
@@ -86,6 +87,16 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
     protected function createResponseDecorator(BootstrapperInterface $bootstrapper)
     {
         return new ResponseBootstrapperDecorator($bootstrapper, $this->responseProxy, $this->responseFactory);
+    }
+
+    /**
+     * @param BootstrapperInterface $bootstrapper
+     *
+     * @return ViewBootstrapperDecorator
+     */
+    protected function createViewDecorator(BootstrapperInterface $bootstrapper)
+    {
+        return new ViewBootstrapperDecorator($bootstrapper, $this->view, '../www/views/');
     }
 
     /**
