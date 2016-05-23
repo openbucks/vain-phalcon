@@ -10,7 +10,7 @@ namespace Vain\Phalcon\Http\Request\Proxy;
 
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
-use Vain\Phalcon\Http\Request\PhalconRequestInterface;
+use Vain\Http\Request\VainServerRequestInterface;
 
 class PhalconRequestProxy implements PhalconRequestProxyInterface
 {
@@ -18,11 +18,10 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface
 
     /**
      * PhalconRequestProxy constructor.
-     * @param \SplQueue $requestQueue
      */
-    public function __construct(\SplQueue $requestQueue)
+    public function __construct()
     {
-        $this->requestQueue = $requestQueue;
+        $this->requestQueue = new \SplQueue();
         $this->requestQueue->setIteratorMode(\SplDoublyLinkedList::IT_MODE_LIFO);
     }
 
@@ -37,7 +36,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface
     /**
      * @inheritDoc
      */
-    public function addRequest(PhalconRequestInterface $phalconRequest)
+    public function addRequest(VainServerRequestInterface $phalconRequest)
     {
         $this->requestQueue->enqueue($phalconRequest);
         

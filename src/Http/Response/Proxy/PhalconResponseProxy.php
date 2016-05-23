@@ -17,11 +17,11 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface
 
     /**
      * PhalconResponseProxy constructor.
-     * @param \SplQueue $responseQueue
      */
-    public function __construct(\SplQueue $responseQueue)
+    public function __construct()
     {
-        $this->responseQueue = $responseQueue;
+        $this->responseQueue = new \SplQueue();
+        $this->responseQueue->setIteratorMode(\SplDoublyLinkedList::IT_MODE_LIFO);
     }
 
     /**
