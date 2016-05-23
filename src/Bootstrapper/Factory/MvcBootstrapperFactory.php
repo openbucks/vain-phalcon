@@ -31,9 +31,9 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
 
     private $view;
 
-    private $responseProxy;
-
     private $requestProxy;
+
+    private $responseProxy;
 
     private $eventDispatcher;
 
@@ -44,8 +44,8 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
      * @param RequestFactoryInterface $requestFactory
      * @param ResponseFactoryInterface $responseFactory
      * @param PhalconMvcView $view
-     * @param PhalconResponseProxyInterface $responseProxy ,
-     * @param PhalconRequestProxyInterface $requestProxy ,
+     * @param PhalconRequestProxyInterface $requestProxy
+     * @param PhalconResponseProxyInterface $responseProxy
      * @param EventDispatcherInterface $eventDispatcher
      * @param ConfigProviderInterface $configProvider
      */
@@ -53,8 +53,8 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
         RequestFactoryInterface $requestFactory,
         ResponseFactoryInterface $responseFactory,
         PhalconMvcView $view,
-        PhalconResponseProxyInterface $responseProxy,
         PhalconRequestProxyInterface $requestProxy,
+        PhalconResponseProxyInterface $responseProxy,
         EventDispatcherInterface $eventDispatcher,
         ConfigProviderInterface $configProvider)
 
