@@ -8,31 +8,13 @@
 
 namespace Vain\Phalcon\Http\Response;
 
-use Vain\Http\Header\Storage\HeaderStorageInterface;
 use Vain\Http\Response\AbstractResponse;
-use Vain\Http\Response\Emitter\EmitterInterface;
-use Vain\Http\Stream\VainStreamInterface;
 use Vain\Phalcon\Exception\BadRedirectCodeException;
 use Vain\Phalcon\Exception\JsonErrorException;
 use Phalcon\Http\ResponseInterface as PhalconHttpResponseInterface;
 
 class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInterface
 {
-    private $emitter;
-    
-    /**
-     * PhalconResponse constructor.
-     * @param EmitterInterface $emitter
-     * @param int $code
-     * @param VainStreamInterface $stream
-     * @param HeaderStorageInterface $headerStorage
-     */
-    public function __construct(EmitterInterface $emitter, $code, VainStreamInterface $stream, HeaderStorageInterface $headerStorage)
-    {
-        $this->emitter = $emitter;
-        parent::__construct($code, $stream, $headerStorage);
-    }
-
     /**
      * @inheritDoc
      */
@@ -147,8 +129,6 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
      */
     public function send()
     {
-        $this->emitter->send($this);
-
         return $this;
     }
 
