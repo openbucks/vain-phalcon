@@ -8,143 +8,21 @@
 
 namespace Vain\Phalcon\Http\Request\Proxy;
 
-use Psr\Http\Message\StreamInterface;
-use Psr\Http\Message\UriInterface;
-use Vain\Http\Request\VainServerRequestInterface;
+use Vain\Http\Request\Proxy\AbstractRequestProxy;
+use Vain\Http\Request\Proxy\HttpRequestProxyInterface;
 use Phalcon\Http\RequestInterface as PhalconHttpRequestInterface;
 
-class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRequestInterface, PhalconHttpRequestInterface
+/**
+ * @method PhalconHttpRequestInterface getCurrentMessage
+ */
+class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestProxyInterface, PhalconHttpRequestInterface
 {
-    private $requestQueue;
-
-    /**
-     * PhalconRequestProxy constructor.
-     */
-    public function __construct()
-    {
-        $this->requestQueue = new \SplStack();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getCurrentRequest()
-    {
-        return $this->requestQueue->top();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function addRequest(VainServerRequestInterface $phalconRequest)
-    {
-        $this->requestQueue->push($phalconRequest);
-
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function popRequest()
-    {
-        return $this->requestQueue->pop();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getProtocolVersion()
-    {
-        return $this->getCurrentRequest()->getProtocolVersion();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withProtocolVersion($version)
-    {
-        return $this->getCurrentRequest()->withProtocolVersion($version);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHeaders()
-    {
-        return $this->getCurrentRequest()->getHeaders();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function hasHeader($name)
-    {
-        return $this->getCurrentRequest()->hasHeader($name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHeader($name)
-    {
-        return $this->getCurrentRequest()->getHeader($name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHeaderLine($name)
-    {
-        return $this->getCurrentRequest()->getHeaderLine($name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withHeader($name, $value)
-    {
-        return $this->getCurrentRequest()->withHeader($name, $value);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withAddedHeader($name, $value)
-    {
-        return $this->getCurrentRequest()->withAddedHeader($name, $value);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withoutHeader($name)
-    {
-        return $this->getCurrentRequest()->withoutHeader($name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getBody()
-    {
-        return $this->getCurrentRequest()->getBody();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withBody(StreamInterface $body)
-    {
-        return $this->getCurrentRequest()->withBody($body);
-    }
-
     /**
      * @inheritDoc
      */
     public function getPost($name = null, $filters = null, $defaultValue = null)
     {
-        return $this->getCurrentRequest()->getPost($name, $filters, $defaultValue);
+        return $this->getCurrentMessage()->getPost($name, $filters, $defaultValue);
     }
 
     /**
@@ -152,7 +30,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getQuery($name = null, $filters = null, $defaultValue = null)
     {
-        return $this->getCurrentRequest()->getQuery($name, $filters, $defaultValue);
+        return $this->getCurrentMessage()->getQuery($name, $filters, $defaultValue);
     }
 
     /**
@@ -160,7 +38,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function has($name)
     {
-        return $this->getCurrentRequest()->has($name);
+        return $this->getCurrentMessage()->has($name);
     }
 
     /**
@@ -168,7 +46,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function hasPost($name)
     {
-        return $this->getCurrentRequest()->hasPost($name);
+        return $this->getCurrentMessage()->hasPost($name);
     }
 
     /**
@@ -176,7 +54,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function hasPut($name)
     {
-        return $this->getCurrentRequest()->hasPut($name);
+        return $this->getCurrentMessage()->hasPut($name);
     }
 
     /**
@@ -184,7 +62,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function hasQuery($name)
     {
-        return $this->getCurrentRequest()->hasQuery($name);
+        return $this->getCurrentMessage()->hasQuery($name);
     }
 
     /**
@@ -192,7 +70,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function isAjax()
     {
-        return $this->getCurrentRequest()->isAjax();
+        return $this->getCurrentMessage()->isAjax();
     }
 
     /**
@@ -200,7 +78,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function isSoapRequested()
     {
-        return $this->getCurrentRequest()->isSoapRequested();
+        return $this->getCurrentMessage()->isSoapRequested();
     }
 
     /**
@@ -208,7 +86,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getRawBody()
     {
-        return $this->getCurrentRequest()->getRawBody();
+        return $this->getCurrentMessage()->getRawBody();
     }
 
     /**
@@ -216,7 +94,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getClientAddress($trustForwardedHeader = false)
     {
-        return $this->getCurrentRequest()->getClientAddress($trustForwardedHeader);
+        return $this->getCurrentMessage()->getClientAddress($trustForwardedHeader);
     }
 
     /**
@@ -224,7 +102,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function isMethod($methods, $strict = false)
     {
-        return $this->getCurrentRequest()->isMethod($methods, $strict);
+        return $this->getCurrentMessage()->isMethod($methods, $strict);
     }
 
     /**
@@ -232,7 +110,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function hasFiles($onlySuccessful = false)
     {
-        return $this->getCurrentRequest()->hasFiles($onlySuccessful);
+        return $this->getCurrentMessage()->hasFiles($onlySuccessful);
     }
 
     /**
@@ -240,7 +118,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getHTTPReferer()
     {
-        return $this->getCurrentRequest()->getHTTPReferer();
+        return $this->getCurrentMessage()->getHTTPReferer();
     }
 
     /**
@@ -248,7 +126,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getAcceptableContent()
     {
-        return $this->getCurrentRequest()->getAcceptableContent();
+        return $this->getCurrentMessage()->getAcceptableContent();
     }
 
     /**
@@ -256,7 +134,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getBestAccept()
     {
-        return $this->getCurrentRequest()->getBestAccept();
+        return $this->getCurrentMessage()->getBestAccept();
     }
 
     /**
@@ -264,7 +142,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getClientCharsets()
     {
-        return $this->getCurrentRequest()->getClientCharsets();
+        return $this->getCurrentMessage()->getClientCharsets();
     }
 
     /**
@@ -272,7 +150,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getBestCharset()
     {
-        return $this->getCurrentRequest()->getBestCharset();
+        return $this->getCurrentMessage()->getBestCharset();
     }
 
     /**
@@ -280,7 +158,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getLanguages()
     {
-        return $this->getCurrentRequest()->getLanguages();
+        return $this->getCurrentMessage()->getLanguages();
     }
 
     /**
@@ -288,7 +166,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getBestLanguage()
     {
-        return $this->getCurrentRequest()->getBestLanguage();
+        return $this->getCurrentMessage()->getBestLanguage();
     }
 
     /**
@@ -296,7 +174,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getBasicAuth()
     {
-        return $this->getCurrentRequest()->getBasicAuth();
+        return $this->getCurrentMessage()->getBasicAuth();
     }
 
     /**
@@ -304,95 +182,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getDigestAuth()
     {
-        return $this->getCurrentRequest()->getDigestAuth();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getRequestTarget()
-    {
-        return $this->getCurrentRequest()->getRequestTarget();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withRequestTarget($requestTarget)
-    {
-        return $this->getCurrentRequest()->withRequestTarget($requestTarget);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getMethod()
-    {
-        return $this->getCurrentRequest()->getMethod();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withMethod($method)
-    {
-        return $this->getCurrentRequest()->withMethod($method);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getUri()
-    {
-        return $this->getCurrentRequest()->getUri();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withUri(UriInterface $uri, $preserveHost = false)
-    {
-        return $this->getCurrentRequest()->withUri($uri, $preserveHost);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getServerParams()
-    {
-        return $this->getCurrentRequest()->getServerParams();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getCookieParams()
-    {
-        return $this->getCurrentRequest()->getCookieParams();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withCookieParams(array $cookies)
-    {
-        return $this->getCurrentRequest()->withCookieParams($cookies);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getQueryParams()
-    {
-        return $this->getCurrentRequest()->getQueryParams();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withQueryParams(array $query)
-    {
-        return $this->getCurrentRequest()->withQueryParams($query);
+        return $this->getCurrentMessage()->getDigestAuth();
     }
 
     /**
@@ -400,71 +190,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getUploadedFiles($onlySuccessful = false)
     {
-        return $this->getCurrentRequest()->getUploadedFiles($onlySuccessful);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withUploadedFiles(array $uploadedFiles)
-    {
-        return $this->getCurrentRequest()->withUploadedFiles($uploadedFiles);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getParsedBody()
-    {
-        return $this->getCurrentRequest()->getParsedBody();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withParsedBody($data)
-    {
-        return $this->getCurrentRequest()->withParsedBody($data);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getAttributes()
-    {
-        return $this->getCurrentRequest()->getAttributes();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getAttribute($name, $default = null)
-    {
-        return $this->getCurrentRequest()->getAttribute($name, $default);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withAttribute($name, $value)
-    {
-        return $this->getCurrentRequest()->withAttribute($name, $value);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withoutAttribute($name)
-    {
-        return $this->getCurrentRequest()->withoutAttribute($name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getContents()
-    {
-        return $this->getCurrentRequest()->getContents();
+        return $this->getCurrentMessage()->getUploadedFiles($onlySuccessful);
     }
 
     /**
@@ -472,7 +198,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getServer($name, $default = null)
     {
-        return $this->getCurrentRequest()->getServer($name);
+        return $this->getCurrentMessage()->getServer($name);
     }
 
     /**
@@ -480,23 +206,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function hasServer($name)
     {
-        return $this->getCurrentRequest()->hasServer($name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function hasQueryParam($name)
-    {
-        return $this->getCurrentRequest()->hasQueryParam($name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function hasBodyParam($name)
-    {
-        return $this->getCurrentRequest()->hasBodyParam($name);
+        return $this->getCurrentMessage()->hasServer($name);
     }
 
     /**
@@ -504,23 +214,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function get($name = null, $filters = null, $default = null)
     {
-        return $this->getCurrentRequest()->get($name, $filters, $default);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function post($name, $default = null)
-    {
-        return $this->getCurrentRequest()->post($name, $default);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getContentType()
-    {
-        return $this->getCurrentRequest()->getContentType();
+        return $this->getCurrentMessage()->get($name, $filters, $default);
     }
 
     /**
@@ -528,7 +222,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getUserAgent()
     {
-        return $this->getCurrentRequest()->getUserAgent();
+        return $this->getCurrentMessage()->getUserAgent();
     }
 
     /**
@@ -536,7 +230,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getServerAddress()
     {
-        return $this->getCurrentRequest()->getServerAddress();
+        return $this->getCurrentMessage()->getServerAddress();
     }
 
     /**
@@ -544,7 +238,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getServerName()
     {
-        return $this->getCurrentRequest()->getServerName();
+        return $this->getCurrentMessage()->getServerName();
     }
 
     /**
@@ -552,7 +246,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getHttpHost()
     {
-        return $this->getCurrentRequest()->getHttpHost();
+        return $this->getCurrentMessage()->getHttpHost();
     }
 
     /**
@@ -560,7 +254,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function isPost()
     {
-        return $this->getCurrentRequest()->isPost();
+        return $this->getCurrentMessage()->isPost();
     }
 
     /**
@@ -568,7 +262,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function isGet()
     {
-        return $this->getCurrentRequest()->isGet();
+        return $this->getCurrentMessage()->isGet();
     }
 
     /**
@@ -576,7 +270,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function isPut()
     {
-        return $this->getCurrentRequest()->isPut();
+        return $this->getCurrentMessage()->isPut();
     }
 
     /**
@@ -584,7 +278,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function getScheme()
     {
-        return $this->getCurrentRequest()->getScheme();
+        return $this->getCurrentMessage()->getScheme();
     }
 
     /**
@@ -592,7 +286,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function isHead()
     {
-        return $this->getCurrentRequest()->isHead();
+        return $this->getCurrentMessage()->isHead();
     }
 
     /**
@@ -600,7 +294,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function isDelete()
     {
-        return $this->getCurrentRequest()->isDelete();
+        return $this->getCurrentMessage()->isDelete();
     }
 
     /**
@@ -608,7 +302,7 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function isOptions()
     {
-        return $this->getCurrentRequest()->isOptions();
+        return $this->getCurrentMessage()->isOptions();
     }
 
     /**
@@ -616,6 +310,6 @@ class PhalconRequestProxy implements PhalconRequestProxyInterface,  VainServerRe
      */
     public function isSecureRequest()
     {
-        return $this->getCurrentRequest()->isSecureRequest();
+        return $this->getCurrentMessage()->isSecureRequest();
     }
 }

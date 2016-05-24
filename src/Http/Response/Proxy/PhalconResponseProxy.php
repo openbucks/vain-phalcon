@@ -8,142 +8,22 @@
 
 namespace Vain\Phalcon\Http\Response\Proxy;
 
-use Psr\Http\Message\StreamInterface;
-use Vain\Http\Response\VainResponseInterface;
+use Vain\Http\Response\Proxy\AbstractResponseProxy;
+use Vain\Http\Response\Proxy\HttpResponseProxyInterface;
 use Phalcon\Http\ResponseInterface as PhalconHttpResponseInterface;
 
-class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttpResponseInterface, VainResponseInterface
+/**
+ * Class AbstractResponseProxy
+ * @method PhalconHttpResponseInterface getCurrentMessage
+ */
+class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponseProxyInterface, PhalconHttpResponseInterface
 {
-    private $responseQueue;
-
-    /**
-     * PhalconResponseProxy constructor.
-     */
-    public function __construct()
-    {
-        $this->responseQueue = new \SplStack();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function addResponse(VainResponseInterface $vainResponse)
-    {
-        $this->responseQueue->push($vainResponse);
-
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function popResponse()
-    {
-        return $this->responseQueue->pop();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getCurrentResponse()
-    {
-        return $this->responseQueue->top();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getProtocolVersion()
-    {
-        return $this->getCurrentResponse()->getProtocolVersion();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withProtocolVersion($version)
-    {
-        return $this->getCurrentResponse()->withProtocolVersion($version);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHeaders()
-    {
-        return $this->getCurrentResponse()->getHeaders();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function hasHeader($name)
-    {
-        return $this->getCurrentResponse()->hasHeader($name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHeader($name)
-    {
-        return $this->getCurrentResponse()->getHeader($name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHeaderLine($name)
-    {
-        return $this->getCurrentResponse()->getHeaderLine($name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withHeader($name, $value)
-    {
-        return $this->getCurrentResponse()->withHeader($name, $value);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withAddedHeader($name, $value)
-    {
-        return $this->getCurrentResponse()->withAddedHeader($name, $value);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withoutHeader($name)
-    {
-        return $this->getCurrentResponse()->withoutHeader($name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getBody()
-    {
-        return $this->getCurrentResponse()->getBody();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withBody(StreamInterface $body)
-    {
-        return $this->getCurrentResponse()->withBody($body);
-    }
-
     /**
      * @inheritDoc
      */
     public function setStatusCode($code, $message = null)
     {
-        return $this->getCurrentResponse()->setStatusCode($code, $message);
+        return $this->getCurrentMessage()->setStatusCode($code, $message);
     }
 
     /**
@@ -151,7 +31,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function setHeader($name, $value)
     {
-        return $this->getCurrentResponse()->setHeader($name, $value);
+        return $this->getCurrentMessage()->setHeader($name, $value);
     }
 
     /**
@@ -159,7 +39,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function setRawHeader($header)
     {
-        return $this->getCurrentResponse()->setRawHeader($header);
+        return $this->getCurrentMessage()->setRawHeader($header);
     }
 
     /**
@@ -167,7 +47,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function resetHeaders()
     {
-        return $this->getCurrentResponse()->resetHeaders();
+        return $this->getCurrentMessage()->resetHeaders();
     }
 
     /**
@@ -175,7 +55,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function setExpires(\DateTime $datetime)
     {
-        return $this->getCurrentResponse()->setExpires($datetime);
+        return $this->getCurrentMessage()->setExpires($datetime);
     }
 
     /**
@@ -183,7 +63,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function setNotModified()
     {
-        return $this->getCurrentResponse()->setNotModified();
+        return $this->getCurrentMessage()->setNotModified();
     }
 
     /**
@@ -191,7 +71,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function setContentType($contentType, $charset = null)
     {
-        return $this->getCurrentResponse()->setContentType($contentType);
+        return $this->getCurrentMessage()->setContentType($contentType);
     }
 
     /**
@@ -199,7 +79,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function redirect($location = null, $externalRedirect = false, $statusCode = 302)
     {
-        return $this->getCurrentResponse()->redirect($location, $externalRedirect, $statusCode);
+        return $this->getCurrentMessage()->redirect($location, $externalRedirect, $statusCode);
     }
 
     /**
@@ -207,7 +87,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function setContent($content)
     {
-        return $this->getCurrentResponse()->setContent($content);
+        return $this->getCurrentMessage()->setContent($content);
     }
 
     /**
@@ -215,7 +95,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function setJsonContent($content)
     {
-        return $this->getCurrentResponse()->setJsonContent($content);
+        return $this->getCurrentMessage()->setJsonContent($content);
     }
 
     /**
@@ -223,7 +103,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function appendContent($content)
     {
-        return $this->getCurrentResponse()->appendContent($content);
+        return $this->getCurrentMessage()->appendContent($content);
     }
 
     /**
@@ -231,7 +111,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function getContent()
     {
-        return $this->getCurrentResponse()->getContent();
+        return $this->getCurrentMessage()->getContent();
     }
 
     /**
@@ -239,7 +119,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function sendHeaders()
     {
-        return $this->getCurrentResponse()->sendHeaders();
+        return $this->getCurrentMessage()->sendHeaders();
     }
 
     /**
@@ -247,7 +127,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function sendCookies()
     {
-        return $this->getCurrentResponse()->sendCookies();
+        return $this->getCurrentMessage()->sendCookies();
     }
 
     /**
@@ -255,7 +135,7 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function send()
     {
-        return $this->getCurrentResponse()->send();
+        return $this->getCurrentMessage()->send();
     }
 
     /**
@@ -263,30 +143,6 @@ class PhalconResponseProxy implements PhalconResponseProxyInterface, PhalconHttp
      */
     public function setFileToSend($filePath, $attachmentName = null)
     {
-        return $this->getCurrentResponse()->setFileToSend($filePath, $attachmentName);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getStatusCode()
-    {
-        return $this->getCurrentResponse()->getStatusCode();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withStatus($code, $reasonPhrase = '')
-    {
-        return $this->getCurrentResponse()->withStatus($code, $reasonPhrase);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getReasonPhrase()
-    {
-        return $this->getCurrentResponse()->getReasonPhrase();
+        return $this->getCurrentMessage()->setFileToSend($filePath, $attachmentName);
     }
 }
