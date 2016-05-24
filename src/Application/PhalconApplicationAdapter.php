@@ -8,7 +8,6 @@
 
 namespace Vain\Phalcon\Application;
 
-use \Phalcon\DiInterface as PhalconDiInterface;
 use Phalcon\Mvc\Application as PhalconMvcApplication;
 use Psr\Http\Message\ServerRequestInterface as HttpServerRequestInterface;
 use Vain\Http\Application\HttpApplicationInterface;
@@ -16,8 +15,10 @@ use Vain\Http\Request\Proxy\HttpRequestProxyInterface;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Http\Response\Proxy\HttpResponseProxyInterface;
 
-class PhalconApplication extends PhalconMvcApplication implements HttpApplicationInterface
+class PhalconApplicationAdapter extends PhalconMvcApplication implements HttpApplicationInterface
 {
+    private $application;
+    
     private $requestProxy;
 
     private $responseProxy;
@@ -27,15 +28,16 @@ class PhalconApplication extends PhalconMvcApplication implements HttpApplicatio
     /**
      * PhalconApplication constructor.
      * @param HttpRequestProxyInterface $requestProxy
+     * @param HttpResponseProxyInterface $responseProxy
      * @param ResponseFactoryInterface $responseFactory
-     * @param PhalconDiInterface $dependencyInjector
+     * @param PhalconMvcApplication $application
      */
-    public function __construct(HttpRequestProxyInterface $requestProxy, HttpResponseProxyInterface $responseProxy, ResponseFactoryInterface $responseFactory, PhalconDiInterface $dependencyInjector)
+    public function __construct(HttpRequestProxyInterface $requestProxy, HttpResponseProxyInterface $responseProxy, ResponseFactoryInterface $responseFactory, PhalconMvcApplication $application)
     {
         $this->requestProxy = $requestProxy;
         $this->responseProxy = $responseProxy;
         $this->responseFactory = $responseFactory;
-        parent::__construct($dependencyInjector);
+        $this->application = $application;
     }
 
     /**
@@ -44,8 +46,10 @@ class PhalconApplication extends PhalconMvcApplication implements HttpApplicatio
     public function handleRequest(HttpServerRequestInterface $request)
     {
         $this->requestProxy->addRequest($request);
+        $this->responseProxy->addResponse($this->responseFactory->createResponse('php://temp'));
+
         try {
-            $response = $this->handle();
+            $response = $this->application->handle();
         } catch (\Exception $e) {
             $response = $this->responseFactory
                 ->createResponse('php://temp')
