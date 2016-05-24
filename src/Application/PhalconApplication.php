@@ -14,11 +14,10 @@ use Vain\Http\Application\HttpApplicationInterface;
 use Vain\Http\Request\Proxy\HttpRequestProxyInterface;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Http\Response\Proxy\HttpResponseProxyInterface;
+use Phalcon\DiInterface as PhalconDiInterface;
 
-class PhalconApplicationAdapter extends PhalconMvcApplication implements HttpApplicationInterface
+class PhalconApplication extends PhalconMvcApplication implements HttpApplicationInterface
 {
-    private $application;
-    
     private $requestProxy;
 
     private $responseProxy;
@@ -30,14 +29,14 @@ class PhalconApplicationAdapter extends PhalconMvcApplication implements HttpApp
      * @param HttpRequestProxyInterface $requestProxy
      * @param HttpResponseProxyInterface $responseProxy
      * @param ResponseFactoryInterface $responseFactory
-     * @param PhalconMvcApplication $application
+     * @param PhalconDiInterface $di
      */
-    public function __construct(HttpRequestProxyInterface $requestProxy, HttpResponseProxyInterface $responseProxy, ResponseFactoryInterface $responseFactory, PhalconMvcApplication $application)
+    public function __construct(HttpRequestProxyInterface $requestProxy, HttpResponseProxyInterface $responseProxy, ResponseFactoryInterface $responseFactory, PhalconDiInterface $di)
     {
         $this->requestProxy = $requestProxy;
         $this->responseProxy = $responseProxy;
         $this->responseFactory = $responseFactory;
-        $this->application = $application;
+        parent::__construct($di);
     }
 
     /**
@@ -47,18 +46,24 @@ class PhalconApplicationAdapter extends PhalconMvcApplication implements HttpApp
     {
         $this->requestProxy->addRequest($request);
         $this->responseProxy->addResponse($this->responseFactory->createResponse('php://temp'));
-
-        try {
-            $response = $this->application->handle();
-        } catch (\Exception $e) {
-            $response = $this->responseFactory
-                ->createResponse('php://temp')
-                ->withStatus($e->getCode(), $e->getMessage());
-        }
-
+        $this->handle();
         $this->requestProxy->popRequest();
-        $this->responseProxy->popResponse();
 
-        return $response;
+        return $this->responseProxy->popResponse();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function handle($uri = null)
+    {
+        try {
+            parent::handle($uri);
+        } catch (\Exception $e) {
+            $this->responseProxy->popResponse();
+            $this->responseProxy->addResponse($this->responseFactory
+                ->createResponse('php://temp')
+                ->withStatus($e->getCode(), $e->getMessage()));
+        }
     }
 }
