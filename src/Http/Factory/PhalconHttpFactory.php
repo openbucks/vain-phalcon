@@ -16,7 +16,6 @@ use Vain\Http\File\Factory\FileFactoryInterface;
 use Vain\Http\Header\Factory\HeaderFactoryInterface;
 use Vain\Http\Header\Provider\HeaderProviderInterface;
 use Vain\Http\Request\Factory\RequestFactoryInterface;
-use Vain\Http\Response\Emitter\EmitterInterface;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Http\Stream\Factory\StreamFactoryInterface;
 use Vain\Http\Uri\Factory\UriFactoryInterface;
@@ -39,8 +38,6 @@ class PhalconHttpFactory implements
     RequestFactoryInterface,
     ResponseFactoryInterface
 {
-    private $emitter;
-
     private $filter;
 
     private $headerProvider;
@@ -52,15 +49,13 @@ class PhalconHttpFactory implements
     /**
      * PhalconHttpFactory constructor.
      * @param PhalconFilterInterface $phalconFilter
-     * @param EmitterInterface $emitter
      * @param HeaderProviderInterface $headerProvider
      * @param CookieFactoryInterface $cookieFactory
      * @param HeaderFactoryInterface $headerFactory
      */
-    public function __construct( PhalconFilterInterface $phalconFilter, EmitterInterface $emitter, HeaderProviderInterface $headerProvider, CookieFactoryInterface $cookieFactory, HeaderFactoryInterface $headerFactory)
+    public function __construct(PhalconFilterInterface $phalconFilter, HeaderProviderInterface $headerProvider, CookieFactoryInterface $cookieFactory, HeaderFactoryInterface $headerFactory)
     {
         $this->filter = $phalconFilter;
-        $this->emitter = $emitter;
         $this->headerProvider = $headerProvider;
         $this->cookieFactory = $cookieFactory;
         $this->headerFactory = $headerFactory;
@@ -226,6 +221,6 @@ class PhalconHttpFactory implements
             $headerStorage->createHeader($headerName, $headerValue);
         }
 
-        return new PhalconResponse($this->emitter, $statusCode, $this->createStream('php://temp', 'w+'), $headerStorage);
+        return new PhalconResponse($statusCode, $this->createStream($destinationStream, 'w+'), $headerStorage);
     }
 }
