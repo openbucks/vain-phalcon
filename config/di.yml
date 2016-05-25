@@ -64,8 +64,7 @@ services:
     filter: '@http.filter'
     http.header.factory:
         class: Vain\Phalcon\Http\Header\Factory\PhalconHeaderFactory
-    http.header.provider:
-        class: Vain\Http\Header\Provider\Server\ServerHeaderProvider
+    http.header.provider: '@http.header.provider.server'
     http.cookie.factory:
         class: Vain\Phalcon\Http\Cookie\Factory\PhalconCookieFactory
     http.factory:
