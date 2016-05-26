@@ -46,6 +46,8 @@ class SymfonyDiFactory implements DiFactoryInterface
         $builder = new SymfonyContainerBuilder;
         $loader = new YamlFileLoader($builder, new FileLocator($this->applicationPath));
         $loader->load($this->configFile);
+        $builder->setParameter('app.dir', $this->applicationPath);
+        //$builder->setParameter('app.dir', $this->applicationPath)
         $builder->compile();
 
         return $builder;
@@ -55,12 +57,14 @@ class SymfonyDiFactory implements DiFactoryInterface
     {
         $dumper = new PhpDumper($container);
 
-        if (false === file_exists(dirname($file))) {
-            mkdir(dirname($file), 0755, true);
+        $fileName = $container->getParameter('app.dir') . DIRECTORY_SEPARATOR . $container->getParameter('app.cache.dir') . $file;
+
+        if (false === file_exists(dirname($fileName))) {
+            mkdir(dirname($fileName), 0755, true);
         }
 
-        if (false === file_put_contents($file, $dumper->dump(['class' => 'CachedSymfonyContainer']))) {
-            throw new UnableToCacheContainerException($this, $file);
+        if (false === file_put_contents($fileName, $dumper->dump(['class' => 'CachedSymfonyContainer']))) {
+            throw new UnableToCacheContainerException($this, $fileName);
         }
 
         return $container;
