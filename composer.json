@@ -16,13 +16,12 @@
   },
   "require": {
     "php": ">=5.6.0",
-    "symfony/dependency-injection" : "dev-master",
-    "symfony/config" : "dev-master",
-    "vain/entity" : "dev-master",
-    "vain/event" : "dev-master",
-    "vain/operation" : "dev-master",
-    "vain/http" : "dev-master",
-    "vain/config" : "dev-master"
+    "symfony/dependency-injection" : "^3",
+    "symfony/config" : "^3",
+    "vain/entity" : "0.0.1",
+    "vain/event" : "0.0.1",
+    "vain/http" : "0.0.1",
+    "vain/config" : "0.0.1"
   },
   "repositories": [
     {
