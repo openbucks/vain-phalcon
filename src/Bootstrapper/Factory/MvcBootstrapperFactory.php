@@ -1,17 +1,24 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/17/16
- * Time: 10:11 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-phalcon
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-phalcon
  */
-
 namespace Vain\Phalcon\Bootstrapper\Factory;
 
 use Vain\Config\Provider\ConfigProviderInterface;
 use Vain\Phalcon\Bootstrapper\Bootstrapper;
 use Vain\Phalcon\Bootstrapper\Decorator\Router\RouterBootstrapperDecorator;
 
+/**
+ * Class MvcBootstrapperFactory
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class MvcBootstrapperFactory implements BootstrapperFactoryInterface
 {
     private $configProvider;

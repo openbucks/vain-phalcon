@@ -1,11 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/10/16
- * Time: 12:34 PM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Http\Request;
 
 use Phalcon\FilterInterface as PhalconFilterInterface;
@@ -17,6 +19,11 @@ use Vain\Http\Stream\VainStreamInterface;
 use Phalcon\Http\RequestInterface as PhalconHttpRequestInterface;
 use Vain\Http\Uri\VainUriInterface;
 
+/**
+ * Class PhalconRequest
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequestInterface
 {
     private $filter;

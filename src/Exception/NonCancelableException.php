@@ -1,16 +1,23 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/6/16
- * Time: 9:06 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Exception;
 
 use Vain\Event\Exception\EventException;
 use Vain\Phalcon\Event\PhalconEvent;
 
+/**
+ * Class NonCancelableException
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class NonCancelableException extends EventException
 {
     /**

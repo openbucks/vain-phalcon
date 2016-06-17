@@ -1,11 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/19/16
- * Time: 9:21 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-operation
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-operation
  */
-
 namespace Vain\Phalcon\Application;
 
 use Phalcon\Mvc\Application as PhalconMvcApplication;
@@ -16,6 +18,11 @@ use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Http\Response\Proxy\HttpResponseProxyInterface;
 use Phalcon\DiInterface as PhalconDiInterface;
 
+/**
+ * Class PhalconApplication
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class PhalconApplication extends PhalconMvcApplication implements HttpApplicationInterface
 {
     private $requestProxy;

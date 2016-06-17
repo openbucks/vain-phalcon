@@ -1,11 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/20/16
- * Time: 11:50 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Di\Symfony\Factory;
 
 use Symfony\Component\Config\FileLocator;
@@ -16,6 +18,11 @@ use Vain\Phalcon\Di\Factory\DiFactoryInterface;
 use Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter;
 use Vain\Phalcon\Exception\UnableToCacheContainerException;
 
+/**
+ * Class SymfonyDiFactory
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class SymfonyDiFactory implements DiFactoryInterface
 {
 
@@ -52,6 +59,14 @@ class SymfonyDiFactory implements DiFactoryInterface
         return $builder;
     }
 
+    /**
+     * @param SymfonyContainerBuilder $container
+     * @param string $file
+     * 
+     * @return SymfonyContainerBuilder
+     * 
+     * @throws UnableToCacheContainerException
+     */
     protected function dumpContainer(SymfonyContainerBuilder $container, $file)
     {
         $dumper = new PhpDumper($container);

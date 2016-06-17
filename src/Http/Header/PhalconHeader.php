@@ -1,16 +1,22 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/13/16
- * Time: 11:53 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Http\Header;
-
 
 use Vain\Http\Header\AbstractHeader;
 
+/**
+ * Class PhalconHeader
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class PhalconHeader extends AbstractHeader
 {
 

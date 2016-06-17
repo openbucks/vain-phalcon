@@ -1,15 +1,22 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/13/16
- * Time: 12:31 PM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Exception;
 
 use Vain\Core\Exception\CoreException;
 
+/**
+ * Class UnreachableFileException
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class UnreachableFileException extends CoreException
 {
     /**

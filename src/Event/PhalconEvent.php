@@ -1,17 +1,24 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/5/16
- * Time: 10:54 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Event;
 
 use Vain\Event\AbstractEvent;
 use Vain\Event\EventInterface;
 use Vain\Phalcon\Exception\NonCancelableException;
 
+/**
+ * Class PhalconEvent
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class PhalconEvent extends AbstractEvent implements EventInterface
 {
     private $source;
@@ -39,7 +46,7 @@ class PhalconEvent extends AbstractEvent implements EventInterface
     }
 
     /**
-     * @return mixed
+     * @inheritDoc
      */
     public function getSource()
     {
@@ -47,15 +54,17 @@ class PhalconEvent extends AbstractEvent implements EventInterface
     }
 
     /**
-     * @param mixed $source
+     * @inheritDoc
      */
     public function setSource($source)
     {
         $this->source = $source;
+
+        return $this;
     }
 
     /**
-     * @return mixed
+     * @inheritDoc
      */
     public function getData()
     {
@@ -63,15 +72,17 @@ class PhalconEvent extends AbstractEvent implements EventInterface
     }
 
     /**
-     * @param mixed $data
+     * @inheritDoc
      */
     public function setData($data)
     {
         $this->data = $data;
+
+        return $this;
     }
 
     /**
-     * @return boolean
+     * @inheritDoc
      */
     public function isStopped()
     {
@@ -79,11 +90,13 @@ class PhalconEvent extends AbstractEvent implements EventInterface
     }
 
     /**
-     * @param boolean $stopped
+     * @inheritDoc
      */
     public function setStopped($stopped)
     {
         $this->stopped = $stopped;
+
+        return $this;
     }
 
     /**
@@ -102,14 +115,20 @@ class PhalconEvent extends AbstractEvent implements EventInterface
         return $this->cancelable;
 
     }
+
     /**
-     * @param boolean $cancelable
+     * @inheritDoc
      */
     public function setCancelable($cancelable)
     {
         $this->cancelable = $cancelable;
+
+        return $this;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function stop()
     {
         if (false === $this->cancelable) {

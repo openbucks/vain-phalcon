@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/12/16
- * Time: 12:58 PM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
 
 namespace Vain\Phalcon\Http\Header\Storage;
@@ -13,6 +16,11 @@ use Vain\Http\Header\Storage\AbstractHeaderStorage;
 use Vain\Phalcon\Exception\UnsupportedHeaderStorageCallException;
 use Vain\Phalcon\Http\Header\Factory\PhalconHeaderFactory;
 
+/**
+ * Class PhalconHeadersStorage
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class PhalconHeadersStorage extends AbstractHeaderStorage implements PhalconHeadersInterface
 {
     /**

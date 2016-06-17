@@ -1,16 +1,23 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/13/16
- * Time: 11:57 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Exception;
 
 use Vain\Http\Exception\HeaderException;
 use Vain\Http\Header\VainHeaderInterface;
 
+/**
+ * Class UnsupportedHeaderCallException
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class UnsupportedHeaderCallException extends HeaderException
 {
     /**

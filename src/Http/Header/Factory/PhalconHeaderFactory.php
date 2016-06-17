@@ -1,17 +1,24 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/13/16
- * Time: 11:52 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
 
 namespace Vain\Phalcon\Http\Header\Factory;
 
-
 use Vain\Http\Header\Factory\HeaderFactoryInterface;
 use Vain\Phalcon\Http\Header\PhalconHeader;
 
+/**
+ * Class PhalconHeaderFactory
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class PhalconHeaderFactory implements HeaderFactoryInterface
 {
     /**

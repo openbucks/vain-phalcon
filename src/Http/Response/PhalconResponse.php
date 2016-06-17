@@ -1,11 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/10/16
- * Time: 12:42 PM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Http\Response;
 
 use Vain\Http\Response\AbstractResponse;
@@ -13,6 +15,11 @@ use Vain\Phalcon\Exception\BadRedirectCodeException;
 use Vain\Phalcon\Exception\JsonErrorException;
 use Phalcon\Http\ResponseInterface as PhalconHttpResponseInterface;
 
+/**
+ * Class PhalconResponse
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInterface
 {
     /**

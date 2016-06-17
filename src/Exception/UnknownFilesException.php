@@ -1,15 +1,22 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/16/16
- * Time: 9:53 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Exception;
 
 use Vain\Http\Request\Factory\RequestFactoryInterface;
 
+/**
+ * Class UnknownFilesException
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class UnknownFilesException extends HttpFactoryException
 {
     /**

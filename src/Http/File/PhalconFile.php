@@ -1,16 +1,23 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/12/16
- * Time: 10:59 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Http\File;
 
 use Phalcon\Http\Request\FileInterface as PhalconFileInterface;
 use Vain\Http\File\AbstractFile;
 
+/**
+ * Class PhalconFile
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class PhalconFile extends AbstractFile implements PhalconFileInterface
 {
     /**

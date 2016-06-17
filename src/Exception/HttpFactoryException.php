@@ -1,16 +1,23 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/16/16
- * Time: 9:13 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Exception;
 
 use Vain\Core\Exception\CoreException;
 use Vain\Http\Request\Factory\RequestFactoryInterface;
 
+/**
+ * Class HttpFactoryException
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class HttpFactoryException extends CoreException
 {
     private $httpFactory;

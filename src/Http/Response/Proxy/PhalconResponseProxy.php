@@ -1,11 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/23/16
- * Time: 10:40 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Http\Response\Proxy;
 
 use Vain\Http\Response\Proxy\AbstractResponseProxy;
@@ -13,7 +15,10 @@ use Vain\Http\Response\Proxy\HttpResponseProxyInterface;
 use Phalcon\Http\ResponseInterface as PhalconHttpResponseInterface;
 
 /**
- * Class AbstractResponseProxy
+ * Class PhalconResponseProxy
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ *
  * @method PhalconHttpResponseInterface getCurrentMessage
  */
 class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponseProxyInterface, PhalconHttpResponseInterface

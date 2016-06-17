@@ -1,11 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/17/16
- * Time: 9:51 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-operation
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-operation
  */
-
 namespace Vain\Phalcon\Bootstrapper\Decorator\Router;
 
 use Vain\Config\ConfigInterface;
@@ -14,6 +16,11 @@ use Vain\Phalcon\Bootstrapper\Decorator\AbstractBootstrapperDecorator;
 use Phalcon\Di\Injectable as PhalconDiInjectable;
 use \Phalcon\Mvc\Router as PhalconMvcRouter;
 
+/**
+ * Class RouterBootstrapperDecorator
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class RouterBootstrapperDecorator extends AbstractBootstrapperDecorator
 {
     private $config;

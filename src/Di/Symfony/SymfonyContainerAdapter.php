@@ -1,11 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/20/16
- * Time: 11:16 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Di\Symfony;
 
 use Phalcon\Di\InjectionAwareInterface as PhalconDiAwareInterface;
@@ -13,6 +15,11 @@ use \Phalcon\DiInterface as PhalconDiInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainerInterface;
 use Vain\Phalcon\Exception\UnsupportedDiCallException;
 
+/**
+ * Class SymfonyContainerAdapter
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class SymfonyContainerAdapter implements PhalconDiInterface
 {
     private $symfonyContainer;

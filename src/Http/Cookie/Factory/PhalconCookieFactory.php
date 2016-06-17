@@ -1,16 +1,23 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/18/16
- * Time: 12:40 PM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Http\Cookie\Factory;
 
 use Vain\Http\Cookie\Factory\CookieFactoryInterface;
 use Vain\Phalcon\Http\Cookie\PhalconCookie;
 
+/**
+ * Class PhalconCookieFactory
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class PhalconCookieFactory implements CookieFactoryInterface
 {
     /**

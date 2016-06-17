@@ -1,11 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/5/16
- * Time: 10:53 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Event\Dispatcher;
 
 use Phalcon\Events\ManagerInterface as PhalconEventManagerInterface;
@@ -17,6 +19,11 @@ use Vain\Phalcon\Exception\MissingMethodException;
 use Vain\Phalcon\Exception\UnsupportedPrioritiesException;
 use Vain\Phalcon\Exception\UnsupportedResponsesException;
 
+/**
+ * Class PhalconEventDispatcher
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispatcherInterface
 {
 

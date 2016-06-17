@@ -1,17 +1,24 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/18/16
- * Time: 11:12 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Http\Cookie\Storage;
 
 use Phalcon\Http\Response\CookiesInterface as PhalconCookiesInterface;
 use Vain\Http\Cookie\Storage\AbstractCookieStorage;
 use Vain\Phalcon\Exception\UnsupportedCookieStorageCallException;
 
+/**
+ * Class PhalconCookieStorage
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class PhalconCookieStorage extends AbstractCookieStorage implements PhalconCookiesInterface
 {
     /**

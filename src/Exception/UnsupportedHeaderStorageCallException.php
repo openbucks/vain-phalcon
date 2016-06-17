@@ -1,16 +1,23 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/13/16
- * Time: 11:59 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Exception;
 
 use Vain\Http\Exception\HeaderStorageException;
 use Vain\Http\Header\Storage\HeaderStorageInterface;
 
+/**
+ * Class UnsupportedHeaderStorageCallException
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class UnsupportedHeaderStorageCallException extends HeaderStorageException
 {
     /**

@@ -1,16 +1,21 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/17/16
- * Time: 9:58 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-phalcon
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-phalcon
  */
-
 namespace Vain\Phalcon\Controller;
 
-use Phalcon\Mvc\Controller as PhalconMvcController;
-
-class DefaultController extends PhalconMvcController
+/**
+ * Class DefaultController
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
+class DefaultController extends AbstractController
 {
     /**
      * @return DefaultController

@@ -1,15 +1,22 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/17/16
- * Time: 10:04 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-phalcon
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-phalcon
  */
-
 namespace Vain\Phalcon\Bootstrapper;
 
 use Phalcon\Di\Injectable as PhalconDiInjectable;
 
+/**
+ * Class Bootstrapper
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class Bootstrapper implements BootstrapperInterface
 {
     /**

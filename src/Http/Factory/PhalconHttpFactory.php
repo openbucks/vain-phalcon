@@ -1,11 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/12/16
- * Time: 12:18 PM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
-
 namespace Vain\Phalcon\Http\Factory;
 
 use Phalcon\FilterInterface as PhalconFilterInterface;
@@ -31,6 +33,11 @@ use Vain\Phalcon\Http\Response\PhalconResponse;
 use Vain\Phalcon\Http\Stream\PhalconStream;
 use Vain\Phalcon\Http\Uri\PhalconUri;
 
+/**
+ * Class PhalconHttpFactory
+ *
+ * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ */
 class PhalconHttpFactory implements
     FileFactoryInterface,
     UriFactoryInterface,
