@@ -10,23 +10,29 @@
  */
 namespace Vain\Phalcon\Exception;
 
-use Vain\Event\Dispatcher\EventDispatcherInterface;
+use Vain\Event\Exception\ListenerException;
+use Vain\Event\Listener\ListenerInterface;
 
 /**
  * Class MissingMethodException
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class MissingMethodException extends DispatcherException
+class MissingMethodException extends ListenerException
 {
     /**
      * MissingMethodException constructor.
-     * @param EventDispatcherInterface $dispatcher
-     * @param object $handler
-     * @param string $method
+     *
+     * @param ListenerInterface $listener
+     * @param string            $method
      */
-    public function __construct(EventDispatcherInterface $dispatcher, $handler, $method)
+    public function __construct(ListenerInterface $listener, $method)
     {
-        parent::__construct($dispatcher, sprintf('Handler %s does not have method %s', get_class($handler), $method), 0, null);
+        parent::__construct(
+            $listener,
+            sprintf('Handler %s does not have method %s', get_class($listener), $method),
+            0,
+            null
+        );
     }
 }

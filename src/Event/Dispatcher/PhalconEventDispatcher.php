@@ -13,6 +13,7 @@ namespace Vain\Phalcon\Event\Dispatcher;
 use Phalcon\Events\ManagerInterface as PhalconEventManagerInterface;
 use Vain\Event\Dispatcher\EventDispatcherInterface;
 use Vain\Event\EventInterface;
+use Vain\Event\Listener\ListenerInterface;
 use Vain\Phalcon\Event\PhalconEvent;
 use Vain\Phalcon\Exception\BadNameException;
 use Vain\Phalcon\Exception\MissingMethodException;
@@ -33,7 +34,7 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     private $listeners = [];
 
     /**
-     * @param array $listeners
+     * @param ListenerInterface[] $listeners
      * @param EventInterface $event
      *
      * @return array
@@ -43,10 +44,7 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     protected function propagateEvent($listeners, EventInterface $event)
     {
         foreach ($listeners as $listener) {
-            if (false === method_exists($listener, $event->getName())) {
-                throw new MissingMethodException($this, $listener, $event->getName());
-            }
-            call_user_func([$listener, $event->getName()], $event->getName(), $this, $event);
+            $listener->handle($event);
         }
     }
 
