@@ -79,16 +79,13 @@ class PhalconHttpFactory implements
     /**
      * @inheritDoc
      */
-    public function createStream($source, $mode, $content = '')
+    public function createStream($source, $mode)
     {
         if (false === ($resource = @fopen($source, $mode))) {
             throw new UnreachableFileException($source, $mode);
         }
 
-        $stream = new PhalconStream($resource);
-        $stream->write($content);
-
-        return $stream;
+        return new PhalconStream($resource);
     }
 
     /**
@@ -231,6 +228,9 @@ class PhalconHttpFactory implements
             $headerStorage->createHeader($headerName, $headerValue);
         }
 
-        return new PhalconResponse($statusCode, $this->createStream($destinationStream, 'w+', $content), $headerStorage);
+        $stream = $this->createStream($destinationStream, 'w+');
+        $stream->write($content);
+
+        return new PhalconResponse($statusCode, $stream, $headerStorage);
     }
 }
