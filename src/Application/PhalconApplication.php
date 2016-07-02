@@ -33,13 +33,18 @@ class PhalconApplication extends PhalconMvcApplication implements HttpApplicatio
 
     /**
      * PhalconApplication constructor.
+     *
      * @param HttpRequestProxyInterface $requestProxy
      * @param HttpResponseProxyInterface $responseProxy
      * @param ResponseFactoryInterface $responseFactory
      * @param PhalconDiInterface $di
      */
-    public function __construct(HttpRequestProxyInterface $requestProxy, HttpResponseProxyInterface $responseProxy, ResponseFactoryInterface $responseFactory, PhalconDiInterface $di)
-    {
+    public function __construct(
+        HttpRequestProxyInterface $requestProxy,
+        HttpResponseProxyInterface $responseProxy,
+        ResponseFactoryInterface $responseFactory,
+        PhalconDiInterface $di
+    ) {
         $this->requestProxy = $requestProxy;
         $this->responseProxy = $responseProxy;
         $this->responseFactory = $responseFactory;
@@ -68,9 +73,11 @@ class PhalconApplication extends PhalconMvcApplication implements HttpApplicatio
             parent::handle($uri);
         } catch (\Exception $e) {
             $this->responseProxy->popResponse();
-            $this->responseProxy->addResponse($this->responseFactory
-                ->createResponse('php://temp', $e->getCode(), [], $e->getMessage())
-                ->withStatus($e->getCode(), $e->getMessage()));
+            $this->responseProxy->addResponse(
+                $this->responseFactory
+                    ->createResponse('php://temp', $e->getCode(), [], $e->getMessage())
+                    ->withStatus($e->getCode(), $e->getMessage())
+            );
         }
     }
 }
