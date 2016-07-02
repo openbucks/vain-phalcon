@@ -65,7 +65,7 @@ services:
         class: Vain\Phalcon\Event\Dispatcher\PhalconEventDispatcher
     eventManager: '@event.dispatcher'
     event.manager: '@event.dispatcher'
-    event.resolver:
+    event.listener.resolver:
         class: Vain\Phalcon\Event\Resolver\PhalconResolver
         arguments: []
     event.listener.factory:
