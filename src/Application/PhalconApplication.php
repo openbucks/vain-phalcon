@@ -69,7 +69,7 @@ class PhalconApplication extends PhalconMvcApplication implements HttpApplicatio
         } catch (\Exception $e) {
             $this->responseProxy->popResponse();
             $this->responseProxy->addResponse($this->responseFactory
-                ->createResponse('php://temp')
+                ->createResponse('php://temp', $e->getCode(), [], $e->getMessage())
                 ->withStatus($e->getCode(), $e->getMessage()));
         }
     }
