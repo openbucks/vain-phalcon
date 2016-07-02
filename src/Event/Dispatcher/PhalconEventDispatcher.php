@@ -14,6 +14,7 @@ use Phalcon\Events\ManagerInterface as PhalconEventManagerInterface;
 use Vain\Event\Dispatcher\EventDispatcherInterface;
 use Vain\Event\EventInterface;
 use Vain\Event\Listener\ListenerInterface;
+use Vain\Event\Manager\EventManagerInterface;
 use Vain\Phalcon\Event\PhalconEvent;
 use Vain\Phalcon\Exception\BadNameException;
 use Vain\Phalcon\Exception\MissingMethodException;
@@ -25,7 +26,7 @@ use Vain\Phalcon\Exception\UnsupportedResponsesException;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispatcherInterface
+class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispatcherInterface, EventManagerInterface
 {
 
     const NAME_SEPARATOR = ':';
@@ -80,6 +81,30 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
         $this->listeners[$eventType][] = $handler;
 
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function addListener($eventName, ListenerInterface $listener)
+    {
+        return $this->attach($eventName, $listener);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function removeListener($eventName, ListenerInterface $listener)
+    {
+        return $this->detach($eventName, $listener);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function removeListeners($eventName)
+    {
+        return $this->detachAll($eventName);
     }
 
     /**
