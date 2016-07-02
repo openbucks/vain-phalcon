@@ -10,8 +10,11 @@
  */
 namespace Vain\Phalcon\Bootstrapper\Factory;
 
-use Vain\Config\Provider\ConfigProviderInterface;
+use Vain\Config\ConfigInterface;
+use Vain\Event\Listener\Proxy\ListenerProxyInterface;
+use Vain\Event\Manager\EventManagerInterface;
 use Vain\Phalcon\Bootstrapper\Bootstrapper;
+use Vain\Phalcon\Bootstrapper\Decorator\Event\EventBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Router\RouterBootstrapperDecorator;
 
 /**
@@ -21,15 +24,32 @@ use Vain\Phalcon\Bootstrapper\Decorator\Router\RouterBootstrapperDecorator;
  */
 class MvcBootstrapperFactory implements BootstrapperFactoryInterface
 {
-    private $configProvider;
+    private $routerConfig;
+
+    private $eventConfig;
+
+    private $listenerProxy;
+
+    private $eventManager;
 
     /**
      * MvcBootstrapperFactory constructor.
-     * @param ConfigProviderInterface $configProvider
+     *
+     * @param ConfigInterface $routerConfig
+     * @param ConfigInterface $eventConfig
+     * @param ListenerProxyInterface  $listenerProxy
+     * @param EventManagerInterface   $eventManager
      */
-    public function __construct(ConfigProviderInterface $configProvider)
-    {
-        $this->configProvider = $configProvider;
+    public function __construct(
+        ConfigInterface $routerConfig,
+        ConfigInterface $eventConfig,
+        ListenerProxyInterface $listenerProxy,
+        EventManagerInterface $eventManager
+    ) {
+        $this->routerConfig = $routerConfig;
+        $this->eventConfig = $eventConfig;
+        $this->listenerProxy = $listenerProxy;
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -37,6 +57,13 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
      */
     public function createBootstrapper()
     {
-        return new RouterBootstrapperDecorator(new Bootstrapper(), $this->configProvider->getConfig('router'));
+        return new EventBootstrapperDecorator(
+            new RouterBootstrapperDecorator(
+                new Bootstrapper(), $this->routerConfig
+            ),
+            $this->eventManager,
+            $this->listenerProxy,
+            $this->eventConfig
+        );
     }
 }

@@ -7,7 +7,7 @@ services:
         arguments: ['@service_container']
     app.bootstrapper.factory:
         class: Vain\Phalcon\Bootstrapper\Factory\MvcBootstrapperFactory
-        arguments: ['@config.provider']
+        arguments: ['@config.router', '@config.event', '@event.listener.lazy', '@event.manager']
     app.router:
         class: Phalcon\Mvc\Router
         arguments: [false]
@@ -56,9 +56,21 @@ services:
     assets: '@app.assets'
     config.factory:
         class: Vain\Phalcon\Config\Factory\PhalconConfigFactory
+    config.router:
+        class: Config
+        factory: ['@config.provider', getConfig]
+        arguments:
+          - 'router'
     event.dispatcher:
         class: Vain\Phalcon\Event\Dispatcher\PhalconEventDispatcher
     eventManager: '@event.dispatcher'
+    event.manager: '@event.dispatcher'
+    event.resolver:
+        class: Vain\Phalcon\Event\Resolver\PhalconResolver
+        arguments: []
+    event.listener.factory:
+        class: Vain\Phalcon\Event\Listener\Factory\PhalconListenerFactory
+        arguments: ['@app.di']
     http.filter:
         class: Phalcon\Filter
     filter: '@http.filter'
@@ -97,3 +109,4 @@ services:
     http.flash.session:
         class: Phalcon\Flash\Session
     flashSession: '@http.flash.session'
+
