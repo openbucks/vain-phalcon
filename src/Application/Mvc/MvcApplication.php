@@ -8,7 +8,7 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-operation
  */
-namespace Vain\Phalcon\Application;
+namespace Vain\Phalcon\Application\Mvc;
 
 use Phalcon\Mvc\Application as PhalconMvcApplication;
 use Psr\Http\Message\ServerRequestInterface as HttpServerRequestInterface;
@@ -17,13 +17,14 @@ use Vain\Http\Request\Proxy\HttpRequestProxyInterface;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Http\Response\Proxy\HttpResponseProxyInterface;
 use Phalcon\DiInterface as PhalconDiInterface;
+use Vain\Phalcon\Application\PhalconApplicationInterface;
 
 /**
  * Class PhalconApplication
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class PhalconApplication extends PhalconMvcApplication implements HttpApplicationInterface
+class MvcApplication extends PhalconMvcApplication implements HttpApplicationInterface, PhalconApplicationInterface
 {
     private $requestProxy;
 

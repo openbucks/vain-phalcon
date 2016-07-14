@@ -15,7 +15,7 @@ use Vain\Event\Listener\Proxy\ListenerProxyInterface;
 use Vain\Event\Manager\EventManagerInterface;
 use Vain\Phalcon\Bootstrapper\BootstrapperInterface;
 use Vain\Phalcon\Bootstrapper\Decorator\AbstractBootstrapperDecorator;
-use Phalcon\Di\Injectable as PhalconDiInjectable;
+use Phalcon\Application as PhalconApplication;
 
 /**
  * Class EventBootstrapperDecorator
@@ -54,7 +54,7 @@ class EventBootstrapperDecorator extends AbstractBootstrapperDecorator
     /**
      * @inheritDoc
      */
-    public function bootstrap(PhalconDiInjectable $application)
+    public function bootstrap(PhalconApplication $application)
     {
         foreach ($this->config as $componentName => $componentData) {
             foreach ($componentData as $eventName => $aliasName) {

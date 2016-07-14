@@ -10,7 +10,7 @@
  */
 namespace Vain\Phalcon\Bootstrapper;
 
-use Phalcon\Di\Injectable as PhalconDiInjectable;
+use Phalcon\Application as PhalconApplication;
 
 /**
  * Interface BootstrapperInterface
@@ -20,9 +20,9 @@ use Phalcon\Di\Injectable as PhalconDiInjectable;
 interface BootstrapperInterface
 {
     /**
-     * @param PhalconDiInjectable $application     
+     * @param PhalconApplication $application
      *
      * @return BootstrapperInterface
      */
-    public function bootstrap(PhalconDiInjectable $application);
+    public function bootstrap(PhalconApplication $application);
 }

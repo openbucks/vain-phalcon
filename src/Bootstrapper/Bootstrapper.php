@@ -10,7 +10,7 @@
  */
 namespace Vain\Phalcon\Bootstrapper;
 
-use Phalcon\Di\Injectable as PhalconDiInjectable;
+use Phalcon\Application as PhalconApplication;
 
 /**
  * Class Bootstrapper
@@ -22,7 +22,7 @@ class Bootstrapper implements BootstrapperInterface
     /**
      * @inheritDoc
      */
-    public function bootstrap(PhalconDiInjectable $application)
+    public function bootstrap(PhalconApplication $application)
     {
         return $this;
     }

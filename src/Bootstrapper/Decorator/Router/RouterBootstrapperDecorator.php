@@ -13,8 +13,8 @@ namespace Vain\Phalcon\Bootstrapper\Decorator\Router;
 use Vain\Config\ConfigInterface;
 use Vain\Phalcon\Bootstrapper\BootstrapperInterface;
 use Vain\Phalcon\Bootstrapper\Decorator\AbstractBootstrapperDecorator;
-use Phalcon\Di\Injectable as PhalconDiInjectable;
 use \Phalcon\Mvc\Router as PhalconMvcRouter;
+use Phalcon\Application as PhalconApplication;
 
 /**
  * Class RouterBootstrapperDecorator
@@ -39,7 +39,7 @@ class RouterBootstrapperDecorator extends AbstractBootstrapperDecorator
     /**
      * @inheritDoc
      */
-    public function bootstrap(PhalconDiInjectable $application)
+    public function bootstrap(PhalconApplication $application)
     {
         /**
          * @var PhalconMvcRouter $router

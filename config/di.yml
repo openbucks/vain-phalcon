@@ -21,8 +21,8 @@ services:
     app.modelsMetadata:
         class: Phalcon\Mvc\Model\MetaData\Memory
     modelsMetadata: '@app.modelsMetadata'
-    app.self:
-        class: Vain\Phalcon\Application\PhalconApplication
+    app.mvc:
+        class: Vain\Phalcon\Application\Mvc\MvcApplication
         arguments: ['@http.request.proxy', '@http.response.proxy', '@http.response.factory', '@app.di']
     app.phalcon:
         class: Phalcon\Mvc\Application
