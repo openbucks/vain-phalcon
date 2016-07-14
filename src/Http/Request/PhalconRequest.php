@@ -294,4 +294,12 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     {
         return null;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPort()
+    {
+        return $this->getHttpPort();
+    }
 }
