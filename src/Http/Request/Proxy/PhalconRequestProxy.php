@@ -318,4 +318,36 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     {
         return $this->getCurrentMessage()->isSecureRequest();
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPort()
+    {
+        return $this->getCurrentMessage()->getPort();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isPurge()
+    {
+        return $this->getCurrentMessage()->isPurge();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isTrace()
+    {
+        return $this->getCurrentMessage()->isTrace();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isConnect()
+    {
+        return $this->getCurrentMessage()->isConnect();
+    }
 }
