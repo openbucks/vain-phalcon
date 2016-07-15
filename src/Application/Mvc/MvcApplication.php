@@ -81,4 +81,28 @@ class MvcApplication extends PhalconMvcApplication implements HttpApplicationInt
             );
         }
     }
+
+    /**
+     * @return HttpRequestProxyInterface
+     */
+    public function getRequestProxy()
+    {
+        return $this->requestProxy;
+    }
+
+    /**
+     * @return HttpResponseProxyInterface
+     */
+    public function getResponseProxy()
+    {
+        return $this->responseProxy;
+    }
+
+    /**
+     * @return ResponseFactoryInterface
+     */
+    public function getResponseFactory()
+    {
+        return $this->responseFactory;
+    }
 }
