@@ -1,6 +1,6 @@
 parameters:
     http.views.dir: '../www/views'
-
+    dispatcher.separator: '/'
 services:
     app.di:
         class: Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter
@@ -13,7 +13,8 @@ services:
         arguments: [false]
     router: '@app.router'
     app.dispatcher:
-        class: Phalcon\Mvc\Dispatcher
+        class: Vain\Phalcon\Dispatcher\Mvc\MvcDispatcher
+        arguments: ['@dispatcher.separator']
     dispatcher: '@app.dispatcher'
     app.modelsManager:
         class: Phalcon\Mvc\Model\Manager
