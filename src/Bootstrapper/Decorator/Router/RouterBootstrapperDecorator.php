@@ -46,15 +46,16 @@ class RouterBootstrapperDecorator extends AbstractBootstrapperDecorator
          */
         $router = $application->getDI()->get('router');
 
-        foreach ($this->config->offsetGet('routes') as $routeName => $routeSettings) {
-            $router->add($routeName, $routeSettings);
+        if ($this->config->offsetExists('routes')) {
+            $routes = $this->config->offsetGet('routes');
+            foreach ($routes as $routeName => $routeSettings) {
+                $router->add($routeName, $routeSettings);
+            }
         }
 
-        if (false === $this->config->offsetExists('default')) {
-            return $this;
+        if ($this->config->offsetExists('default')) {
+            $router->setDefaults($this->config->offsetGet('default'));
         }
-
-        $router->setDefaults($this->config->offsetGet('default'));
 
         return parent::bootstrap($application);
     }
