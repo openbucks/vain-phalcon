@@ -150,4 +150,28 @@ class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponse
     {
         return $this->getCurrentMessage()->setFileToSend($filePath, $attachmentName);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getStatusCode()
+    {
+        return $this->getCurrentMessage()->getStatusCode();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withStatus($code, $reasonPhrase = '')
+    {
+        return $this->getCurrentMessage()->withStatus($code, $reasonPhrase);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getReasonPhrase()
+    {
+        return $this->getCurrentMessage()->getReasonPhrase();
+    }
 }

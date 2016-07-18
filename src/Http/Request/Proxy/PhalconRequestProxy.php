@@ -350,4 +350,52 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     {
         return $this->getCurrentMessage()->isConnect();
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getContents()
+    {
+        return $this->getCurrentMessage()->getContents();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasQueryParam($name)
+    {
+        return $this->getCurrentMessage()->hasQueryParam($name);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasBodyParam($name)
+    {
+        return $this->getCurrentMessage()->hasBodyParam($name);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function post($name, $default = null)
+    {
+        return $this->getCurrentMessage()->post($name, $default);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getContentType()
+    {
+        return $this->getCurrentMessage()->getContentType();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getHttpPort()
+    {
+        return $this->getCurrentMessage()->getHttpPort();
+    }
 }
