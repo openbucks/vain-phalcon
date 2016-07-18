@@ -17,9 +17,11 @@ services:
         class: Vain\Phalcon\Dispatcher\Mvc\MvcDispatcher
         arguments: ['%dispatcher.separator%']
     dispatcher: '@app.dispatcher'
-    app.modelsManager:
+    app.model.manager:
         class: Vain\Phalcon\Mvc\Model\PhalconModelManager
-    modelsManager: '@app.modelsManager'
+        calls:
+          - [setEventsManager, ['@event.manager']]
+    modelsManager: '@app.model.manager'
     app.modelsMetadata:
         class: Phalcon\Mvc\Model\MetaData\Memory
     modelsMetadata: '@app.modelsMetadata'
