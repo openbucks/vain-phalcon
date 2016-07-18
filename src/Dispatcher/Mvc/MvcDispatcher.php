@@ -39,14 +39,14 @@ class MvcDispatcher extends PhalconMvcDispatcher
     {
         $this->_resolveEmptyProperties();
 
-		if (false === strpos("\\", $this->_handlerName, "\\")) {
-            $camelizedClass = Zephir\Utils::camelize($this->_handlerName);
-		} else {
+        if (false === strpos("\\", $this->_handlerName)) {
+            $camelizedClass = str_replace(' ', '', ucwords(str_replace('_', ' ', $this->_handlerName)));
+        } else {
             $camelizedClass = $this->_handlerName;
-		}
+        }
 
-		if (null === $this->_namespaceName) {
-		    return $camelizedClass . $this->_handlerSuffix;
+        if (null === $this->_namespaceName) {
+            return $camelizedClass . $this->_handlerSuffix;
         }
 
         $namespace = $this->_namespaceName;
