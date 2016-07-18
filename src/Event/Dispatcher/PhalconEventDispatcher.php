@@ -66,7 +66,7 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
             $this->propagateEvent($this->listeners[$eventType], $event);
         }
 
-        if (array_key_exists($eventName, $this->listeners[$eventName])) {
+        if (array_key_exists($event->getName(), $this->listeners)) {
             $this->propagateEvent($this->listeners[$eventName], $event);
         }
 
