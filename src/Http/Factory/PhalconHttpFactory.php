@@ -20,7 +20,9 @@ use Vain\Http\Header\Provider\HeaderProviderInterface;
 use Vain\Http\Request\Factory\RequestFactoryInterface;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Http\Stream\Factory\StreamFactoryInterface;
+use Vain\Http\Stream\VainStreamInterface;
 use Vain\Http\Uri\Factory\UriFactoryInterface;
+use Vain\Http\Uri\VainUriInterface;
 use Vain\Phalcon\Exception\UnknownFilesException;
 use Vain\Phalcon\Exception\UnknownProtocolException;
 use Vain\Phalcon\Exception\UnreachableFileException;
@@ -187,14 +189,46 @@ class PhalconHttpFactory implements
         }
     }
 
+
+
     /**
      * @inheritDoc
      */
-    public function createRequest(array $serverParams, array $queryParams, array $attributes, $body, array $filesData, array $cookiesData, $streamSource)
+    public function createFromGlobals()
     {
-        $files = $this->createFiles($filesData);
+        $files = $this->createFiles($_FILES);
         $cookieStorage = new PhalconCookieStorage(new PhalconCookieFactory());
-        foreach ($cookiesData as $cookieName => $cookieValue) {
+        foreach ($_COOKIE as $cookieName => $cookieValue) {
+            $cookies[] = $cookieStorage->createCookie($cookieName, $cookieValue);
+        }
+        $headerStorage = new PhalconHeadersStorage($this->headerFactory);
+        foreach ($this->headerProvider->getHeaders($_SERVER) as $headerName => $headerValue) {
+            $headerStorage->createHeader($headerName, $headerValue);
+        }
+
+        return new PhalconRequest(
+            $this->filter,
+            $_SERVER,
+            $files,
+            $_GET,
+            [],
+            $_POST,
+            $this->transformProtocol($_SERVER['SERVER_PROTOCOL']),
+            $_SERVER['REQUEST_METHOD'],
+            $this->createUri($_SERVER['REQUEST_URI']),
+            $this->createStream('php://input', 'r'),
+            $cookieStorage,
+            $headerStorage
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function createRequest(array $serverParams, array $uploadedFiles, array $queryParams, array $attributes, array $parsedBody, $protocol, $method, VainUriInterface $uri, VainStreamInterface $stream, array $cookies, array $headers)
+    {
+        $cookieStorage = new PhalconCookieStorage(new PhalconCookieFactory());
+        foreach ($cookies as $cookieName => $cookieValue) {
             $cookies[] = $cookieStorage->createCookie($cookieName, $cookieValue);
         }
         $headerStorage = new PhalconHeadersStorage($this->headerFactory);
@@ -205,14 +239,14 @@ class PhalconHttpFactory implements
         return new PhalconRequest(
             $this->filter,
             $serverParams,
-            $files,
+            $uploadedFiles,
             $queryParams,
             $attributes,
-            $body,
-            $this->transformProtocol($serverParams['SERVER_PROTOCOL']),
-            $serverParams['REQUEST_METHOD'],
-            $this->createUri($serverParams['REQUEST_URI']),
-            $this->createStream($streamSource, 'r'),
+            $parsedBody,
+            $protocol,
+            $method,
+            $uri,
+            $stream,
             $cookieStorage,
             $headerStorage
         );
