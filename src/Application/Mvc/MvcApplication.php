@@ -59,19 +59,8 @@ class MvcApplication extends PhalconMvcApplication implements HttpApplicationInt
     {
         $this->requestProxy->addRequest($request);
         $this->responseProxy->addResponse($this->responseFactory->createResponse('php://temp'));
-        $this->handle($request->getUri()->getPath());
-        $this->requestProxy->popRequest();
-
-        return $this->responseProxy->popResponse();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function handle($uri = null)
-    {
         try {
-            parent::handle($uri);
+            parent::handle($request->getUri()->getPath());
         } catch (\Exception $e) {
             $this->responseProxy->popResponse();
             $this->responseProxy->addResponse(
@@ -80,6 +69,9 @@ class MvcApplication extends PhalconMvcApplication implements HttpApplicationInt
                     ->withStatus($e->getCode(), $e->getMessage())
             );
         }
+        $this->requestProxy->popRequest();
+
+        return $this->responseProxy->popResponse();
     }
 
     /**
