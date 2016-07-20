@@ -98,6 +98,14 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
+    public function getJsonRawBody($mode)
+    {
+        return $this->getCurrentMessage()->getJsonRawBody($mode);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getClientAddress($trustForwardedHeader = false)
     {
         return $this->getCurrentMessage()->getClientAddress($trustForwardedHeader);

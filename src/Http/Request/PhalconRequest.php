@@ -164,6 +164,14 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
+    public function getJsonRawBody($mode)
+    {
+        return json_decode($this->getContents(), $mode);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getClientAddress($trustForwardedHeader = false)
     {
         return $this->getServer('REMOTE_ADDR');
