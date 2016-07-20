@@ -98,7 +98,14 @@ services:
         class: Phalcon\Mvc\View
         calls:
           - [setViewsDir, ['%http.views.dir']]
+          - [registerEngines, [{'.phtml':'http.engine.php', '.volt':'http.engine.volt'}]]
     view: '@http.view'
+    http.engine.php:
+      class: Phalcon\Mvc\View\Engine\Php
+      arguments: ['@http.view', '@app.di']
+    http.engine.volt:
+      class: Phalcon\Mvc\View\Engine\Volt
+      arguments: ['@http.view', '@app.di']
     http.url:
         class: Phalcon\Mvc\Url
     url: '@http.url'
