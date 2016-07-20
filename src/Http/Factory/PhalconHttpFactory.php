@@ -198,7 +198,7 @@ class PhalconHttpFactory implements
             $cookies[] = $cookieStorage->createCookie($cookieName, $cookieValue);
         }
         $headerStorage = new PhalconHeadersStorage($this->headerFactory);
-        foreach ($this->headerProvider->getHeaders() as $headerName => $headerValue) {
+        foreach ($this->headerProvider->getHeaders($serverParams) as $headerName => $headerValue) {
             $headerStorage->createHeader($headerName, $headerValue);
         }
 
