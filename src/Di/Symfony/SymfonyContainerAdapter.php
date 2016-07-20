@@ -172,7 +172,7 @@ class SymfonyContainerAdapter implements PhalconDiInterface
      */
     public function offsetGet($offset)
     {
-        return $this->offsetGet($offset);
+        return $this->get($offset);
     }
 
     /**
