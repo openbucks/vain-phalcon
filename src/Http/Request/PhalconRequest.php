@@ -192,7 +192,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
         }
     }
 
-  
+
     /**
      * @inheritDoc
      */
@@ -230,7 +230,9 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
      */
     public function getBestAccept()
     {
-        return reset($this->getAcceptableContent());
+        $contents = $this->getAcceptableContent();
+
+        return reset($contents);
     }
 
     /**
@@ -246,7 +248,9 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
      */
     public function getBestCharset()
     {
-        return reset($this->getClientCharsets());
+        $clientCharsets = $this->getClientCharsets();
+
+        return reset($clientCharsets);
     }
 
     /**
@@ -262,7 +266,9 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
      */
     public function getBestLanguage()
     {
-        return reset($this->getLanguages());
+        $languages = $this->getLanguages();
+
+        return reset($languages);
     }
 
     /**
