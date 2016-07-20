@@ -24,6 +24,14 @@ class PhalconCookie extends AbstractCookie implements PhalconCookieInterface
     /**
      * @inheritDoc
      */
+    public function getValue($filters = NULL, $defaultValue = NULL)
+    {
+        return parent::getValue();
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function send()
     {
         throw new UnsupportedCookieCallException($this, __METHOD__);

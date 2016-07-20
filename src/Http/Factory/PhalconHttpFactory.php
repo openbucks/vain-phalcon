@@ -113,7 +113,7 @@ class PhalconHttpFactory implements
         }
 
         $extractedParts = [];
-        foreach ([PHP_URL_SCHEME, PHP_URL_USER, PHP_URL_PASS, PHP_URL_HOST, PHP_URL_PORT, PHP_URL_PATH, PHP_URL_QUERY, PHP_URL_FRAGMENT] as $element) {
+        foreach ([self::PARSE_URL_SCHEME, self::PARSE_URL_USER, self::PARSE_URL_PASS, self::PARSE_URL_HOST, self::PARSE_URL_PORT, self::PARSE_URL_PATH, self::PARSE_URL_QUERY, self::PARSE_URL_FRAGMENT] as $element) {
             $extractedParts[] = $this->extractKey($element, $explode);
         }
 
