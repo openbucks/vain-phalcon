@@ -16,6 +16,9 @@ services:
     app.dispatcher:
         class: Vain\Phalcon\Dispatcher\Mvc\MvcDispatcher
         arguments: ['%dispatcher.separator%']
+        calls:
+          - [setEventsManager, ['@event.manager']]
+          - [setParams, [[]]]
     dispatcher: '@app.dispatcher'
     app.model.manager:
         class: Vain\Phalcon\Mvc\Model\PhalconModelManager
