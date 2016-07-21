@@ -28,7 +28,10 @@ class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponse
      */
     public function setStatusCode($code, $message = null)
     {
-        return $this->getCurrentMessage()->setStatusCode($code, $message);
+        $response = $this->popResponse()->setStatusCode($code, $message);
+        $this->addResponse($response);
+
+        return $this;
     }
 
     /**
@@ -36,7 +39,10 @@ class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponse
      */
     public function setHeader($name, $value)
     {
-        return $this->getCurrentMessage()->setHeader($name, $value);
+        $response = $this->popResponse()->setHeader($name, $value);
+        $this->addResponse($response);
+
+        return $this;
     }
 
     /**
@@ -44,7 +50,10 @@ class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponse
      */
     public function setRawHeader($header)
     {
-        return $this->getCurrentMessage()->setRawHeader($header);
+        $response = $this->popResponse()->setRawHeader($header);
+        $this->addResponse($response);
+
+        return $this;
     }
 
     /**
@@ -52,7 +61,10 @@ class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponse
      */
     public function resetHeaders()
     {
-        return $this->getCurrentMessage()->resetHeaders();
+        $response = $this->popResponse()->resetHeaders();
+        $this->addResponse($response);
+
+        return $this;
     }
 
     /**
@@ -60,7 +72,10 @@ class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponse
      */
     public function setExpires(\DateTime $datetime)
     {
-        return $this->getCurrentMessage()->setExpires($datetime);
+        $response = $this->popResponse()->setExpires($datetime);
+        $this->addResponse($response);
+
+        return $this;
     }
 
     /**
@@ -68,7 +83,10 @@ class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponse
      */
     public function setNotModified()
     {
-        return $this->getCurrentMessage()->setNotModified();
+        $response = $this->popResponse()->setNotModified();
+        $this->addResponse($response);
+
+        return $this;
     }
 
     /**
@@ -76,7 +94,10 @@ class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponse
      */
     public function setContentType($contentType, $charset = null)
     {
-        return $this->getCurrentMessage()->setContentType($contentType);
+        $response = $this->popResponse()->setContentType($contentType);
+        $this->addResponse($response);
+
+        return $this;
     }
 
     /**
@@ -84,7 +105,10 @@ class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponse
      */
     public function redirect($location = null, $externalRedirect = false, $statusCode = 302)
     {
-        return $this->getCurrentMessage()->redirect($location, $externalRedirect, $statusCode);
+        $response = $this->popResponse()->redirect($location, $externalRedirect, $statusCode);
+        $this->addResponse($response);
+
+        return $this;
     }
 
     /**
@@ -92,7 +116,10 @@ class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponse
      */
     public function setContent($content)
     {
-        return $this->getCurrentMessage()->setContent($content);
+        $response = $this->popResponse()->setContent($content);
+        $this->addResponse($response);
+
+        return $this;
     }
 
     /**
@@ -100,7 +127,10 @@ class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponse
      */
     public function setJsonContent($content)
     {
-        return $this->getCurrentMessage()->setJsonContent($content);
+        $response = $this->popResponse()->setJsonContent($content);
+        $this->addResponse($response);
+
+        return $this;
     }
 
     /**
@@ -108,7 +138,10 @@ class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponse
      */
     public function appendContent($content)
     {
-        return $this->getCurrentMessage()->appendContent($content);
+        $response = $this->popResponse()->appendContent($content);
+        $this->addResponse($response);
+
+        return $this;
     }
 
     /**
@@ -148,7 +181,10 @@ class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponse
      */
     public function setFileToSend($filePath, $attachmentName = null)
     {
-        return $this->getCurrentMessage()->setFileToSend($filePath, $attachmentName);
+        $response = $this->popResponse()->setFileToSend($filePath, $attachmentName);
+        $this->addResponse($response);
+
+        return $this;
     }
 
     /**
@@ -164,7 +200,10 @@ class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponse
      */
     public function withStatus($code, $reasonPhrase = '')
     {
-        return $this->getCurrentMessage()->withStatus($code, $reasonPhrase);
+        $response = $this->popResponse()->withStatus($code, $reasonPhrase);
+        $this->addResponse($response);
+
+        return $this;
     }
 
     /**
