@@ -18,10 +18,10 @@
     "php": ">=5.6.0",
     "symfony/dependency-injection" : "^3",
     "symfony/config" : "^3",
-    "vain/entity" : "dev-dev",
-    "vain/event" : "dev-dev",
-    "vain/http" : "dev-dev",
-    "vain/config" : "dev-dev"
+    "vain/entity" : dev-master,
+    "vain/event" : dev-master,
+    "vain/http" : dev-master,
+    "vain/config" : dev-master
   },
   "repositories": [
     {
