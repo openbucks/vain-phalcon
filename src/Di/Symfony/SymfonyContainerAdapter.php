@@ -150,6 +150,7 @@ class SymfonyContainerAdapter implements PhalconDiInterface
      */
     public static function getDefault()
     {
+
     }
 
     /**
