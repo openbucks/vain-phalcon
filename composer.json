@@ -18,12 +18,17 @@
     "php": ">=5.6.0",
     "symfony/dependency-injection" : "^3",
     "symfony/config" : "^3",
+    "vain/api" : "dev-dev",
     "vain/entity" : "dev-dev",
     "vain/event" : "dev-dev",
     "vain/http" : "dev-dev",
     "vain/config" : "dev-dev"
   },
   "repositories": [
+    {
+      "type": "git",
+      "url": "http://gitlab.cosmonova.net.ua/taras.girnyk/vain-api.git"
+    },
     {
       "type": "git",
       "url": "http://gitlab.cosmonova.net.ua/mmjitsu/vain-core.git"
