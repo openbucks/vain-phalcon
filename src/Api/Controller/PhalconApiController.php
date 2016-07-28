@@ -16,11 +16,11 @@ use Vain\Core\Encoder\EncoderInterface;
 use Vain\Phalcon\Controller\AbstractController;
 
 /**
- * Class AbstractApiController
+ * Class PhalconApiController
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-abstract class AbstractApiController extends AbstractController
+class PhalconApiController extends AbstractController
 {
     /**
      * @var ApiProcessorInterface
