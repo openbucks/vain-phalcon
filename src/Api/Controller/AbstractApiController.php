@@ -8,11 +8,12 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-phalcon
  */
-namespace Vain\Phalcon\Controller;
+namespace Vain\Phalcon\Api\Controller;
 
 use Vain\Api\Processor\ApiProcessorInterface;
 use Vain\Api\Request\Factory\ApiRequestFactoryInterface;
 use Vain\Core\Encoder\EncoderInterface;
+use Vain\Phalcon\Controller\AbstractController;
 
 /**
  * Class AbstractApiController
