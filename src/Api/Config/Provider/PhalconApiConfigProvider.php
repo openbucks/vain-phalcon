@@ -63,6 +63,5 @@ class PhalconApiConfigProvider implements ApiConfigProviderInterface
         }
 
         return $this->configFactory->createConfig($configData);
-
     }
 }
