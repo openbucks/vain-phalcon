@@ -22,8 +22,8 @@ services:
     class: Vain\Phalcon\Dispatcher\Mvc\MvcDispatcher
     arguments: ['%dispatcher.separator%']
     calls:
-        - [setEventsManager, ['@event.manager']]
-        - [setParams, [[]]]
+      - [setEventsManager, ['@event.manager']]
+      - [setParams, [[]]]
   dispatcher: '@app.dispatcher'
   app.model.manager:
     class: Vain\Phalcon\Mvc\Model\PhalconModelManager
@@ -95,128 +95,7 @@ services:
     class: Vain\Phalcon\Http\Factory\PhalconHttpFactory
     arguments: ['@http.filter', '@http.header.provider','@http.cookie.factory' ,'@http.header.factory']
   http.response.proxy:
-    class: Vain\Phalcon\Http\Response\Proxy\PhalconResponseProxyapi.config.provider:
-      class: \Vain\Phalcon\Api\Config\Provider\PhalconApiConfigProvider
-    app.di:
-      class: Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter
-      arguments: ['@service_container']
-    app.bootstrapper.factory:
-      class: Vain\Phalcon\Bootstrapper\Factory\MvcBootstrapperFactory
-      arguments: ['@config.router', '@config.event', '@event.listener.lazy', '@event.manager']
-    app.router:
-      class: Phalcon\Mvc\Router
-      arguments: [false]
-    router: '@app.router'
-    app.dispatcher:
-      class: Vain\Phalcon\Dispatcher\Mvc\MvcDispatcher
-      arguments: ['%dispatcher.separator%']
-      calls:
-          - [setEventsManager, ['@event.manager']]
-          - [setParams, [[]]]
-    dispatcher: '@app.dispatcher'
-    app.model.manager:
-      class: Vain\Phalcon\Mvc\Model\PhalconModelManager
-      calls:
-        - [setEventsManager, ['@event.manager']]
-    modelsManager: '@app.model.manager'
-    app.modelsMetadata:
-      class: Phalcon\Mvc\Model\MetaData\Memory
-    modelsMetadata: '@app.modelsMetadata'
-    app.mvc:
-      class: Vain\Phalcon\Application\Mvc\MvcApplication
-      arguments: ['@http.request.proxy', '@http.response.proxy', '@http.response.factory', '@app.di']
-    app.phalcon:
-      class: Phalcon\Mvc\Application
-      arguments: ['@app.di']
-    app.escaper:
-      class: Phalcon\Escaper
-    escaper: '@app.escaper'
-    app.security:
-      class: Phalcon\Security
-    security: '@app.security'
-    app.crypt:
-      class: Phalcon\Crypt
-    crypt: '@app.crypt'
-    app.annotations:
-      class: Phalcon\Annotations\Adapter\Memory
-    annotaions: '@app.annotations'
-    app.tag:
-      class: Phalcon\Tag
-    tag: '@app.tag'
-    app.session:
-      class: Phalcon\Session\Adapter\Files
-    session: '@app.session'
-    app.session.bag:
-      class: Phalcon\Session\Bag
-    sessionBag: '@app.session.bag'
-    app.transaction.manager:
-      class: Phalcon\Mvc\Model\Transaction\Manager
-    transactionManager: '@app.transaction.manager'
-    app.assets:
-      class: Phalcon\Assets\Manager
-    assets: '@app.assets'
-    config.factory:
-      class: Vain\Phalcon\Config\Factory\PhalconConfigFactory
-    config.router:
-      class: Config
-      factory: ['@config.provider', getConfig]
-      arguments:
-        - 'router'
-    event.dispatcher:
-      class: Vain\Phalcon\Event\Dispatcher\PhalconEventDispatcher
-    eventManager: '@event.dispatcher'
-    event.manager: '@event.dispatcher'
-    event.listener.resolver:
-      class: Vain\Phalcon\Event\Resolver\PhalconResolver
-      arguments: ['@config.event']
-    event.listener.factory:
-      class: Vain\Phalcon\Event\Listener\Factory\PhalconListenerFactory
-      arguments: ['@app.di']
-    http.filter:
-      class: Phalcon\Filter
-    filter: '@http.filter'
-    http.header.factory:
-      class: Vain\Phalcon\Http\Header\Factory\PhalconHeaderFactory
-    http.header.provider: '@http.header.provider.server'
-    http.cookie.factory:
-      class: Vain\Phalcon\Http\Cookie\Factory\PhalconCookieFactory
-    http.factory:
-      class: Vain\Phalcon\Http\Factory\PhalconHttpFactory
-      arguments: ['@http.filter', '@http.header.provider','@http.cookie.factory' ,'@http.header.factory']
-    http.response.proxy:
-      class: Vain\Phalcon\Http\Response\Proxy\PhalconResponseProxy
-    response: '@http.response.proxy'
-    http.response.factory: '@http.factory'
-    http.request.proxy:
-      class: Vain\Phalcon\Http\Request\Proxy\PhalconRequestProxy
-    request: '@http.request.proxy'
-    http.request.factory: '@http.factory'
-    http.view:
-      class: Phalcon\Mvc\View
-      calls:
-        - [setViewsDir, ['%http.views.dir']]
-        - [registerEngines, [{'.phtml':'http.engine.php', '.volt':'http.engine.volt'}]]
-    view: '@http.view'
-    http.engine.php:
-      class: Phalcon\Mvc\View\Engine\Php
-      arguments: ['@http.view', '@app.di']
-    http.engine.volt:
-      class: Phalcon\Mvc\View\Engine\Volt
-      arguments: ['@http.view', '@app.di']
-    http.url:
-        class: Phalcon\Mvc\Url
-    url: '@http.url'
-    http.cookie.storage:
-        class: Vain\Phalcon\Http\Cookie\Storage\PhalconCookieStorage
-        arguments: ['@http.cookie.factory']
-    cookies:
-        class: Phalcon\Http\Response\Cookies
-    http.flash:
-        class: Phalcon\Flash\Direct
-    flash: '@http.flash'
-    http.flash.session:
-        class: Phalcon\Flash\Session
-    flashSession: '@http.flash.session'
+    class: Vain\Phalcon\Http\Response\Proxy\PhalconResponseProxy
   response: '@http.response.proxy'
   http.response.factory: '@http.factory'
   http.request.proxy:
@@ -249,4 +128,3 @@ services:
   http.flash.session:
     class: Phalcon\Flash\Session
   flashSession: '@http.flash.session'
-
