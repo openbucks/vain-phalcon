@@ -23,8 +23,8 @@ class PhalconApiConfigFactory implements ApiConfigFactoryInterface
     /**
      * @inheritDoc
      */
-    public function createConfig(array $configData)
+    public function createConfig($moduleName, $routeName, array $configData)
     {
-        return new PhalconApiConfig($configData);
+        return new PhalconApiConfig($moduleName, $routeName, $configData);
     }
 }
