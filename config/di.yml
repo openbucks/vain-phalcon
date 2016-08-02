@@ -16,6 +16,7 @@ services:
   api.config.storage: '@api.config.provider'
   api.config.factory:
     class: Vain\Phalcon\Api\Config\Factory\PhalconApiConfigFactory
+
   app.di:
     class: Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter
     arguments: ['@service_container']
