@@ -13,14 +13,13 @@ namespace Vain\Phalcon\Exception;
 use Vain\Api\Config\Provider\ApiConfigProviderInterface;
 use Vain\Api\Exception\ConfigProviderException;
 use Vain\Http\Request\VainServerRequestInterface;
-use Phalcon\Mvc\Router\RouteInterface as PhalconMvcRouteInterface;
 
 /**
- * Class NoConfigDataException
+ * Class NoRouteConfigDataException
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class NoConfigDataException extends ConfigProviderException
+class NoRouteConfigDataException extends ConfigProviderException
 {
     private $request;
 
@@ -29,15 +28,15 @@ class NoConfigDataException extends ConfigProviderException
      *
      * @param ApiConfigProviderInterface $apiConfigProvider
      * @param VainServerRequestInterface $request
-     * @param PhalconMvcRouteInterface   $matchedRoute
+     * @param string                     $routeName
      */
     public function __construct(
         ApiConfigProviderInterface $apiConfigProvider,
         VainServerRequestInterface $request,
-        PhalconMvcRouteInterface $matchedRoute
+        $routeName
     ) {
         $this->request = $request;
-        parent::__construct($apiConfigProvider, sprintf('Cannot find api config for route %s', $matchedRoute->getName()), 0, null);
+        parent::__construct($apiConfigProvider, sprintf('Cannot find api config for route %s', $routeName), 0, null);
     }
 
     /**

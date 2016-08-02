@@ -15,8 +15,8 @@ use Vain\Api\Config\Provider\ApiConfigProviderInterface;
 use Phalcon\Mvc\RouterInterface as PhalconMvcRouterInterface;
 use Vain\Config\Data\Provider\ConfigDataProviderInterface;
 use Vain\Http\Request\VainServerRequestInterface;
-use Phalcon\Mvc\Router\RouteInterface as PhalconMvcRouteInterface;
-use Vain\Phalcon\Exception\NoConfigDataException;
+use Vain\Phalcon\Exception\NoModuleConfigDataException;
+use Vain\Phalcon\Exception\NoRouteConfigDataException;
 
 /**
  * Class PhalconApiConfigProvider
@@ -53,12 +53,17 @@ class PhalconApiConfigProvider implements ApiConfigProviderInterface
      */
     public function getConfig(VainServerRequestInterface $request)
     {
+        $moduleName = $this->router->getModuleName();
         $routeName = $this->router->getMatchedRoute()->getName();
         $configData = $this->configDataProvider->getConfigData('api');
-        if (false === array_key_exists($routeName, $configData)) {
-            throw new NoConfigDataException($this, $request, $routeName);
+        if (false === array_key_exists($moduleName, $configData)) {
+            throw new NoModuleConfigDataException($this, $request, $moduleName);
+        }
+        $moduleData = $configData[$moduleName];
+        if (false === array_key_exists($routeName, $moduleData)) {
+            throw new NoRouteConfigDataException($this, $request, $routeName);
         }
 
-        return $this->configFactory->createConfig($configData);
+        return $this->configFactory->createConfig($moduleData[$routeName]);
     }
 }
