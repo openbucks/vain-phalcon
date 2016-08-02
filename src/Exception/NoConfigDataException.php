@@ -11,7 +11,7 @@
 namespace Vain\Phalcon\Exception;
 
 use Vain\Api\Config\Provider\ApiConfigProviderInterface;
-use Vain\Api\Exception\ApiConfigProviderException;
+use Vain\Api\Exception\ConfigProviderException;
 use Vain\Http\Request\VainServerRequestInterface;
 use Phalcon\Mvc\Router\RouteInterface as PhalconMvcRouteInterface;
 
@@ -20,7 +20,7 @@ use Phalcon\Mvc\Router\RouteInterface as PhalconMvcRouteInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class NoConfigDataException extends ApiConfigProviderException
+class NoConfigDataException extends ConfigProviderException
 {
     private $request;
 

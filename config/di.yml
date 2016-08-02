@@ -15,6 +15,7 @@ services:
     arguments: ['@app.router', '@config.data.provider', '@api.config.factory']
   api.config.factory:
     class: Vain\Phalcon\Api\Config\Factory\PhalconApiConfigFactory
+
   app.di:
     class: Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter
     arguments: ['@service_container']
