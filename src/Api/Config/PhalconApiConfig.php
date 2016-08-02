@@ -34,6 +34,14 @@ class PhalconApiConfig implements ApiConfigInterface
     /**
      * @inheritDoc
      */
+    public function getModuleName()
+    {
+        trigger_error('Method getModuleName is not implemented', E_USER_ERROR);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getHandlerAlias()
     {
         trigger_error('Method getHandlerAlias is not implemented', E_USER_ERROR);
