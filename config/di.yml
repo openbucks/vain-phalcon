@@ -12,7 +12,7 @@ parameters:
 services:
   api.config.provider:
     class: Vain\Phalcon\Api\Config\Provider\PhalconApiConfigProvider
-    arguments: ['@app.router', '@config.data.provider', '@api.config.factory']
+    arguments: ['@app.router', '@config.provider', '@api.config.factory']
   api.config.factory:
     class: Vain\Phalcon\Api\Config\Factory\PhalconApiConfigFactory
 
