@@ -53,13 +53,10 @@ class PhalconApiConfigProvider implements ApiConfigProviderInterface
      */
     public function getConfig(VainServerRequestInterface $request)
     {
-        /**
-         * @var PhalconMvcRouteInterface $matchedRoute
-         */
-        $matchedRoute = $this->router->getMatchedRoute();
+        $routeName = $this->router->getMatchedRoute()->getName();
         $configData = $this->configDataProvider->getConfigData('api');
-        if (false === array_key_exists($matchedRoute, $configData)) {
-            throw new NoConfigDataException($this, $request, $matchedRoute);
+        if (false === array_key_exists($routeName, $configData)) {
+            throw new NoConfigDataException($this, $request, $routeName);
         }
 
         return $this->configFactory->createConfig($configData);
