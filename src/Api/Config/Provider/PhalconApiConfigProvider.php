@@ -14,6 +14,7 @@ use Vain\Api\Config\Factory\ApiConfigFactoryInterface;
 use Vain\Api\Config\Provider\ApiConfigProviderInterface;
 use Phalcon\Mvc\RouterInterface as PhalconMvcRouterInterface;
 use Vain\Config\Data\Provider\ConfigDataProviderInterface;
+use Vain\Config\Provider\ConfigProviderInterface;
 use Vain\Http\Request\VainServerRequestInterface;
 use Vain\Phalcon\Exception\NoModuleConfigDataException;
 use Vain\Phalcon\Exception\NoRouteConfigDataException;
@@ -27,7 +28,7 @@ class PhalconApiConfigProvider implements ApiConfigProviderInterface
 {
     private $router;
 
-    private $configDataProvider;
+    private $configProvider;
 
     private $configFactory;
 
@@ -35,16 +36,16 @@ class PhalconApiConfigProvider implements ApiConfigProviderInterface
      * PhalconApiConfigProvider constructor.
      *
      * @param PhalconMvcRouterInterface $router
-     * @param ConfigDataProviderInterface $configDataProvider
+     * @param ConfigProviderInterface $configProvider
      * @param ApiConfigFactoryInterface $apiConfigFactory
      */
     public function __construct(
         PhalconMvcRouterInterface $router,
-        ConfigDataProviderInterface $configDataProvider,
+        ConfigProviderInterface $configProvider,
         ApiConfigFactoryInterface $apiConfigFactory
     ) {
         $this->router = $router;
-        $this->configDataProvider = $configDataProvider;
+        $this->configProvider = $configProvider;
         $this->configFactory = $apiConfigFactory;
     }
 
@@ -55,11 +56,11 @@ class PhalconApiConfigProvider implements ApiConfigProviderInterface
     {
         $moduleName = $this->router->getModuleName();
         $routeName = $this->router->getMatchedRoute()->getName();
-        $configData = $this->configDataProvider->getConfigData('api');
-        if (false === array_key_exists($moduleName, $configData)) {
+        $config = $this->configProvider->getConfig('api');
+        if (false === array_key_exists($moduleName, $config)) {
             throw new NoModuleConfigDataException($this, $request, $moduleName);
         }
-        $moduleData = $configData[$moduleName];
+        $moduleData = $config[$moduleName];
         if (false === array_key_exists($routeName, $moduleData)) {
             throw new NoRouteConfigDataException($this, $request, $routeName);
         }
