@@ -10,40 +10,13 @@
  */
 namespace Vain\Phalcon\Api\Config;
 
-use Vain\Api\Config\ApiConfigInterface;
+use Vain\Api\Config\AbstractApiConfig;
 
 /**
  * Class PhalconApiConfig
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class PhalconApiConfig implements ApiConfigInterface
+class PhalconApiConfig extends AbstractApiConfig
 {
-    private $configData;
-
-    /**
-     * PhalconApiConfig constructor.
-     *
-     * @param array $configData
-     */
-    public function __construct(array $configData)
-    {
-        $this->configData = $configData;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getModuleName()
-    {
-        trigger_error('Method getModuleName is not implemented', E_USER_ERROR);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHandlerAlias()
-    {
-        trigger_error('Method getHandlerAlias is not implemented', E_USER_ERROR);
-    }
 }
