@@ -54,6 +54,14 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
+    public function setContentLength($contentLength)
+    {
+        return $this->withHeader(self::HEADER_CONTENT_LENGTH, $contentLength);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function setExpires(\DateTime $datetime)
     {
         $cloned = clone $datetime;
