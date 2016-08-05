@@ -55,9 +55,9 @@ class SymfonyDiFactory implements DiFactoryInterface
     protected function createContainer($applicationPath, $configDir, $applicationEnv, $cachingEnabled, $containerPath)
     {
         $builder = new SymfonyContainerBuilder;
-        $loader = new YamlFileLoader($builder, new FileLocator($applicationPath));
-        $diConfig = sprintf('%s/%s/%s/di.yml', $applicationPath, $configDir, $applicationEnv);
-        $loader->load($diConfig);
+//        $loader = new YamlFileLoader($builder, new FileLocator($applicationPath));
+//        $diConfig = sprintf('%s/%s/%s/di.yml', $applicationPath, $configDir, $applicationEnv);
+//        $loader->load($diConfig);
         $builder->setParameter('app.dir', $applicationPath);
         $builder->setParameter('app.env', $applicationEnv);
         $builder->setParameter('app.config.dir', $configDir);
