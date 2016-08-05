@@ -12,11 +12,9 @@ namespace Vain\Phalcon\Di\Symfony\Factory;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
-use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Vain\Phalcon\Di\Factory\DiFactoryInterface;
 use Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter;
-use Vain\Phalcon\Exception\UnableToCacheContainerException;
 
 /**
  * Class SymfonyDiFactory
@@ -25,7 +23,6 @@ use Vain\Phalcon\Exception\UnableToCacheContainerException;
  */
 class SymfonyDiFactory implements DiFactoryInterface
 {
-
     private $applicationPath;
 
     private $configDir;
@@ -34,6 +31,7 @@ class SymfonyDiFactory implements DiFactoryInterface
 
     /**
      * SymfonyDiFactory constructor.
+     *
      * @param string $applicationDir
      * @param string $configDir
      * @param string $cacheDir
@@ -46,9 +44,15 @@ class SymfonyDiFactory implements DiFactoryInterface
     }
 
     /**
+     * @param string $applicationPath
+     * @param string $configDir
+     * @param string $applicationEnv
+     * @param bool   $cachingEnabled
+     * @param string $containerPath
+     *
      * @return SymfonyContainerBuilder
      */
-    protected function createContainer($applicationPath, $configDir, $applicationEnv, $cachingEnabled)
+    protected function createContainer($applicationPath, $configDir, $applicationEnv, $cachingEnabled, $containerPath)
     {
         $builder = new SymfonyContainerBuilder;
         $loader = new YamlFileLoader($builder, new FileLocator($applicationPath));
@@ -59,7 +63,7 @@ class SymfonyDiFactory implements DiFactoryInterface
         $builder->setParameter('app.config.dir', $configDir);
         $builder->setParameter('app.cache.dir', $this->cacheDir);
         $builder->setParameter('app.caching', $cachingEnabled);
-
+        $builder->setParameter('app.container.path', $containerPath);
         $builder->compile();
 
         return $builder;
@@ -78,46 +82,22 @@ class SymfonyDiFactory implements DiFactoryInterface
     }
 
     /**
-     * @param SymfonyContainerBuilder $container
-     * @param string $containerPath
-     *
-     * @return SymfonyContainerBuilder
-     *
-     * @throws UnableToCacheContainerException
-     */
-    protected function dumpContainer(SymfonyContainerBuilder $container, $containerPath)
-    {
-        $dumper = new PhpDumper($container);
-
-        if (false === file_exists(dirname($containerPath))) {
-            mkdir(dirname($containerPath), 0755, true);
-        }
-
-        if (false === file_put_contents($containerPath, $dumper->dump(['class' => 'CachedSymfonyContainer']))) {
-            throw new UnableToCacheContainerException($this, $containerPath);
-        }
-
-        return $container;
-    }
-
-    /**
      * @inheritDoc
      */
     public function createDi($applicationEnv, $cachingEnabled)
     {
-        if (false === $cachingEnabled) {
-            $container = $this->createContainer($this->applicationPath, $this->configDir, $applicationEnv, $cachingEnabled);
-
-            return new SymfonyContainerAdapter($container);
-        }
-
         $containerPath = $this->getCachedContainerPath($this->applicationPath, $this->cacheDir, $applicationEnv);
-        if (false === file_exists($containerPath)) {
-            $container = $this->dumpContainer($this->createContainer($this->applicationPath, $this->configDir, $applicationEnv, $cachingEnabled), $containerPath);
+        if (false === $cachingEnabled || false === file_exists($containerPath)) {
+            $container = $this->createContainer(
+                $this->applicationPath,
+                $this->configDir,
+                $containerPath,
+                $applicationEnv,
+                $cachingEnabled
+            );
 
             return new SymfonyContainerAdapter($container);
         }
-
         require_once $containerPath;
 
         return new SymfonyContainerAdapter(new \CachedSymfonyContainer());
