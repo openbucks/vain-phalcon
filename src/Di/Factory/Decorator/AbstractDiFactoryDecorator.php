@@ -34,8 +34,8 @@ abstract class AbstractDiFactoryDecorator implements DiFactoryInterface
     /**
      * @inheritDoc
      */
-    public function createDi()
+    public function createDi($applicationEnv, $cachingEnabled)
     {
-        return $this->diFactory->createDi();
+        return $this->diFactory->createDi($applicationEnv, $cachingEnabled);
     }
 }
