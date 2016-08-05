@@ -14,9 +14,7 @@ use Vain\Config\ConfigInterface;
 use Vain\Event\Listener\Proxy\ListenerProxyInterface;
 use Vain\Event\Manager\EventManagerInterface;
 use Vain\Phalcon\Bootstrapper\Bootstrapper;
-use Vain\Phalcon\Bootstrapper\Decorator\Container\ContainerBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Event\EventBootstrapperDecorator;
-use Vain\Phalcon\Bootstrapper\Decorator\Extension\ExtensionBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Router\RouterBootstrapperDecorator;
 
 /**
@@ -62,11 +60,7 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
         return
             new EventBootstrapperDecorator(
                 new RouterBootstrapperDecorator(
-                    new ContainerBootstrapperDecorator(
-                        new ExtensionBootstrapperDecorator(
-                            new Bootstrapper()
-                        )
-                    ),
+                    new Bootstrapper(),
                     $this->routerConfig
                 ),
                 $this->eventManager,
