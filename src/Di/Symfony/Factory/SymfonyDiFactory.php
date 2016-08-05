@@ -90,9 +90,9 @@ class SymfonyDiFactory implements DiFactoryInterface
             $container = $this->createContainer(
                 $this->applicationPath,
                 $this->configDir,
-                $containerPath,
                 $applicationEnv,
-                $cachingEnabled
+                $cachingEnabled,
+                $containerPath
             );
 
             return new SymfonyContainerAdapter($container);

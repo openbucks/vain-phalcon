@@ -47,10 +47,10 @@ class CompileDiFactory implements DiFactoryInterface
      */
     public function createDi($applicationEnv, $cachingEnabled)
     {
-        return new CompileDiFactoryDecorator(
+        return (new CompileDiFactoryDecorator(
             new ExtensionDiFactoryDecorator(
                 new SymfonyDiFactory($this->applicationDir, $this->configDir, $this->cacheDir)
             )
-        );
+        ))->createDi($applicationEnv, $cachingEnabled);
     }
 }
