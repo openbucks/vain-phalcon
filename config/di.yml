@@ -7,7 +7,7 @@ imports:
 
 parameters:
     http.views.dir: '../www/views'
-    dispatcher.separator: '/'
+    dispatcher.separator: '.'
 
 services:
   api.config.provider:
