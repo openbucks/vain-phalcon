@@ -11,6 +11,7 @@
 namespace Vain\Phalcon\Bootstrapper\Decorator\Container;
 
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
+use Vain\Core\Extension\ExtensionInterface;
 use Vain\Phalcon\Bootstrapper\Decorator\AbstractBootstrapperDecorator;
 use Phalcon\Application as PhalconApplication;
 use Vain\Phalcon\Di\Compile\CompileAwareContainerInterface;
@@ -58,6 +59,19 @@ class ContainerBootstrapperDecorator extends AbstractBootstrapperDecorator
             && $diContainer->get('app.caching')
             && false === file_exists($containerPath = $diContainer->get('app.container.path'))
         ) {
+            if ($diContainer->has('app.extensions')) {
+                foreach ($diContainer->get('app.extensions') as $extension) {
+                    if (false === class_exists($extension)) {
+                        continue;
+                    }
+                    $extension = new $extension;
+                    if (false === $extension instanceof ExtensionInterface) {
+                        continue;
+                    }
+                    $extension->register($diContainer);
+                }
+            }
+            $diContainer->compile();
             $this->dumpContainer($diContainer, $containerPath);
         }
 
