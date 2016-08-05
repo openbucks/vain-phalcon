@@ -50,6 +50,8 @@ class ContainerBootstrapperDecorator extends AbstractBootstrapperDecorator
      */
     public function bootstrap(PhalconApplication $application)
     {
+        parent::bootstrap($application);
+
         /**
          * @var CompileAwareContainerInterface $diContainer
          */
@@ -74,7 +76,5 @@ class ContainerBootstrapperDecorator extends AbstractBootstrapperDecorator
             $diContainer->compile();
             $this->dumpContainer($diContainer, $containerPath);
         }
-
-        return parent::bootstrap($application);
     }
 }
