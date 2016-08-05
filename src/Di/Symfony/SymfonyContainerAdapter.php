@@ -12,6 +12,7 @@ namespace Vain\Phalcon\Di\Symfony;
 
 use Phalcon\Di\InjectionAwareInterface as PhalconDiAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainerInterface;
+use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Vain\Phalcon\Di\Compile\CompileAwareContainerInterface;
 use Vain\Phalcon\Exception\UnsupportedDiCallException;
 
@@ -20,7 +21,7 @@ use Vain\Phalcon\Exception\UnsupportedDiCallException;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class SymfonyContainerAdapter implements CompileAwareContainerInterface
+class SymfonyContainerAdapter implements CompileAwareContainerInterface, SymfonyContainerInterface
 {
     private $symfonyContainer;
 
@@ -206,5 +207,37 @@ class SymfonyContainerAdapter implements CompileAwareContainerInterface
     public function offsetUnset($offset)
     {
         return $this->remove($offset);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function initialized($id)
+    {
+        return $this->symfonyContainer->initialized($id);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getParameter($name)
+    {
+        return $this->symfonyContainer->getParameter($name);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasParameter($name)
+    {
+        return $this->symfonyContainer->hasParameter($name);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setParameter($name, $value)
+    {
+        return $this->symfonyContainer->setParameter($name, $value);
     }
 }
