@@ -10,11 +10,8 @@
  */
 namespace Vain\Phalcon\Di\Factory\Decorator\Compile;
 
-use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
-use Vain\Core\Extension\ExtensionInterface;
 use Vain\Phalcon\Di\Compile\CompileAwareContainerInterface;
 use Vain\Phalcon\Di\Factory\Decorator\AbstractDiFactoryDecorator;
-use Vain\Phalcon\Exception\UnableToCacheContainerException;
 
 /**
  * Class CompileDiFactoryDecorator
@@ -23,27 +20,6 @@ use Vain\Phalcon\Exception\UnableToCacheContainerException;
  */
 class CompileDiFactoryDecorator extends AbstractDiFactoryDecorator
 {
-    /**
-     * @param CompileAwareContainerInterface $container
-     * @param string                         $containerPath
-     *
-     * @return CompileAwareContainerInterface
-     *
-     * @throws UnableToCacheContainerException
-     */
-    protected function dumpContainer(CompileAwareContainerInterface $container, $containerPath)
-    {
-        $dumper = new PhpDumper($container);
-        if (false === file_exists(dirname($containerPath))) {
-            mkdir(dirname($containerPath), 0755, true);
-        }
-        if (false === file_put_contents($containerPath, $dumper->dump(['class' => 'CachedSymfonyContainer']))) {
-            throw new UnableToCacheContainerException($this, $containerPath);
-        }
-
-        return $container;
-    }
-
     /**
      * @inheritDoc
      */
@@ -54,12 +30,8 @@ class CompileDiFactoryDecorator extends AbstractDiFactoryDecorator
          */
         $diContainer = parent::createDi($applicationEnv, $cachingEnabled);
 
-        if ($diContainer->has('app.caching')
-            && $diContainer->has('app.container.path')
-            && $diContainer->get('app.caching')
-            && false === file_exists($containerPath = $diContainer->get('app.container.path'))
-        ) {
-            $this->dumpContainer($diContainer, $containerPath);
+        if (false === $diContainer->isFrozen()) {
+            $diContainer->compile();
         }
 
         return $diContainer;
