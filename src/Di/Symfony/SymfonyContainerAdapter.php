@@ -12,7 +12,6 @@ namespace Vain\Phalcon\Di\Symfony;
 
 use Phalcon\Di\InjectionAwareInterface as PhalconDiAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainerInterface;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Vain\Phalcon\Di\Compile\CompileAwareContainerInterface;
 use Vain\Phalcon\Exception\UnsupportedDiCallException;
 
