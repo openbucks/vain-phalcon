@@ -16,6 +16,7 @@ use Vain\Event\Manager\EventManagerInterface;
 use Vain\Phalcon\Bootstrapper\Bootstrapper;
 use Vain\Phalcon\Bootstrapper\Decorator\Container\ContainerBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Event\EventBootstrapperDecorator;
+use Vain\Phalcon\Bootstrapper\Decorator\Extension\ExtensionBootstrapperDecorator;
 
 /**
  * Class CliBootstrapperFactory
@@ -53,7 +54,9 @@ class CliBootstrapperFactory implements BootstrapperFactoryInterface
     public function createBootstrapper()
     {
         return new EventBootstrapperDecorator(
-            new ContainerBootstrapperDecorator(new Bootstrapper()),
+            new ExtensionBootstrapperDecorator(
+                new ContainerBootstrapperDecorator(new Bootstrapper())
+            ),
             $this->eventManager,
             $this->listenerProxy,
             $this->eventConfig
