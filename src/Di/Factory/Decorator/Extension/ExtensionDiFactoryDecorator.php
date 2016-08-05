@@ -32,11 +32,12 @@ class ExtensionDiFactoryDecorator extends AbstractDiFactoryDecorator
         $diContainer = parent::createDi($applicationEnv, $cachingEnabled);
         if (false === $diContainer->isFrozen() && $diContainer->hasParameter('app.extensions')) {
             foreach ($diContainer->getParameter('app.extensions') as $extension) {
-                if (false === $diContainer->has($extension)) {
-                    continue;
+                $className = sprintf('Vain\%s\Extension\%sExtension', $extension, $extension);
+                if (false === class_exists($className)) {
+                    throw new \Exception("Class $className");
                 }
 
-                $diContainer->get($extension)->load([], $diContainer);
+                (new $className)->load([], $diContainer);
             }
         }
 
