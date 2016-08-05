@@ -10,8 +10,8 @@
  */
 namespace Vain\Phalcon\Di\Factory\Decorator\Extension;
 
-use Vain\Phalcon\Di\Compile\CompileAwareContainerInterface;
 use Vain\Phalcon\Di\Factory\Decorator\AbstractDiFactoryDecorator;
+use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainerInterface;
 
 /**
  * Class ExtensionDiFactoryDecorator
@@ -27,16 +27,16 @@ class ExtensionDiFactoryDecorator extends AbstractDiFactoryDecorator
     public function createDi($applicationEnv, $cachingEnabled)
     {
         /**
-         * @var CompileAwareContainerInterface $diContainer
+         * @var SymfonyContainerInterface $diContainer
          */
         $diContainer = parent::createDi($applicationEnv, $cachingEnabled);
-        if (false === $diContainer->isFrozen() && $diContainer->has('app.extensions')) {
-            foreach ($diContainer->get('app.extensions') as $extension) {
+        if (false === $diContainer->isFrozen() && $diContainer->hasParameter('app.extensions')) {
+            foreach ($diContainer->getParameter('app.extensions') as $extension) {
                 if (false === $diContainer->has($extension)) {
                     continue;
                 }
 
-                $diContainer->get($extension)->register($diContainer);
+                $diContainer->get($extension)->load([], $diContainer);
             }
         }
 
