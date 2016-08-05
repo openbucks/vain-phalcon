@@ -8,21 +8,20 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-phalcon
  */
-namespace Vain\Phalcon\Bootstrapper\Decorator\Container;
+namespace Vain\Phalcon\Di\Factory\Decorator\Compile;
 
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Vain\Core\Extension\ExtensionInterface;
-use Vain\Phalcon\Bootstrapper\Decorator\AbstractBootstrapperDecorator;
-use Phalcon\Application as PhalconApplication;
 use Vain\Phalcon\Di\Compile\CompileAwareContainerInterface;
+use Vain\Phalcon\Di\Factory\Decorator\AbstractDiFactoryDecorator;
 use Vain\Phalcon\Exception\UnableToCacheContainerException;
 
 /**
- * Class ContainerBootstrapperDecorator
+ * Class CompileDiFactoryDecorator
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class ContainerBootstrapperDecorator extends AbstractBootstrapperDecorator
+class CompileDiFactoryDecorator extends AbstractDiFactoryDecorator
 {
     /**
      * @param CompileAwareContainerInterface $container
@@ -48,14 +47,13 @@ class ContainerBootstrapperDecorator extends AbstractBootstrapperDecorator
     /**
      * @inheritDoc
      */
-    public function bootstrap(PhalconApplication $application)
+    public function createDi($applicationEnv, $cachingEnabled)
     {
-        parent::bootstrap($application);
-
         /**
          * @var CompileAwareContainerInterface $diContainer
          */
-        $diContainer = $application->getDI();
+        $diContainer = parent::createDi($applicationEnv, $cachingEnabled);
+
         if ($diContainer->has('app.caching')
             && $diContainer->has('app.container.path')
             && $diContainer->get('app.caching')
@@ -76,5 +74,7 @@ class ContainerBootstrapperDecorator extends AbstractBootstrapperDecorator
             $diContainer->compile();
             $this->dumpContainer($diContainer, $containerPath);
         }
+
+        return $diContainer;
     }
 }
