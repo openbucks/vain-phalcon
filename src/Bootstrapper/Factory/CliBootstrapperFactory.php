@@ -10,7 +10,12 @@
  */
 namespace Vain\Phalcon\Bootstrapper\Factory;
 
+use Vain\Config\ConfigInterface;
+use Vain\Event\Listener\Proxy\ListenerProxyInterface;
+use Vain\Event\Manager\EventManagerInterface;
 use Vain\Phalcon\Bootstrapper\Bootstrapper;
+use Vain\Phalcon\Bootstrapper\Decorator\Container\ContainerBootstrapperDecorator;
+use Vain\Phalcon\Bootstrapper\Decorator\Event\EventBootstrapperDecorator;
 
 /**
  * Class CliBootstrapperFactory
@@ -19,11 +24,39 @@ use Vain\Phalcon\Bootstrapper\Bootstrapper;
  */
 class CliBootstrapperFactory implements BootstrapperFactoryInterface
 {
+    private $eventConfig;
+
+    private $listenerProxy;
+
+    private $eventManager;
+
+    /**
+     * MvcBootstrapperFactory constructor.
+     *
+     * @param ConfigInterface        $eventConfig
+     * @param ListenerProxyInterface $listenerProxy
+     * @param EventManagerInterface  $eventManager
+     */
+    public function __construct(
+        ConfigInterface $eventConfig,
+        ListenerProxyInterface $listenerProxy,
+        EventManagerInterface $eventManager
+    ) {
+        $this->eventConfig = $eventConfig;
+        $this->listenerProxy = $listenerProxy;
+        $this->eventManager = $eventManager;
+    }
+
     /**
      * @inheritDoc
      */
     public function createBootstrapper()
     {
-        return new Bootstrapper();
+        return new EventBootstrapperDecorator(
+            new ContainerBootstrapperDecorator(new Bootstrapper()),
+            $this->eventManager,
+            $this->listenerProxy,
+            $this->eventConfig
+        );
     }
 }

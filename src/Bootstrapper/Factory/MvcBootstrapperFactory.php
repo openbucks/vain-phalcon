@@ -14,6 +14,7 @@ use Vain\Config\ConfigInterface;
 use Vain\Event\Listener\Proxy\ListenerProxyInterface;
 use Vain\Event\Manager\EventManagerInterface;
 use Vain\Phalcon\Bootstrapper\Bootstrapper;
+use Vain\Phalcon\Bootstrapper\Decorator\Container\ContainerBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Event\EventBootstrapperDecorator;
 use Vain\Phalcon\Bootstrapper\Decorator\Router\RouterBootstrapperDecorator;
 
@@ -35,10 +36,10 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
     /**
      * MvcBootstrapperFactory constructor.
      *
-     * @param ConfigInterface $routerConfig
-     * @param ConfigInterface $eventConfig
-     * @param ListenerProxyInterface  $listenerProxy
-     * @param EventManagerInterface   $eventManager
+     * @param ConfigInterface        $routerConfig
+     * @param ConfigInterface        $eventConfig
+     * @param ListenerProxyInterface $listenerProxy
+     * @param EventManagerInterface  $eventManager
      */
     public function __construct(
         ConfigInterface $routerConfig,
@@ -57,13 +58,15 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
      */
     public function createBootstrapper()
     {
-        return new EventBootstrapperDecorator(
-            new RouterBootstrapperDecorator(
-                new Bootstrapper(), $this->routerConfig
-            ),
-            $this->eventManager,
-            $this->listenerProxy,
-            $this->eventConfig
-        );
+        return
+            new EventBootstrapperDecorator(
+                new RouterBootstrapperDecorator(
+                    new ContainerBootstrapperDecorator(new Bootstrapper())
+                    , $this->routerConfig
+                ),
+                $this->eventManager,
+                $this->listenerProxy,
+                $this->eventConfig
+            );
     }
 }
