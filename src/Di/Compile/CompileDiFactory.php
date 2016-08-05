@@ -12,6 +12,7 @@ namespace Vain\Phalcon\Di\Compile;
 
 use Vain\Phalcon\Di\Factory\Decorator\Adapter\AdapterDiFactoryDecorator;
 use Vain\Phalcon\Di\Factory\Decorator\Compile\CompileDiFactoryDecorator;
+use Vain\Phalcon\Di\Factory\Decorator\Config\ConfigDiFactoryDecorator;
 use Vain\Phalcon\Di\Factory\Decorator\Dump\DumpDiFactoryDecorator;
 use Vain\Phalcon\Di\Factory\Decorator\Extension\ExtensionDiFactoryDecorator;
 use Vain\Phalcon\Di\Factory\DiFactoryInterface;
@@ -53,8 +54,10 @@ class CompileDiFactory implements DiFactoryInterface
         new AdapterDiFactoryDecorator(
             new DumpDiFactoryDecorator(
                 new CompileDiFactoryDecorator(
-                    new ExtensionDiFactoryDecorator(
-                        new SymfonyDiFactory($this->applicationDir, $this->configDir, $this->cacheDir)
+                    new ConfigDiFactoryDecorator(
+                        new ExtensionDiFactoryDecorator(
+                            new SymfonyDiFactory($this->applicationDir, $this->configDir, $this->cacheDir)
+                        )
                     )
                 )
             )
