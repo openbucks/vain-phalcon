@@ -20,7 +20,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainer
  */
 class ExtensionDiFactoryDecorator extends AbstractDiFactoryDecorator
 {
-
     /**
      * @inheritDoc
      */
@@ -30,15 +29,20 @@ class ExtensionDiFactoryDecorator extends AbstractDiFactoryDecorator
          * @var SymfonyContainerInterface $diContainer
          */
         $diContainer = parent::createDi($applicationEnv, $cachingEnabled);
-        if (false === $diContainer->isFrozen() && $diContainer->hasParameter('app.extensions')) {
-            foreach ($diContainer->getParameter('app.extensions') as $extension) {
-                $className = sprintf('Vain\%s\Extension\%sExtension', $extension, $extension);
-                if (false === class_exists($className)) {
-                    throw new \Exception("Class $className");
-                }
-
-                (new $className)->load([], $diContainer);
+        if ($diContainer->isFrozen()) {
+            return $diContainer;
+        }
+        $extensionsFile = sprintf('%s%s%s%sextensions.php', $diContainer->getParameter('app.dir') , DIRECTORY_SEPARATOR, $diContainer->getParameter('app.config.dir'), DIRECTORY_SEPARATOR);
+        if (false === file_exists($extensionsFile)) {
+            return $diContainer;
+        }
+        $extensions = require_once $extensionsFile;
+        foreach ($extensions as $extension) {
+            $className = sprintf('Vain\%s\Extension\%sExtension', $extension, $extension);
+            if (false === class_exists($className)) {
+                throw new \Exception("Class $className");
             }
+            (new $className)->load([], $diContainer);
         }
 
         return $diContainer;
