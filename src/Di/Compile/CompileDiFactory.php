@@ -17,6 +17,7 @@ use Vain\Phalcon\Di\Factory\Decorator\Dump\DumpDiFactoryDecorator;
 use Vain\Phalcon\Di\Factory\Decorator\Extension\ExtensionDiFactoryDecorator;
 use Vain\Phalcon\Di\Factory\DiFactoryInterface;
 use Vain\Phalcon\Di\Symfony\Factory\SymfonyDiFactory;
+use Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter;
 
 /**
  * Class CompileDiFactory
@@ -50,17 +51,22 @@ class CompileDiFactory implements DiFactoryInterface
      */
     public function createDi($applicationEnv, $cachingEnabled)
     {
-        return (
-        new AdapterDiFactoryDecorator(
-            new DumpDiFactoryDecorator(
+        $di = (new SymfonyDiFactory($this->applicationDir, $this->configDir, $this->cacheDir))->createDi(
+            $applicationEnv,
+            $cachingEnabled
+        );
+
+        if (false === $di instanceof \CachedSymfonyContainer) {
+            $di = (new DumpDiFactoryDecorator(
                 new CompileDiFactoryDecorator(
                     new ConfigDiFactoryDecorator(
-                        new ExtensionDiFactoryDecorator(
-                            new SymfonyDiFactory($this->applicationDir, $this->configDir, $this->cacheDir)
-                        )
+                        new ExtensionDiFactoryDecorator()
                     )
                 )
             )
-        ))->createDi($applicationEnv, $cachingEnabled);
+            )->createDi($applicationEnv, $cachingEnabled);
+        }
+
+        return new SymfonyContainerAdapter($di);
     }
 }
