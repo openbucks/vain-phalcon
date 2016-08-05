@@ -114,7 +114,7 @@ services:
     class: Phalcon\Mvc\View
     calls:
       - [setViewsDir, ['%http.views.dir']]
-      - [registerEngines, [{'.phtml':'http.engine.php', '.volt':'http.engine.volt'}]]
+      - [registerEngines, [{'.phtml':'http.engine.php','.volt':'http.engine.volt'}]]
   view: '@http.view'
   http.engine.php:
     class: Phalcon\Mvc\View\Engine\Php

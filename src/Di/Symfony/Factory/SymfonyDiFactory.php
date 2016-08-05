@@ -103,11 +103,8 @@ class SymfonyDiFactory implements DiFactoryInterface
     /**
      * @inheritDoc
      */
-    public function createDi()
+    public function createDi($applicationEnv, $cachingEnabled)
     {
-        $applicationEnv = defined('APPLICATION_ENV') ? APPLICATION_ENV : 'dev';
-        $cachingEnabled = defined('APPLICATION_CACHE') ? (bool)APPLICATION_CACHE : false;
-
         if (false === $cachingEnabled) {
             $container = $this->createContainer($this->applicationPath, $this->configDir, $applicationEnv, $cachingEnabled);
 
