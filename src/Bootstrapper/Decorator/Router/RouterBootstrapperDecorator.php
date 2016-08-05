@@ -41,6 +41,8 @@ class RouterBootstrapperDecorator extends AbstractBootstrapperDecorator
      */
     public function bootstrap(PhalconApplication $application)
     {
+        parent::bootstrap($application);
+
         /**
          * @var PhalconMvcRouter $router
          */
@@ -56,7 +58,5 @@ class RouterBootstrapperDecorator extends AbstractBootstrapperDecorator
         if ($this->config->offsetExists('default')) {
             $router->setDefaults($this->config->offsetGet('default'));
         }
-
-        return parent::bootstrap($application);
     }
 }

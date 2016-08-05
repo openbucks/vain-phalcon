@@ -62,8 +62,10 @@ class MvcBootstrapperFactory implements BootstrapperFactoryInterface
         return
             new EventBootstrapperDecorator(
                 new RouterBootstrapperDecorator(
-                    new ExtensionBootstrapperDecorator(
-                        new ContainerBootstrapperDecorator(new Bootstrapper())
+                    new ContainerBootstrapperDecorator(
+                        new ExtensionBootstrapperDecorator(
+                            new Bootstrapper()
+                        )
                     ),
                     $this->routerConfig
                 ),
