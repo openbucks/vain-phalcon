@@ -8,20 +8,20 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-phalcon
  */
-namespace Vain\Phalcon\Di\Factory\Decorator\Adapter;
+namespace Vain\Phalcon\Di\Factory\Decorator\Config;
 
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Vain\Phalcon\Di\Factory\Decorator\AbstractDiFactoryDecorator;
-use Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter;
 use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainerInterface;
 
 /**
- * Class AdapterDiFactoryDecorator
+ * Class ConfigDiFactoryDecorator
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class AdapterDiFactoryDecorator extends AbstractDiFactoryDecorator
+class ConfigDiFactoryDecorator extends AbstractDiFactoryDecorator
 {
-
     /**
      * @inheritDoc
      */
@@ -32,6 +32,10 @@ class AdapterDiFactoryDecorator extends AbstractDiFactoryDecorator
          */
         $diContainer = parent::createDi($applicationEnv, $cachingEnabled);
 
-        return new SymfonyContainerAdapter($diContainer);
+        $loader = new YamlFileLoader($diContainer, new FileLocator($diContainer->getParameter('app.dir')));
+        $diConfig = sprintf('%s/%s/%s/di.yml', $diContainer->getParameter('app.dir'), $diContainer->getParameter('app.config.dir'), $applicationEnv);
+        $loader->load($diConfig);
+
+        return $diContainer;
     }
 }
