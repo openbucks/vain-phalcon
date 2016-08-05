@@ -10,6 +10,7 @@
  */
 namespace Vain\Phalcon\Di\Compile;
 
+use Vain\Phalcon\Di\Factory\Decorator\Adapter\AdapterDiFactoryDecorator;
 use Vain\Phalcon\Di\Factory\Decorator\Compile\CompileDiFactoryDecorator;
 use Vain\Phalcon\Di\Factory\Decorator\Extension\ExtensionDiFactoryDecorator;
 use Vain\Phalcon\Di\Factory\DiFactoryInterface;
@@ -47,9 +48,11 @@ class CompileDiFactory implements DiFactoryInterface
      */
     public function createDi($applicationEnv, $cachingEnabled)
     {
-        return (new CompileDiFactoryDecorator(
-            new ExtensionDiFactoryDecorator(
-                new SymfonyDiFactory($this->applicationDir, $this->configDir, $this->cacheDir)
+        return (new AdapterDiFactoryDecorator(
+            new CompileDiFactoryDecorator(
+                new ExtensionDiFactoryDecorator(
+                    new SymfonyDiFactory($this->applicationDir, $this->configDir, $this->cacheDir)
+                )
             )
         ))->createDi($applicationEnv, $cachingEnabled);
     }
