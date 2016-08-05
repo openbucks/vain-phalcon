@@ -56,12 +56,12 @@ class EventBootstrapperDecorator extends AbstractBootstrapperDecorator
      */
     public function bootstrap(PhalconApplication $application)
     {
+        parent::bootstrap($application);
+
         foreach ($this->config as $componentName => $componentData) {
             foreach ($componentData as $eventName => $aliasName) {
                 $this->eventManager->addListener(sprintf('%s:%s', $componentName, $eventName), $this->listenerProxy);
             }
         }
-
-        return parent::bootstrap($application);
     }
 }

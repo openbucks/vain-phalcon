@@ -54,8 +54,10 @@ class CliBootstrapperFactory implements BootstrapperFactoryInterface
     public function createBootstrapper()
     {
         return new EventBootstrapperDecorator(
-            new ExtensionBootstrapperDecorator(
-                new ContainerBootstrapperDecorator(new Bootstrapper())
+            new ContainerBootstrapperDecorator(
+                new ExtensionBootstrapperDecorator(
+                    new Bootstrapper()
+                )
             ),
             $this->eventManager,
             $this->listenerProxy,
