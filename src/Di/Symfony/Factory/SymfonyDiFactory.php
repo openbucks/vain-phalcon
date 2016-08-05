@@ -87,18 +87,16 @@ class SymfonyDiFactory implements DiFactoryInterface
     {
         $containerPath = $this->getCachedContainerPath($this->applicationPath, $this->cacheDir, $applicationEnv);
         if (false === $cachingEnabled || false === file_exists($containerPath)) {
-            $container = $this->createContainer(
+            return $this->createContainer(
                 $this->applicationPath,
                 $this->configDir,
                 $applicationEnv,
                 $cachingEnabled,
                 $containerPath
             );
-
-            return new SymfonyContainerAdapter($container);
         }
         require_once $containerPath;
 
-        return new SymfonyContainerAdapter(new \CachedSymfonyContainer());
+        return new \CachedSymfonyContainer();
     }
 }
