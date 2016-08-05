@@ -69,6 +69,7 @@ services:
   sessionBag: '@app.session.bag'
   app.transaction.manager:
     class: Phalcon\Mvc\Model\Transaction\Manager
+    arguments: ['@app.di']
   transactionManager: '@app.transaction.manager'
   app.assets:
     class: Phalcon\Assets\Manager

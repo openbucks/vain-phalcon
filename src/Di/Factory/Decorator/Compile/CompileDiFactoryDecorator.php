@@ -59,19 +59,6 @@ class CompileDiFactoryDecorator extends AbstractDiFactoryDecorator
             && $diContainer->get('app.caching')
             && false === file_exists($containerPath = $diContainer->get('app.container.path'))
         ) {
-            if ($diContainer->has('app.extensions')) {
-                foreach ($diContainer->get('app.extensions') as $extension) {
-                    if (false === class_exists($extension)) {
-                        continue;
-                    }
-                    $extension = new $extension;
-                    if (false === $extension instanceof ExtensionInterface) {
-                        continue;
-                    }
-                    $extension->register($diContainer);
-                }
-            }
-            $diContainer->compile();
             $this->dumpContainer($diContainer, $containerPath);
         }
 
