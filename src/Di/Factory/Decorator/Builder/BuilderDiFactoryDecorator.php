@@ -25,7 +25,7 @@ class BuilderDiFactoryDecorator extends AbstractDiFactoryDecorator
     private $builder;
 
     /**
-     * CompileDiFactoryDecorator constructor.
+     * BuilderDiFactoryDecorator constructor.
      *
      * @param DiFactoryInterface $diFactory
      * @param DiBuilderInterface $builder
