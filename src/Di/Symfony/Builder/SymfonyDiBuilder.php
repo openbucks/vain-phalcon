@@ -15,7 +15,6 @@ use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Vain\Phalcon\Di\Builder\DiBuilderInterface;
-use Vain\Phalcon\Di\Compile\CompileAwareContainerInterface;
 use Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter;
 use Vain\Phalcon\Exception\NoContainerException;
 use Vain\Phalcon\Exception\NoCoreParametersException;
