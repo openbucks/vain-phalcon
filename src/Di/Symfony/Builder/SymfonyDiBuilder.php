@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Vain\Phalcon\Di\Builder\DiBuilderInterface;
+use Vain\Phalcon\Di\Compile\CompileAwareContainerInterface;
 use Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter;
 use Vain\Phalcon\Exception\NoContainerException;
 use Vain\Phalcon\Exception\NoCoreParametersException;
@@ -190,15 +191,19 @@ class SymfonyDiBuilder implements DiBuilderInterface
         }
         $appDir = $this->container->getParameter('app.dir');
         $configDir = $this->container->getParameter('app.config.dir');
-        if (null !== $this->applicationEnv) {
-            $this->readConfig($this->container, $appDir, $configDir);
-        }
+
         if (false !== $this->extensions) {
             $this->addExtensions($this->container, $appDir, $configDir);
         }
+
+        if (null !== $this->applicationEnv) {
+            $this->readConfig($this->container, $appDir, $configDir);
+        }
+
         if (false !== $this->compile) {
             $this->container->compile();
         }
+
         if (false !== $this->dump
             && $this->container->hasParameter('app.caching')
             && $this->container->hasParameter('app.container.path')
