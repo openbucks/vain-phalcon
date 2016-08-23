@@ -10,23 +10,23 @@
  */
 namespace Vain\Phalcon\Exception;
 
-use Vain\Phalcon\Di\Factory\DiFactoryInterface;
+use Vain\Phalcon\Di\Builder\DiBuilderInterface;
 
 /**
  * Class UnableToCacheContainerException
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class UnableToCacheContainerException extends DiFactoryException
+class UnableToCacheContainerException extends DiBuilderException
 {
     /**
      * UnableToCacheContainerException constructor.
      *
-     * @param DiFactoryInterface $diFactory
+     * @param DiBuilderInterface $builder
      * @param string             $filename
      */
-    public function __construct(DiFactoryInterface $diFactory, $filename)
+    public function __construct(DiBuilderInterface $builder, $filename)
     {
-        parent::__construct($diFactory, sprintf('Unable to write container to %s', $filename), 0, null);
+        parent::__construct($builder, sprintf('Unable to write container to %s', $filename), 0, null);
     }
 }

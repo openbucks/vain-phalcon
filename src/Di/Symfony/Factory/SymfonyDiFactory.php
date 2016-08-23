@@ -10,11 +10,8 @@
  */
 namespace Vain\Phalcon\Di\Symfony\Factory;
 
-use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Vain\Phalcon\Di\Factory\DiFactoryInterface;
-use Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter;
 
 /**
  * Class SymfonyDiFactory
@@ -55,9 +52,6 @@ class SymfonyDiFactory implements DiFactoryInterface
     protected function createContainer($applicationPath, $configDir, $applicationEnv, $cachingEnabled, $containerPath)
     {
         $builder = new SymfonyContainerBuilder;
-//        $loader = new YamlFileLoader($builder, new FileLocator($applicationPath));
-//        $diConfig = sprintf('%s/%s/%s/di.yml', $applicationPath, $configDir, $applicationEnv);
-//        $loader->load($diConfig);
         $builder->setParameter('app.dir', $applicationPath);
         $builder->setParameter('app.env', $applicationEnv);
         $builder->setParameter('app.config.dir', $configDir);
