@@ -46,6 +46,8 @@ class BuilderDiFactoryDecorator extends AbstractDiFactoryDecorator
          */
         $diContainer = parent::createDi($applicationEnv, $cachingEnabled);
         $this->builder->container($diContainer);
+        $diContainer->getParameterBag();
+
         if (false === $diContainer->isFrozen()) {
             $this->builder
                 ->config($applicationEnv)
