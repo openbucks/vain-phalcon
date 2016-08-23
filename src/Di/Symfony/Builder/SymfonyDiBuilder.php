@@ -44,7 +44,7 @@ class SymfonyDiBuilder implements DiBuilderInterface
     /**
      * @inheritDoc
      */
-    public function container(CompileAwareContainerInterface $container)
+    public function container($container)
     {
         $this->container = $container;
 

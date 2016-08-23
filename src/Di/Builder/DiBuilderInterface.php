@@ -21,11 +21,11 @@ use Vain\Phalcon\Di\Compile\CompileAwareContainerInterface;
 interface DiBuilderInterface
 {
     /**
-     * @param CompileAwareContainerInterface $container
+     * @param mixed $container
      *
      * @return DiBuilderInterface
      */
-    public function container(CompileAwareContainerInterface $container);
+    public function container($container);
 
     /**
      * @param string $applicationEnv
