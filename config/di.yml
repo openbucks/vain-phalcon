@@ -129,3 +129,5 @@ services:
   http.flash.session:
     class: Phalcon\Flash\Session
   flashSession: '@http.flash.session'
+  entity.operation.factory:
+    class: Vain\Phalcon\Entity\Operation\Factory\PhalconEntityOperationFactory
