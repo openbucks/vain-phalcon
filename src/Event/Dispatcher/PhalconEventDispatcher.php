@@ -202,5 +202,4 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     {
         throw new UnsupportedResponsesException($this);
     }
-
 }
