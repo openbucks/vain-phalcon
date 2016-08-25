@@ -11,8 +11,10 @@
 namespace Vain\Phalcon\Entity;
 
 use Phalcon\Mvc\Model as PhalconMvcModel;
+use Phalcon\Mvc\Model\Criteria as PhalconCriteria;
 use Vain\Entity\EntityInterface;
-use Phalcon;
+use Phalcon\Di as PhalconDi;
+use Phalcon\DiInterface as PhalconDiInterface;
 
 /**
  * Class AbstractEntity
@@ -38,13 +40,13 @@ abstract class AbstractEntity extends PhalconMvcModel implements EntityInterface
     /**
      * @inheritDoc
      */
-    public static function query(Phalcon\DiInterface $di = null)
+    public static function query(PhalconDiInterface $di = null)
     {
         if (null === $di) {
-            $di = Phalcon\Di::getDefault();
+            $di = PhalconDi::getDefault();
         }
         
-        $criteria = new PhalconMvcModel\Criteria();
+        $criteria = new PhalconCriteria();
         $criteria->setDI($di);
         $criteria->setModelName(get_called_class());
 
