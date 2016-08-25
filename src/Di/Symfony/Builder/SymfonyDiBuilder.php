@@ -188,15 +188,16 @@ class SymfonyDiBuilder implements DiBuilderInterface
     }
 
     /**
-     * @return SymfonyDiBuilder
+     * @return SymfonyContainerBuilder
      */
     protected function reset()
     {
+        $container = $this->container;
         $this->dump = false;
         $this->extensions = $this->compilePasses = [];
         $this->applicationEnv = $this->container = $this->appDir = $this->configDir = null;
 
-        return $this;
+        return $container;
     }
 
     /**
@@ -204,7 +205,7 @@ class SymfonyDiBuilder implements DiBuilderInterface
      */
     public function getDi()
     {
-        if (null === $this->container || null === $this->appDir || null === $this->configDir) {
+        if (null === $this->container) {
             throw new NoContainerException($this);
         }
 
@@ -216,7 +217,9 @@ class SymfonyDiBuilder implements DiBuilderInterface
             $this->addExtensions($this->container, $this->extensions);
         }
 
-        if (null !== $this->applicationEnv) {
+        if (null !== $this->applicationEnv
+            && null !== $this->appDir
+            && null !== $this->configDir) {
             $this->readConfig($this->container, $this->appDir, $this->configDir);
         }
 
@@ -233,8 +236,6 @@ class SymfonyDiBuilder implements DiBuilderInterface
             $this->dumpContainer($this->container, $containerPath);
         }
 
-        $this->reset();
-
-        return new SymfonyContainerAdapter($this->container);
+        return new SymfonyContainerAdapter($this->reset());
     }
 }
