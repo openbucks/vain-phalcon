@@ -11,7 +11,8 @@
 namespace Vain\Phalcon\Di\Builder;
 
 use Phalcon\DiInterface as PhalconDiInterface;
-use Vain\Phalcon\Di\Compile\CompileAwareContainerInterface;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 
 /**
  * Interface DiBuilderInterface
@@ -35,11 +36,25 @@ interface DiBuilderInterface
     public function config($applicationEnv);
 
     /**
-     * @param bool $compile
+     * @param string $appDir
      *
      * @return DiBuilderInterface
      */
-    public function compile($compile = true);
+    public function appDir($appDir);
+
+    /**
+     * @param $configDir
+     *
+     * @return DiBuilderInterface
+     */
+    public function configDir($configDir);
+
+    /**
+     * @param CompilerPassInterface[] $compilePasses
+     *
+     * @return DiBuilderInterface
+     */
+    public function compilePasses(array $compilePasses);
 
     /**
      * @param bool $dump
@@ -49,11 +64,11 @@ interface DiBuilderInterface
     public function dump($dump = true);
 
     /**
-     * @param bool $extensions
+     * @param ExtensionInterface[] $extensions
      *
      * @return DiBuilderInterface
      */
-    public function extensions($extensions = true);
+    public function extensions(array $extensions);
 
     /**
      * @return PhalconDiInterface

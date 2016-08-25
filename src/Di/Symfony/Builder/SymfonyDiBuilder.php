@@ -11,14 +11,14 @@
 namespace Vain\Phalcon\Di\Symfony\Builder;
 
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
+use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Vain\Phalcon\Di\Builder\DiBuilderInterface;
-use Vain\Phalcon\Di\Compile\CompileAwareContainerInterface;
 use Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter;
 use Vain\Phalcon\Exception\NoContainerException;
-use Vain\Phalcon\Exception\NoCoreParametersException;
 use Vain\Phalcon\Exception\UnableToCacheContainerException;
 
 /**
@@ -33,11 +33,15 @@ class SymfonyDiBuilder implements DiBuilderInterface
      */
     private $container;
 
-    private $compile = false;
+    private $appDir;
+
+    private $configDir;
 
     private $applicationEnv = null;
 
-    private $extensions = false;
+    private $extensions = [];
+
+    private $compilePasses = [];
 
     private $dump = false;
 
@@ -54,9 +58,29 @@ class SymfonyDiBuilder implements DiBuilderInterface
     /**
      * @inheritDoc
      */
-    public function compile($compile = true)
+    public function appDir($appDir)
     {
-        $this->compile = $compile;
+        $this->appDir = $appDir;
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function configDir($configDir)
+    {
+        $this->configDir = $configDir;
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function compilePasses(array $compilePasses)
+    {
+        $this->compilePasses = $compilePasses;
 
         return $this;
     }
@@ -74,7 +98,7 @@ class SymfonyDiBuilder implements DiBuilderInterface
     /**
      * @inheritDoc
      */
-    public function extensions($extensions = true)
+    public function extensions(array $extensions)
     {
         $this->extensions = $extensions;
 
@@ -135,31 +159,29 @@ class SymfonyDiBuilder implements DiBuilderInterface
 
     /**
      * @param SymfonyContainerBuilder $container
-     * @param string                  $appDir
-     * @param string                  $configDir
+     * @param CompilerPassInterface[] $compilePasses
      *
      * @return SymfonyContainerBuilder
-     * @throws \Exception
      */
-    protected function addExtensions(SymfonyContainerBuilder $container, $appDir, $configDir)
+    protected function addCompilePasses(SymfonyContainerBuilder $container, array $compilePasses)
     {
-        $extensionsFile = sprintf(
-            '%s%s%s%sextensions.php',
-            $appDir,
-            DIRECTORY_SEPARATOR,
-            $configDir,
-            DIRECTORY_SEPARATOR
-        );
-        if (false === file_exists($extensionsFile)) {
-            return $container;
+        foreach ($compilePasses as $compilePass) {
+            $container->addCompilerPass($compilePass);
         }
-        $extensions = require_once $extensionsFile;
+
+        return $container;
+    }
+
+    /**
+     * @param SymfonyContainerBuilder $container
+     * @param ExtensionInterface[]    $extensions
+     *
+     * @return SymfonyContainerBuilder
+     */
+    protected function addExtensions(SymfonyContainerBuilder $container, array $extensions)
+    {
         foreach ($extensions as $extension) {
-            $className = sprintf('Vain\%s\Extension\%sExtension', $extension, $extension);
-            if (false === class_exists($className)) {
-                throw new \Exception("Class $className");
-            }
-            (new $className)->load([], $container);
+            $extension->load([], $container);
         }
 
         return $container;
@@ -170,8 +192,9 @@ class SymfonyDiBuilder implements DiBuilderInterface
      */
     protected function reset()
     {
-        $this->compile = $this->extensions = $this->dump = false;
-        $this->applicationEnv = null;
+        $this->dump = false;
+        $this->extensions = $this->compilePasses = [];
+        $this->applicationEnv = $this->container = $this->appDir = $this->configDir = null;
 
         return $this;
     }
@@ -181,26 +204,23 @@ class SymfonyDiBuilder implements DiBuilderInterface
      */
     public function getDi()
     {
-        if (null === $this->container) {
+        if (null === $this->container || null === $this->appDir || null === $this->configDir) {
             throw new NoContainerException($this);
         }
-        if (false === $this->container->hasParameter('app.dir')
-            || false === $this->container->hasParameter('app.config.dir')
-        ) {
-            throw new NoCoreParametersException($this);
-        }
-        $appDir = $this->container->getParameter('app.dir');
-        $configDir = $this->container->getParameter('app.config.dir');
 
-        if (false !== $this->extensions) {
-            $this->addExtensions($this->container, $appDir, $configDir);
+        if ([] !== $this->compilePasses) {
+            $this->addCompilePasses($this->container, $this->compilePasses);
+        }
+
+        if ([] !== $this->extensions) {
+            $this->addExtensions($this->container, $this->extensions);
         }
 
         if (null !== $this->applicationEnv) {
-            $this->readConfig($this->container, $appDir, $configDir);
+            $this->readConfig($this->container, $this->appDir, $this->configDir);
         }
 
-        if (false !== $this->compile) {
+        if ([] !== $this->extensions || [] !== $this->compilePasses) {
             $this->container->compile();
         }
 
