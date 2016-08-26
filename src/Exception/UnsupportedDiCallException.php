@@ -21,8 +21,9 @@ class UnsupportedDiCallException extends DiException
 {
     /**
      * UnsupportedDiCallException constructor.
+     *
      * @param PhalconDiInterface $di
-     * @param string $method
+     * @param string             $method
      */
     public function __construct(PhalconDiInterface $di, $method)
     {

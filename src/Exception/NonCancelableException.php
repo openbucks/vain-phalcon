@@ -22,6 +22,7 @@ class NonCancelableException extends EventException
 {
     /**
      * NonCanceableEventException constructor.
+     *
      * @param PhalconEvent $event
      */
     public function __construct(PhalconEvent $event)

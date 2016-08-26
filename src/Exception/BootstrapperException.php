@@ -10,7 +10,7 @@
  */
 namespace Vain\Phalcon\Exception;
 
-use Vain\Core\Exception\CoreException;
+use Vain\Core\Exception\AbstractCoreException;
 use Vain\Phalcon\Bootstrapper\BootstrapperInterface;
 
 /**
@@ -18,7 +18,7 @@ use Vain\Phalcon\Bootstrapper\BootstrapperInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class BootstrapperException extends CoreException
+class BootstrapperException extends AbstractCoreException
 {
     private $bootstrapper;
 

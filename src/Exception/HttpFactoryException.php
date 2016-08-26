@@ -10,7 +10,7 @@
  */
 namespace Vain\Phalcon\Exception;
 
-use Vain\Core\Exception\CoreException;
+use Vain\Core\Exception\AbstractCoreException;
 use Vain\Http\Request\Factory\RequestFactoryInterface;
 
 /**
@@ -18,7 +18,7 @@ use Vain\Http\Request\Factory\RequestFactoryInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class HttpFactoryException extends CoreException
+class HttpFactoryException extends AbstractCoreException
 {
     private $httpFactory;
 
