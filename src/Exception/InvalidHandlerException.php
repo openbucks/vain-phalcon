@@ -21,8 +21,9 @@ class InvalidHandlerException extends DispatcherException
 {
     /**
      * InvalidHandlerException constructor.
+     *
      * @param EventDispatcherInterface $dispatcher
-     * @param string $handler
+     * @param string                   $handler
      */
     public function __construct(EventDispatcherInterface $dispatcher, $handler)
     {

@@ -22,8 +22,9 @@ class UnsupportedCookieCallException extends CookieException
 {
     /**
      * UnsupportedCookieCallException constructor.
+     *
      * @param VainCookieInterface $cookie
-     * @param string $method
+     * @param string              $method
      */
     public function __construct(VainCookieInterface $cookie, $method)
     {

@@ -10,14 +10,14 @@
  */
 namespace Vain\Phalcon\Exception;
 
-use Vain\Core\Exception\CoreException;
+use Vain\Core\Exception\AbstractCoreException;
 
 /**
  * Class UnreachableFileException
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class UnreachableFileException extends CoreException
+class UnreachableFileException extends AbstractCoreException
 {
     /**
      * UnreachableFileException constructor.

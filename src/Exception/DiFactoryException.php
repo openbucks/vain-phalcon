@@ -10,7 +10,7 @@
  */
 namespace Vain\Phalcon\Exception;
 
-use Vain\Core\Exception\CoreException;
+use Vain\Core\Exception\AbstractCoreException;
 use Vain\Phalcon\Di\Factory\DiFactoryInterface;
 
 /**
@@ -18,7 +18,7 @@ use Vain\Phalcon\Di\Factory\DiFactoryInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class DiFactoryException extends CoreException
+class DiFactoryException extends AbstractCoreException
 {
 
     private $diFactory;

@@ -22,11 +22,17 @@ class UnsupportedHeaderStorageCallException extends HeaderStorageException
 {
     /**
      * UnsupportedHeaderStorageCallException constructor.
+     *
      * @param HeaderStorageInterface $headerStorage
-     * @param string $method
+     * @param string                 $method
      */
     public function __construct(HeaderStorageInterface $headerStorage, $method)
     {
-        parent::__construct($headerStorage, sprintf('Call to method %s on header storage object is not supported', $method), 0, null);
+        parent::__construct(
+            $headerStorage,
+            sprintf('Call to method %s on header storage object is not supported', $method),
+            0,
+            null
+        );
     }
 }

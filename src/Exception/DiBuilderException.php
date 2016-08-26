@@ -10,7 +10,7 @@
  */
 namespace Vain\Phalcon\Exception;
 
-use Vain\Core\Exception\CoreException;
+use Vain\Core\Exception\AbstractCoreException;
 use Vain\Phalcon\Di\Builder\DiBuilderInterface;
 
 /**
@@ -18,7 +18,7 @@ use Vain\Phalcon\Di\Builder\DiBuilderInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class DiBuilderException extends CoreException
+class DiBuilderException extends AbstractCoreException
 {
     private $builder;
 
