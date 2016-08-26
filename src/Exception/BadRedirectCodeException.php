@@ -11,7 +11,7 @@
 namespace Vain\Phalcon\Exception;
 
 use Vain\Http\Exception\ResponseException;
-use Vain\Http\Response\VainResponseInterface;
+use Vain\Http\Response\AbstractResponse;
 
 /**
  * Class BadRedirectCodeException
@@ -22,11 +22,12 @@ class BadRedirectCodeException extends ResponseException
 {
     /**
      * BadRedirectCodeException constructor.
-     * @param VainResponseInterface $response
-     * @param string $code
+     *
+     * @param AbstractResponse $response
+     * @param string           $code
      */
-    public function __construct(VainResponseInterface $response, $code)
+    public function __construct(AbstractResponse $response, $code)
     {
-        parent::__construct($response, sprintf('Unsupported code %d for redirection', $code), 0 ,null);
+        parent::__construct($response, sprintf('Unsupported code %d for redirection', $code), 0, null);
     }
 }

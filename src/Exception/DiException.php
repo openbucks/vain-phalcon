@@ -11,14 +11,14 @@
 namespace Vain\Phalcon\Exception;
 
 use Phalcon\DiInterface as PhalconDiInterface;
-use Vain\Core\Exception\CoreException;
+use Vain\Core\Exception\AbstractCoreException;
 
 /**
  * Class DiException
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class DiException extends CoreException
+class DiException extends AbstractCoreException
 {
     private $di;
 

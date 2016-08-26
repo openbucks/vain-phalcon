@@ -10,7 +10,7 @@
  */
 namespace Vain\Phalcon\Exception;
 
-use Vain\Core\Exception\CoreException;
+use Vain\Core\Exception\AbstractCoreException;
 use Vain\Event\Dispatcher\EventDispatcherInterface;
 
 /**
@@ -18,7 +18,7 @@ use Vain\Event\Dispatcher\EventDispatcherInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class DispatcherException extends CoreException
+class DispatcherException extends AbstractCoreException
 {
     private $dispatcher;
 

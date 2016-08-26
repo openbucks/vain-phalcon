@@ -21,8 +21,9 @@ class UnknownProtocolException extends HttpFactoryException
 {
     /**
      * UnknownProtocolException constructor.
+     *
      * @param RequestFactoryInterface $factory
-     * @param string $protocol
+     * @param string                  $protocol
      */
     public function __construct(RequestFactoryInterface $factory, $protocol)
     {

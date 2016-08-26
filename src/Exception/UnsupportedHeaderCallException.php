@@ -22,8 +22,9 @@ class UnsupportedHeaderCallException extends HeaderException
 {
     /**
      * UnsupportedHeaderCallException constructor.
+     *
      * @param VainHeaderInterface $header
-     * @param string $method
+     * @param string              $method
      */
     public function __construct(VainHeaderInterface $header, $method)
     {

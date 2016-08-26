@@ -21,6 +21,7 @@ class UnsupportedPrioritiesException extends DispatcherException
 {
     /**
      * UnsupportedPrioritiesException constructor.
+     *
      * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(EventDispatcherInterface $dispatcher)

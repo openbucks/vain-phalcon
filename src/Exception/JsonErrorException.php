@@ -11,7 +11,7 @@
 namespace Vain\Phalcon\Exception;
 
 use Vain\Http\Exception\ResponseException;
-use Vain\Http\Response\VainResponseInterface;
+use Vain\Http\Response\AbstractResponse;
 
 /**
  * Class JsonErrorException
@@ -22,10 +22,11 @@ class JsonErrorException extends ResponseException
 {
     /**
      * JsonErrorException constructor.
-     * @param VainResponseInterface $response
-     * @param string $content
+     *
+     * @param AbstractResponse $response
+     * @param string           $content
      */
-    public function __construct(VainResponseInterface $response, $content)
+    public function __construct(AbstractResponse $response, $content)
     {
         parent::__construct($response, sprintf('Unable to encode content %s', $content), 0, null);
     }

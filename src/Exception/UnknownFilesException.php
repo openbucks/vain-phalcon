@@ -21,8 +21,9 @@ class UnknownFilesException extends HttpFactoryException
 {
     /**
      * UnknownFilesException constructor.
+     *
      * @param RequestFactoryInterface $factory
-     * @param string $fileKey
+     * @param string                  $fileKey
      */
     public function __construct(RequestFactoryInterface $factory, $fileKey)
     {
