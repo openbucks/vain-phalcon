@@ -6,6 +6,7 @@ services:
   api.config.provider:
     class: Vain\Phalcon\Api\Config\Provider\PhalconApiConfigProvider
     arguments: ['@app.router', '@config.provider', '@api.config.factory']
+  api.config.storage: '@api.config.provider'
   api.config.factory:
     class: Vain\Phalcon\Api\Config\Factory\PhalconApiConfigFactory
   app.di:
