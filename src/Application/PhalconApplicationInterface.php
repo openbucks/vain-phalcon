@@ -12,6 +12,7 @@ namespace Vain\Phalcon\Application;
 
 use Phalcon\Di\InjectionAwareInterface as PhalconDiAwareInterface;
 use Phalcon\DiInterface as PhalconDiInterface;
+use Vain\Phalcon\Application\Module\PhalconApplicationModuleInterface;
 
 /**
  * Interface ApplicationInterface
@@ -22,4 +23,15 @@ use Phalcon\DiInterface as PhalconDiInterface;
  */
 interface PhalconApplicationInterface extends PhalconDiAwareInterface
 {
+    /**
+     * @param PhalconApplicationModuleInterface $applicationModule
+     *
+     * @return PhalconApplicationInterface
+     */
+    public function addModule($alias, PhalconApplicationModuleInterface $applicationModule);
+
+    /**
+     * @return PhalconApplicationModuleInterface[]
+     */
+    public function getApplicationModules();
 }
