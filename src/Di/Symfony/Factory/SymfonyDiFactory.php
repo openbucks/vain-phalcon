@@ -43,6 +43,7 @@ class SymfonyDiFactory implements DiFactoryInterface
 
     /**
      * @param string $applicationPath
+     * @param string $applicationMode
      * @param string $configDir
      * @param string $applicationEnv
      * @param bool   $cachingEnabled
@@ -50,11 +51,12 @@ class SymfonyDiFactory implements DiFactoryInterface
      *
      * @return SymfonyContainerBuilder
      */
-    protected function createContainer($applicationPath, $configDir, $applicationEnv, $cachingEnabled, $containerPath)
+    protected function createContainer($applicationPath, $configDir, $applicationEnv, $applicationMode, $cachingEnabled, $containerPath)
     {
         $builder = new SymfonyContainerBuilder;
         $builder->setParameter('app.dir', $applicationPath);
         $builder->setParameter('app.env', $applicationEnv);
+        $builder->setParameter('app.mode', $applicationMode);
         $builder->setParameter('app.config.dir', $configDir);
         $builder->setParameter('app.cache.dir', $this->cacheDir);
         $builder->setParameter('app.caching', $cachingEnabled);
@@ -79,7 +81,7 @@ class SymfonyDiFactory implements DiFactoryInterface
     /**
      * @inheritDoc
      */
-    public function createDi($applicationEnv, $cachingEnabled)
+    public function createDi($applicationEnv, $applicationMode, $cachingEnabled)
     {
         $containerPath = $this->getCachedContainerPath($this->applicationPath, $this->cacheDir, $applicationEnv);
         if (false === $cachingEnabled || false === file_exists($containerPath)) {
@@ -87,6 +89,7 @@ class SymfonyDiFactory implements DiFactoryInterface
                 $this->applicationPath,
                 $this->configDir,
                 $applicationEnv,
+                $applicationMode,
                 $cachingEnabled,
                 $containerPath
             );
