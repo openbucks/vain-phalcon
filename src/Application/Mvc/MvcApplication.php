@@ -17,6 +17,7 @@ use Vain\Http\Request\Proxy\HttpRequestProxyInterface;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Http\Response\Proxy\HttpResponseProxyInterface;
 use Phalcon\DiInterface as PhalconDiInterface;
+use Vain\Phalcon\Application\Module\PhalconApplicationModuleInterface;
 use Vain\Phalcon\Application\PhalconApplicationInterface;
 
 /**
@@ -31,6 +32,8 @@ class MvcApplication extends PhalconMvcApplication implements HttpApplicationInt
     private $responseProxy;
 
     private $responseFactory;
+
+    private $modules;
 
     /**
      * PhalconApplication constructor.
@@ -50,6 +53,24 @@ class MvcApplication extends PhalconMvcApplication implements HttpApplicationInt
         $this->responseProxy = $responseProxy;
         $this->responseFactory = $responseFactory;
         parent::__construct($di);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function addModule($alias, PhalconApplicationModuleInterface $applicationModule)
+    {
+        $this->modules[$alias] = $applicationModule;
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getApplicationModules()
+    {
+        return $this->modules;
     }
 
     /**
