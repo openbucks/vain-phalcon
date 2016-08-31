@@ -12,6 +12,7 @@ namespace Vain\Phalcon\Di\Symfony\Factory;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder as SymfonyContainerBuilder;
 use Vain\Phalcon\Di\Factory\DiFactoryInterface;
+use Vain\Phalcon\Di\Symfony\Compiler\ApplicationModulesCompilerPass;
 
 /**
  * Class SymfonyDiFactory
@@ -58,6 +59,7 @@ class SymfonyDiFactory implements DiFactoryInterface
         $builder->setParameter('app.cache.dir', $this->cacheDir);
         $builder->setParameter('app.caching', $cachingEnabled);
         $builder->setParameter('app.container.path', $containerPath);
+        $builder->addCompilerPass(new ApplicationModulesCompilerPass());
 
         return $builder;
     }
