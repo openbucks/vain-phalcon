@@ -39,6 +39,8 @@ class SymfonyDiBuilder implements DiBuilderInterface
 
     private $applicationEnv = null;
 
+    private $applicationMode = null;
+
     private $extensions = [];
 
     private $compilePasses = [];
@@ -98,6 +100,17 @@ class SymfonyDiBuilder implements DiBuilderInterface
     /**
      * @inheritDoc
      */
+    public function mode($applicationMode)
+    {
+        $this->applicationMode = $applicationMode;
+
+        return $this;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function extensions(array $extensions)
     {
         $this->extensions = $extensions;
@@ -147,10 +160,11 @@ class SymfonyDiBuilder implements DiBuilderInterface
     {
         $loader = new YamlFileLoader($this->container, new FileLocator($appDir));
         $diConfig = sprintf(
-            '%s/%s/%s/di.yml',
+            '%s/%s/%s/%s/di.yml',
             $appDir,
             $configDir,
-            $this->applicationEnv
+            $this->applicationEnv,
+            $this->applicationMode
         );
         $loader->load($diConfig);
 
@@ -195,7 +209,7 @@ class SymfonyDiBuilder implements DiBuilderInterface
         $container = $this->container;
         $this->dump = false;
         $this->extensions = $this->compilePasses = [];
-        $this->applicationEnv = $this->container = $this->appDir = $this->configDir = null;
+        $this->applicationEnv = $this->applicationMode = $this->container = $this->appDir = $this->configDir = null;
 
         return $container;
     }
@@ -218,6 +232,7 @@ class SymfonyDiBuilder implements DiBuilderInterface
         }
 
         if (null !== $this->applicationEnv
+            && null !== $this->applicationMode
             && null !== $this->appDir
             && null !== $this->configDir) {
             $this->readConfig($this->container, $this->appDir, $this->configDir);
