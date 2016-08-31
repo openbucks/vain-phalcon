@@ -13,6 +13,7 @@ namespace Vain\Phalcon\Api\Config\Provider;
 use Vain\Api\Config\Factory\ApiConfigFactoryInterface;
 use Vain\Api\Config\Provider\ApiConfigProviderInterface;
 use Phalcon\Mvc\RouterInterface as PhalconMvcRouterInterface;
+use Vain\Api\Config\Storage\ApiConfigStorageInterface;
 use Vain\Config\Provider\ConfigProviderInterface;
 use Vain\Http\Request\VainServerRequestInterface;
 use Vain\Phalcon\Exception\NoModuleConfigDataException;
@@ -23,7 +24,7 @@ use Vain\Phalcon\Exception\NoRouteConfigDataException;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class PhalconApiConfigProvider implements ApiConfigProviderInterface
+class PhalconApiConfigProvider implements ApiConfigProviderInterface, ApiConfigStorageInterface
 {
     private $router;
 
@@ -65,5 +66,20 @@ class PhalconApiConfigProvider implements ApiConfigProviderInterface
         }
 
         return $this->configFactory->createConfig($moduleName, $routeName, $moduleData[$routeName]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getConfigs()
+    {
+        $apiRouteConfigs = [];
+        foreach ($this->configProvider->getConfig('api') as $moduleName => $routes) {
+            foreach ($routes as $routeName => $routeDescription) {
+                $apiRouteConfigs[] = $this->configFactory->createConfig($moduleName, $routeName, $routeDescription);
+            }
+        }
+
+        return $apiRouteConfigs;
     }
 }
