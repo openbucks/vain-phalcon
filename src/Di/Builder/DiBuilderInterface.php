@@ -36,6 +36,14 @@ interface DiBuilderInterface
     public function config($applicationEnv);
 
     /**
+     * @param string $applicationMode
+     *
+     * @return DiBuilderInterface
+     */
+    public function mode($applicationMode);
+
+
+    /**
      * @param string $appDir
      *
      * @return DiBuilderInterface
