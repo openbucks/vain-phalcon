@@ -99,6 +99,13 @@ class PhalconApiController extends AbstractController
         foreach ($apiResponse->getHeaders() as $header => $value) {
             $this->response->withHeader($header, $value);
         }
+
+        if ([] === $apiResponse->getData()) {
+            return $this;
+        }
+
         $this->response->getBody()->write($this->encoder->encode($apiResponse->getData()));
+
+        return $this;
     }
 }
