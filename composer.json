@@ -17,11 +17,11 @@
     "require": {
         "php": ">=7.0",
         "ext-phalcon": "^3.0",
-        "vain/api": "dev-dev",
-        "vain/config": "dev-dev",
-        "vain/entity": "dev-dev",
-        "vain/event": "dev-dev",
-        "vain/http": "dev-dev"
+        "vain/api": "^0.2",
+        "vain/config": "^0.2",
+        "vain/entity": "^0.2",
+        "vain/event": "^0.2",
+        "vain/http": "^0.2"
     },
     "require-dev": {
         "phalcon/devtools": "^3.0"
