@@ -1,40 +1,40 @@
 {
-  "name": "vain/phalcon",
-  "type": "shared-package",
-  "authors": [
-    {
-      "name": "Taras Girnyk",
-      "email": "le@mirohost.net",
-      "homepage": "https://github.com/allflame/vain-phalcon",
-      "role": "Maintainer"
-    }
-  ],
-  "autoload": {
-    "psr-4": {
-      "Vain\\Phalcon\\": "src/"
-    }
-  },
-  "require": {
-    "php": ">=5.6.0",
-    "ext-phalcon" : "^3.0",
-    "vain/api" : "dev-dev",
-    "vain/config" : "dev-dev",
-    "vain/entity" : "dev-dev",
-    "vain/event" : "dev-dev",
-    "vain/http" : "dev-dev"
-  },
-  "require-dev": {
-    "phalcon/devtools": "^3.0"
-  },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "http://78.47.118.217"
-    }
-  ],
-  "config": {
-    "secure-http": false
-  },
-  "prefer-stable": true,
-  "minimum-stability": "dev"
+    "name": "vain/phalcon",
+    "type": "shared-package",
+    "authors": [
+        {
+            "name": "Taras Girnyk",
+            "email": "taras.p.gyrnik@gmail.com",
+            "homepage": "https://github.com/allflame/vain-phalcon",
+            "role": "Maintainer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Vain\\Phalcon\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.0",
+        "ext-phalcon": "^3.0",
+        "vain/api": "dev-dev",
+        "vain/config": "dev-dev",
+        "vain/entity": "dev-dev",
+        "vain/event": "dev-dev",
+        "vain/http": "dev-dev"
+    },
+    "require-dev": {
+        "phalcon/devtools": "^3.0"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://78.47.118.217"
+        }
+    ],
+    "config": {
+        "secure-http": false
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
 }
