@@ -10,6 +10,7 @@
  */
 namespace Vain\Phalcon\Config\Factory;
 
+use Vain\Config\ConfigInterface;
 use Vain\Config\Factory\ConfigFactoryInterface;
 use Vain\Phalcon\Config\PhalconConfig;
 
@@ -23,7 +24,7 @@ class PhalconConfigFactory implements ConfigFactoryInterface
     /**
      * @inheritDoc
      */
-    public function createConfig(array $data = [])
+    public function createConfig(array $data = []) : ConfigInterface
     {
         return new PhalconConfig($data);
     }

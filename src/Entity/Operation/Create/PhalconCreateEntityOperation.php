@@ -12,6 +12,7 @@ namespace Vain\Phalcon\Entity\Operation\Create;
 
 use Vain\Entity\Operation\Create\AbstractCreateEntityOperation;
 use Vain\Operation\Result\Failed\FailedOperationResult;
+use Vain\Operation\Result\OperationResultInterface;
 use Vain\Operation\Result\Successful\SuccessfulOperationResult;
 use Vain\Phalcon\Entity\AbstractEntity;
 
@@ -27,7 +28,7 @@ class PhalconCreateEntityOperation extends AbstractCreateEntityOperation
     /**
      * @inheritDoc
      */
-    public function execute()
+    public function execute() : OperationResultInterface
     {
         if (false === $this->getEntity()->save()) {
             return new FailedOperationResult();

@@ -11,6 +11,7 @@
 namespace Vain\Phalcon\Mvc\Model\Query;
 
 use Phalcon\Mvc\Model\Query\Builder as PhalconQueryBuilder;
+use \Phalcon\Mvc\Model\Query as PhalconMvcQuery;
 
 /**
  * Class PhalconMvcQueryBuilder
@@ -24,7 +25,7 @@ class PhalconMvcQueryBuilder extends PhalconQueryBuilder
      */
     public function getQuery()
 	{
-        $query = new \Phalcon\Mvc\Model\Query($this->getPhql(), $this->_dependencyInjector);
+        $query = new PhalconMvcQuery($this->getPhql(), $this->_dependencyInjector);
 
         if (is_array($this->_bindParams)) {
             $query->setBindParams($this->_bindParams);

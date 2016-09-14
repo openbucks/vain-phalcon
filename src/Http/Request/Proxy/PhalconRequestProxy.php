@@ -13,13 +13,14 @@ namespace Vain\Phalcon\Http\Request\Proxy;
 use Vain\Http\Request\Proxy\AbstractRequestProxy;
 use Vain\Http\Request\Proxy\HttpRequestProxyInterface;
 use Phalcon\Http\RequestInterface as PhalconHttpRequestInterface;
+use Vain\Phalcon\Http\Request\PhalconRequest;
 
 /**
  * Class PhalconRequestProxy
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  * 
- * @method PhalconHttpRequestInterface getCurrentMessage
+ * @method PhalconRequest getCurrentMessage
  */
 class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestProxyInterface, PhalconHttpRequestInterface
 {
@@ -362,7 +363,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getContents()
+    public function getContents() : string
     {
         return $this->getCurrentMessage()->getContents();
     }
@@ -370,7 +371,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function hasQueryParam($name)
+    public function hasQueryParam(string $name)
     {
         return $this->getCurrentMessage()->hasQueryParam($name);
     }
@@ -378,7 +379,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function hasBodyParam($name)
+    public function hasBodyParam(string $name)
     {
         return $this->getCurrentMessage()->hasBodyParam($name);
     }
@@ -386,7 +387,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function post($name, $default = null)
+    public function post(string $name, $default = null)
     {
         return $this->getCurrentMessage()->post($name, $default);
     }

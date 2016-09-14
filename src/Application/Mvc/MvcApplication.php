@@ -11,12 +11,13 @@
 namespace Vain\Phalcon\Application\Mvc;
 
 use Phalcon\Mvc\Application as PhalconMvcApplication;
-use Psr\Http\Message\ServerRequestInterface as HttpServerRequestInterface;
 use Vain\Http\Application\HttpApplicationInterface;
 use Vain\Http\Request\Proxy\HttpRequestProxyInterface;
+use Vain\Http\Request\VainServerRequestInterface;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Http\Response\Proxy\HttpResponseProxyInterface;
 use Phalcon\DiInterface as PhalconDiInterface;
+use Vain\Http\Response\VainResponseInterface;
 use Vain\Phalcon\Application\Module\PhalconApplicationModuleInterface;
 use Vain\Phalcon\Application\PhalconApplicationInterface;
 
@@ -76,7 +77,7 @@ class MvcApplication extends PhalconMvcApplication implements HttpApplicationInt
     /**
      * @inheritDoc
      */
-    public function handleRequest(HttpServerRequestInterface $request)
+    public function handleRequest(VainServerRequestInterface $request) : VainResponseInterface
     {
         $this->requestProxy->addRequest($request);
         $this->responseProxy->addResponse($this->responseFactory->createResponse('php://temp'));
@@ -98,7 +99,7 @@ class MvcApplication extends PhalconMvcApplication implements HttpApplicationInt
     /**
      * @return HttpRequestProxyInterface
      */
-    public function getRequestProxy()
+    public function getRequestProxy() : HttpRequestProxyInterface
     {
         return $this->requestProxy;
     }
@@ -106,7 +107,7 @@ class MvcApplication extends PhalconMvcApplication implements HttpApplicationInt
     /**
      * @return HttpResponseProxyInterface
      */
-    public function getResponseProxy()
+    public function getResponseProxy() : HttpResponseProxyInterface
     {
         return $this->responseProxy;
     }
@@ -114,7 +115,7 @@ class MvcApplication extends PhalconMvcApplication implements HttpApplicationInt
     /**
      * @return ResponseFactoryInterface
      */
-    public function getResponseFactory()
+    public function getResponseFactory() : ResponseFactoryInterface
     {
         return $this->responseFactory;
     }

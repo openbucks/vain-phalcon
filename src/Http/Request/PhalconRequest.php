@@ -296,7 +296,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
      *
      * @return VainFileInterface[]
      */
-    public function getUploadedFiles($onlySuccessful = null)
+    public function getUploadedFiles($onlySuccessful = null) : array
     {
         return parent::getUploadedFiles();
     }

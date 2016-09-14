@@ -10,6 +10,7 @@
  */
 namespace Vain\Phalcon\Api\Config\Factory;
 
+use Vain\Api\Config\ApiConfigInterface;
 use Vain\Api\Config\Factory\ApiConfigFactoryInterface;
 use Vain\Phalcon\Api\Config\PhalconApiConfig;
 
@@ -23,7 +24,7 @@ class PhalconApiConfigFactory implements ApiConfigFactoryInterface
     /**
      * @inheritDoc
      */
-    public function createConfig($moduleName, $routeName, array $configData)
+    public function createConfig(string $moduleName, string $routeName, array $configData) : ApiConfigInterface
     {
         return new PhalconApiConfig($moduleName, $routeName, $configData);
     }

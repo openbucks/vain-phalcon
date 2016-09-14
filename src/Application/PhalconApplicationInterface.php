@@ -24,6 +24,7 @@ use Vain\Phalcon\Application\Module\PhalconApplicationModuleInterface;
 interface PhalconApplicationInterface extends PhalconDiAwareInterface
 {
     /**
+     * @param string                            $alias
      * @param PhalconApplicationModuleInterface $applicationModule
      *
      * @return PhalconApplicationInterface

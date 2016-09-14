@@ -13,13 +13,15 @@ namespace Vain\Phalcon\Http\Response\Proxy;
 use Vain\Http\Response\Proxy\AbstractResponseProxy;
 use Vain\Http\Response\Proxy\HttpResponseProxyInterface;
 use Phalcon\Http\ResponseInterface as PhalconHttpResponseInterface;
+use Vain\Phalcon\Http\Response\PhalconResponse;
 
 /**
  * Class PhalconResponseProxy
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  *
- * @method PhalconHttpResponseInterface getCurrentMessage
+ * @method PhalconResponse getCurrentMessage
+ * @method PhalconResponse popResponse
  */
 class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponseProxyInterface, PhalconHttpResponseInterface
 {

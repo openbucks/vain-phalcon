@@ -11,6 +11,7 @@
 namespace Vain\Phalcon\Http\Factory;
 
 use Phalcon\FilterInterface as PhalconFilterInterface;
+use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Vain\Http\Cookie\Factory\CookieFactoryInterface;
 use Vain\Http\Exception\UnsupportedUriException;
@@ -18,7 +19,9 @@ use Vain\Http\File\Factory\FileFactoryInterface;
 use Vain\Http\Header\Factory\HeaderFactoryInterface;
 use Vain\Http\Header\Provider\HeaderProviderInterface;
 use Vain\Http\Request\Factory\RequestFactoryInterface;
+use Vain\Http\Request\VainServerRequestInterface;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
+use Vain\Http\Response\VainResponseInterface;
 use Vain\Http\Stream\Factory\StreamFactoryInterface;
 use Vain\Http\Stream\VainStreamInterface;
 use Vain\Http\Uri\Factory\UriFactoryInterface;
@@ -73,7 +76,7 @@ class PhalconHttpFactory implements
     /**
      * @inheritDoc
      */
-    public function createFile($source, $size, $error, $fileName, $mediaType)
+    public function createFile(string $source, int $size, int $error, string $fileName, string $mediaType) : UploadedFileInterface
     {
         return new PhalconFile($this->createStream($source, 'r+'), $size, $error, $fileName, $mediaType);
     }
@@ -81,7 +84,7 @@ class PhalconHttpFactory implements
     /**
      * @inheritDoc
      */
-    public function createStream($source, $mode)
+    public function createStream(string $source, string $mode) : StreamInterface
     {
         if (false === ($resource = @fopen($source, $mode))) {
             throw new UnreachableFileException($source, $mode);
@@ -108,7 +111,7 @@ class PhalconHttpFactory implements
     /**
      * @inheritDoc
      */
-    public function createUri($uri)
+    public function createUri(string $uri) : VainUriInterface
     {
         if (false === ($explode = parse_url($uri))) {
             throw new UnsupportedUriException($this, $uri);
@@ -225,7 +228,7 @@ class PhalconHttpFactory implements
     /**
      * @inheritDoc
      */
-    public function createRequest(array $serverParams, array $uploadedFiles, array $queryParams, array $attributes, array $parsedBody, $protocol, $method, VainUriInterface $uri, VainStreamInterface $stream, array $cookies, array $headers)
+    public function createRequest(array $serverParams, array $uploadedFiles, array $queryParams, array $attributes, array $parsedBody, string $protocol, string $method, VainUriInterface $uri, VainStreamInterface $stream, array $cookies, array $headers) : VainServerRequestInterface
     {
         $cookieStorage = new PhalconCookieStorage(new PhalconCookieFactory());
         foreach ($cookies as $cookieName => $cookieValue) {
@@ -255,7 +258,7 @@ class PhalconHttpFactory implements
     /**
      * @inheritDoc
      */
-    public function createResponse($destinationStream, $statusCode = 200, array $headersData = [], $content = '')
+    public function createResponse(string $destinationStream, int $statusCode = 200, array $headersData = [], string $content = '') : VainResponseInterface
     {
         $headerStorage = new PhalconHeadersStorage($this->headerFactory);
         foreach ($headersData as $headerName => $headerValue) {

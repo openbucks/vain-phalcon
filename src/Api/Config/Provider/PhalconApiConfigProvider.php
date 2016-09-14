@@ -10,6 +10,7 @@
  */
 namespace Vain\Phalcon\Api\Config\Provider;
 
+use Vain\Api\Config\ApiConfigInterface;
 use Vain\Api\Config\Factory\ApiConfigFactoryInterface;
 use Vain\Api\Config\Provider\ApiConfigProviderInterface;
 use Phalcon\Mvc\RouterInterface as PhalconMvcRouterInterface;
@@ -52,7 +53,7 @@ class PhalconApiConfigProvider implements ApiConfigProviderInterface, ApiConfigS
     /**
      * @inheritDoc
      */
-    public function getConfig(VainServerRequestInterface $request)
+    public function getConfig(VainServerRequestInterface $request) : ApiConfigInterface
     {
         $moduleName = $this->router->getModuleName();
         $routeName = $this->router->getMatchedRoute()->getName();
@@ -71,7 +72,7 @@ class PhalconApiConfigProvider implements ApiConfigProviderInterface, ApiConfigS
     /**
      * @inheritDoc
      */
-    public function getConfigs()
+    public function getConfigs() : array
     {
         $apiRouteConfigs = [];
         foreach ($this->configProvider->getConfig('api') as $moduleName => $routes) {

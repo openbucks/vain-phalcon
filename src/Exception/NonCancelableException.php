@@ -21,7 +21,7 @@ use Vain\Phalcon\Event\PhalconEvent;
 class NonCancelableException extends EventException
 {
     /**
-     * NonCanceableEventException constructor.
+     * NonCancelableException constructor.
      *
      * @param PhalconEvent $event
      */

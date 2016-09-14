@@ -14,6 +14,8 @@ use Phalcon\Di\InjectionAwareInterface as PhalconDiAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainerInterface;
 use Vain\Phalcon\Di\Compile\CompileAwareContainerInterface;
 use Vain\Phalcon\Exception\UnsupportedDiCallException;
+use \Phalcon\Di\ServiceInterface as PhalconServiceInterface;
+use \Phalcon\DiInterface as PhalconDiInterface;
 
 /**
  * Class SymfonyContainerAdapter
@@ -108,7 +110,7 @@ class SymfonyContainerAdapter implements CompileAwareContainerInterface, Symfony
     /**
      * @inheritDoc
      */
-    public function setRaw($name, \Phalcon\Di\ServiceInterface $rawDefinition)
+    public function setRaw($name, PhalconServiceInterface $rawDefinition)
     {
         throw new UnsupportedDiCallException($this, __METHOD__);
     }
@@ -156,7 +158,7 @@ class SymfonyContainerAdapter implements CompileAwareContainerInterface, Symfony
     /**
      * @inheritDoc
      */
-    public static function setDefault(\Phalcon\DiInterface $dependencyInjector)
+    public static function setDefault(PhalconDiInterface $dependencyInjector)
     {
         throw new UnsupportedDiCallException($dependencyInjector, __METHOD__);
     }
