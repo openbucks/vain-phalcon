@@ -387,7 +387,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function post(string $name, $default = null)
+    public function post($name, $default = null)
     {
         return $this->getCurrentMessage()->post($name, $default);
     }
