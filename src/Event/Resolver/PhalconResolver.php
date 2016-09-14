@@ -36,7 +36,7 @@ class PhalconResolver implements ResolverInterface
     /**
      * @inheritDoc
      */
-    public function resolveMethod(EventInterface $event)
+    public function resolveMethod(EventInterface $event) : string
     {
         list ($component, $method) = explode(':', $event->getName());
 
@@ -46,7 +46,7 @@ class PhalconResolver implements ResolverInterface
     /**
      * @inheritDoc
      */
-    public function resolveAlias(EventInterface $event)
+    public function resolveAlias(EventInterface $event) : string
     {
         list ($component, $method) = explode(':', $event->getName());
         if (false === $this->config->offsetExists($component)) {

@@ -12,6 +12,7 @@ namespace Vain\Phalcon\Http\Cookie;
 
 use Phalcon\Http\CookieInterface as PhalconCookieInterface;
 use Vain\Http\Cookie\AbstractCookie;
+use Vain\Http\Cookie\VainCookieInterface;
 use Vain\Phalcon\Exception\UnsupportedCookieCallException;
 
 /**
@@ -24,7 +25,7 @@ class PhalconCookie extends AbstractCookie implements PhalconCookieInterface
     /**
      * @inheritDoc
      */
-    public function getValue($filters = NULL, $defaultValue = NULL)
+    public function getValue($filters = NULL, $defaultValue = NULL) : string
     {
         return parent::getValue();
     }
@@ -32,7 +33,7 @@ class PhalconCookie extends AbstractCookie implements PhalconCookieInterface
     /**
      * @inheritDoc
      */
-    public function send()
+    public function send() : VainCookieInterface
     {
         throw new UnsupportedCookieCallException($this, __METHOD__);
     }

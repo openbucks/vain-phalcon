@@ -12,6 +12,7 @@ namespace Vain\Phalcon\Event\Listener\Factory;
 
 use Phalcon\DiInterface as PhalconDiInterface;
 use Vain\Event\Listener\Factory\ListenerFactoryInterface;
+use Vain\Event\Listener\ListenerInterface;
 
 /**
  * Class PhalconListenerFactory
@@ -36,7 +37,7 @@ class PhalconListenerFactory implements ListenerFactoryInterface
     /**
      * @inheritDoc
      */
-    public function create($name)
+    public function create(string $name) : ListenerInterface
     {
         return $this->di->getShared($name);
     }

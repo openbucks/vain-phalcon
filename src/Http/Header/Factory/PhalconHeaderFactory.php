@@ -12,6 +12,7 @@
 namespace Vain\Phalcon\Http\Header\Factory;
 
 use Vain\Http\Header\Factory\HeaderFactoryInterface;
+use Vain\Http\Header\VainHeaderInterface;
 use Vain\Phalcon\Http\Header\PhalconHeader;
 
 /**
@@ -24,7 +25,7 @@ class PhalconHeaderFactory implements HeaderFactoryInterface
     /**
      * @inheritDoc
      */
-    public function createHeader($name, $value)
+    public function createHeader(string $name, $value) : VainHeaderInterface
     {
         $transformedValue = $value;
         if (false === is_array($value)) {

@@ -11,6 +11,8 @@
 
 namespace Vain\Phalcon\Application\Module;
 
+use \Phalcon\DiInterface as PhalconDiInterface;
+
 /**
  * Class AbstractPhalconApplicationModule
  *
@@ -41,7 +43,7 @@ abstract class AbstractPhalconApplicationModule implements PhalconApplicationMod
     /**
      * @inheritDoc
      */
-    public function registerAutoloaders(\Phalcon\DiInterface $dependencyInjector = null)
+    public function registerAutoloaders(PhalconDiInterface $dependencyInjector = null)
     {
         return $this;
     }
@@ -49,7 +51,7 @@ abstract class AbstractPhalconApplicationModule implements PhalconApplicationMod
     /**
      * @inheritDoc
      */
-    public function registerServices(\Phalcon\DiInterface $dependencyInjector)
+    public function registerServices(PhalconDiInterface $dependencyInjector)
     {
         return $this;
     }

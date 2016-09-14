@@ -17,7 +17,6 @@ use Vain\Event\Listener\ListenerInterface;
 use Vain\Event\Manager\EventManagerInterface;
 use Vain\Phalcon\Event\PhalconEvent;
 use Vain\Phalcon\Exception\BadNameException;
-use Vain\Phalcon\Exception\MissingMethodException;
 use Vain\Phalcon\Exception\UnsupportedPrioritiesException;
 use Vain\Phalcon\Exception\UnsupportedResponsesException;
 
@@ -38,9 +37,6 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
      * @param ListenerInterface[] $listeners
      * @param EventInterface $event
      *
-     * @return array
-     *
-     * @throws MissingMethodException
      */
     protected function propagateEvent($listeners, EventInterface $event)
     {
@@ -52,7 +48,7 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     /**
      * @inheritDoc
      */
-    public function dispatch(EventInterface $event)
+    public function dispatch(EventInterface $event) : EventDispatcherInterface
     {
         $eventParts = explode(self::NAME_SEPARATOR, $event->getName());
 
@@ -86,7 +82,7 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     /**
      * @inheritDoc
      */
-    public function addListener($eventName, ListenerInterface $listener)
+    public function addListener(string $eventName, ListenerInterface $listener) : EventManagerInterface
     {
         return $this->attach($eventName, $listener);
     }
@@ -94,7 +90,7 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     /**
      * @inheritDoc
      */
-    public function removeListener($eventName, ListenerInterface $listener)
+    public function removeListener(string $eventName, ListenerInterface $listener) : EventManagerInterface
     {
         return $this->detach($eventName, $listener);
     }
@@ -102,7 +98,7 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     /**
      * @inheritDoc
      */
-    public function removeListeners($eventName)
+    public function removeListeners(string $eventName) : EventManagerInterface
     {
         return $this->detachAll($eventName);
     }
@@ -162,6 +158,8 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     }
 
     /**
+     * @param bool $enablePriorities
+     *
      * @throws UnsupportedPrioritiesException
      */
     public function enablePriorities($enablePriorities)
