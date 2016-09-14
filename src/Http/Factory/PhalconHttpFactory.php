@@ -60,13 +60,17 @@ class PhalconHttpFactory implements
 
     /**
      * PhalconHttpFactory constructor.
-     * @param PhalconFilterInterface $phalconFilter
+     * @param PhalconFilterInterface  $phalconFilter
      * @param HeaderProviderInterface $headerProvider
-     * @param CookieFactoryInterface $cookieFactory
-     * @param HeaderFactoryInterface $headerFactory
+     * @param CookieFactoryInterface  $cookieFactory
+     * @param HeaderFactoryInterface  $headerFactory
      */
-    public function __construct(PhalconFilterInterface $phalconFilter, HeaderProviderInterface $headerProvider, CookieFactoryInterface $cookieFactory, HeaderFactoryInterface $headerFactory)
-    {
+    public function __construct(
+        PhalconFilterInterface $phalconFilter,
+        HeaderProviderInterface $headerProvider,
+        CookieFactoryInterface $cookieFactory,
+        HeaderFactoryInterface $headerFactory
+    ) {
         $this->filter = $phalconFilter;
         $this->headerProvider = $headerProvider;
         $this->cookieFactory = $cookieFactory;
@@ -76,7 +80,13 @@ class PhalconHttpFactory implements
     /**
      * @inheritDoc
      */
-    public function createFile(string $source, int $size, int $error, string $fileName, string $mediaType) : UploadedFileInterface
+    public function createFile(
+        string $source,
+        int $size,
+        int $error,
+        string $fileName,
+        string $mediaType
+    ) : UploadedFileInterface
     {
         return new PhalconFile($this->createStream($source, 'r+'), $size, $error, $fileName, $mediaType);
     }
@@ -94,15 +104,16 @@ class PhalconHttpFactory implements
     }
 
     /**
+     * @param array  $array
      * @param string $element
-     * @param array $array
+     * @param mixed  $default
      *
-     * @return string|null
+     * @return mixed
      */
-    protected function extractKey($element, array $array)
+    protected function extractKey(array $array, string $element, $default)
     {
         if (false === array_key_exists($element, $array)) {
-            return null;
+            return $default;
         }
 
         return $array[$element];
@@ -118,13 +129,21 @@ class PhalconHttpFactory implements
         }
 
         $extractedParts = [];
-        foreach ([self::PARSE_URL_SCHEME, self::PARSE_URL_USER, self::PARSE_URL_PASS, self::PARSE_URL_HOST, self::PARSE_URL_PORT, self::PARSE_URL_PATH, self::PARSE_URL_QUERY, self::PARSE_URL_FRAGMENT] as $element) {
-            $extractedParts[] = $this->extractKey($element, $explode);
+        foreach ([
+                     self::PARSE_URL_SCHEME   => '',
+                     self::PARSE_URL_USER     => '',
+                     self::PARSE_URL_PASS     => '',
+                     self::PARSE_URL_HOST     => '',
+                     self::PARSE_URL_PORT     => 0,
+                     self::PARSE_URL_PATH     => '',
+                     self::PARSE_URL_QUERY    => '',
+                     self::PARSE_URL_FRAGMENT => '',
+                 ] as $element => $default) {
+            $extractedParts[] = $this->extractKey($explode, $element, $default);
         }
 
         return new PhalconUri(...$extractedParts);
     }
-
 
     /**
      * @param array $data
@@ -138,7 +157,11 @@ class PhalconHttpFactory implements
         foreach ($data as $key => $fileSpec) {
             switch (true) {
                 case is_array($fileSpec) && array_key_exists('tmp_name', $fileSpec):
-                    $files[$key] = $this->processFile($fileSpec['tmp_name'], $fileSpec['size'], $fileSpec['error'], $fileSpec['name'], $fileSpec['type']);
+                    $files[$key] = $this->processFile($fileSpec['tmp_name'],
+                                                      $fileSpec['size'],
+                                                      $fileSpec['error'],
+                                                      $fileSpec['name'],
+                                                      $fileSpec['type']);
                     break;
                 case is_array($fileSpec):
                     $files[$key] = $this->createFiles($fileSpec);
@@ -153,8 +176,8 @@ class PhalconHttpFactory implements
 
     /**
      * @param string $tmpName
-     * @param int $size
-     * @param int $error
+     * @param int    $size
+     * @param int    $error
      * @param string $name
      * @param string $type
      *
@@ -167,7 +190,11 @@ class PhalconHttpFactory implements
         }
         $files = [];
         foreach (array_keys($tmpName) as $tmpFileName) {
-            $files[$tmpFileName] = $this->processFile($tmpFileName, $size[$tmpFileName], $error[$tmpFileName], $name[$tmpFileName], $type[$tmpFileName]);
+            $files[$tmpFileName] = $this->processFile($tmpFileName,
+                                                      $size[$tmpFileName],
+                                                      $error[$tmpFileName],
+                                                      $name[$tmpFileName],
+                                                      $type[$tmpFileName]);
         }
 
         return $files;
@@ -191,8 +218,6 @@ class PhalconHttpFactory implements
                 throw new UnknownProtocolException($this, $protocol);
         }
     }
-
-
 
     /**
      * @inheritDoc
@@ -228,7 +253,19 @@ class PhalconHttpFactory implements
     /**
      * @inheritDoc
      */
-    public function createRequest(array $serverParams, array $uploadedFiles, array $queryParams, array $attributes, array $parsedBody, string $protocol, string $method, VainUriInterface $uri, VainStreamInterface $stream, array $cookies, array $headers) : VainServerRequestInterface
+    public function createRequest(
+        array $serverParams,
+        array $uploadedFiles,
+        array $queryParams,
+        array $attributes,
+        array $parsedBody,
+        string $protocol,
+        string $method,
+        VainUriInterface $uri,
+        VainStreamInterface $stream,
+        array $cookies,
+        array $headers
+    ) : VainServerRequestInterface
     {
         $cookieStorage = new PhalconCookieStorage(new PhalconCookieFactory());
         foreach ($cookies as $cookieName => $cookieValue) {
@@ -258,7 +295,12 @@ class PhalconHttpFactory implements
     /**
      * @inheritDoc
      */
-    public function createResponse(string $destinationStream, int $statusCode = 200, array $headersData = [], string $content = '') : VainResponseInterface
+    public function createResponse(
+        string $destinationStream,
+        int $statusCode = 200,
+        array $headersData = [],
+        string $content = ''
+    ) : VainResponseInterface
     {
         $headerStorage = new PhalconHeadersStorage($this->headerFactory);
         foreach ($headersData as $headerName => $headerValue) {
