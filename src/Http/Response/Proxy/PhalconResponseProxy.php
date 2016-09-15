@@ -94,17 +94,6 @@ class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponse
     /**
      * @inheritDoc
      */
-    public function setContentLength($contentLength)
-    {
-        $response = $this->popResponse()->setContentLength($contentLength);
-        $this->addResponse($response);
-
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function setNotModified()
     {
         $response = $this->popResponse()->setNotModified();
