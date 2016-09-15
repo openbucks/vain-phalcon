@@ -12,28 +12,30 @@
 namespace Vain\Phalcon\Database;
 
 use Phalcon\Db\AdapterInterface as PhalconDatabaseInterface;
-use Vain\Database\DatabaseInterface;
-use Vain\Database\Generator\Generator;
+use Vain\Database\Generator\Factory\GeneratorFactoryInterface;
 use Vain\Phalcon\Database\Cursor\PhalconCursor;
 use Vain\Phalcon\Exception\PhalconQueryException;
+use Vain\Database\AbstractDatabase;
 
 /**
  * Class PhalconDatabase
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class PhalconDatabase implements DatabaseInterface
+class PhalconDatabase extends AbstractDatabase
 {
     private $phalconDatabase;
 
     /**
      * PhalconDatabase constructor.
      *
+     * @param GeneratorFactoryInterface $generatorFactory
      * @param PhalconDatabaseInterface $phalconDatabase
      */
-    public function __construct(PhalconDatabaseInterface $phalconDatabase)
+    public function __construct(GeneratorFactoryInterface $generatorFactory, PhalconDatabaseInterface $phalconDatabase)
     {
         $this->phalconDatabase = $phalconDatabase;
+        parent::__construct($generatorFactory);
     }
 
     /**
@@ -69,6 +71,6 @@ class PhalconDatabase implements DatabaseInterface
             throw new PhalconQueryException($this, $query);
         }
 
-        return new Generator($this, new PhalconCursor($result));
+        return $this->getGeneratorFactory()->create($this, new PhalconCursor($result));
     }
 }
