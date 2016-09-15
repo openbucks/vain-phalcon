@@ -132,3 +132,6 @@ services:
   flashSession: '@http.flash.session'
   entity.operation.factory:
     class: Vain\Phalcon\Entity\Operation\Factory\PhalconEntityOperationFactory
+  app.database.phalcon:
+    class: Vain\Phalcon\Database\PhalconDatabase
+    arguments: ['@database.generator.factory', '@app.database']
