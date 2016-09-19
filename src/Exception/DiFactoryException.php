@@ -20,15 +20,15 @@ use Vain\Phalcon\Di\Factory\DiFactoryInterface;
  */
 class DiFactoryException extends AbstractCoreException
 {
-
     private $diFactory;
 
     /**
      * DiFactoryException constructor.
+     *
      * @param DiFactoryInterface $diFactory
-     * @param string $message
-     * @param int $code
-     * @param \Exception $previous
+     * @param string             $message
+     * @param int                $code
+     * @param \Exception         $previous
      */
     public function __construct(DiFactoryInterface $diFactory, $message, $code, \Exception $previous = null)
     {

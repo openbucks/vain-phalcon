@@ -19,5 +19,4 @@ use Vain\Http\Stream\AbstractStream;
  */
 class PhalconStream extends AbstractStream
 {
-
 }

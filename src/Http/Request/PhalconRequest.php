@@ -30,23 +30,48 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
 
     /**
      * PhalconRequest constructor.
+     *
      * @param PhalconFilterInterface $filter
-     * @param array $serverParams
-     * @param array $uploadedFiles
-     * @param array $queryParams
-     * @param array $attributes
-     * @param string $parsedBody
-     * @param string $protocol
-     * @param VainUriInterface $method
-     * @param VainUriInterface $uri
-     * @param VainStreamInterface $stream
+     * @param array                  $serverParams
+     * @param array                  $uploadedFiles
+     * @param array                  $queryParams
+     * @param array                  $attributes
+     * @param string                 $parsedBody
+     * @param string                 $protocol
+     * @param VainUriInterface       $method
+     * @param VainUriInterface       $uri
+     * @param VainStreamInterface    $stream
      * @param CookieStorageInterface $cookieStorage
      * @param HeaderStorageInterface $headerStorage
      */
-    public function __construct(PhalconFilterInterface $filter, array $serverParams, $uploadedFiles, array $queryParams, array $attributes, $parsedBody, $protocol, $method, VainUriInterface $uri, VainStreamInterface $stream, CookieStorageInterface $cookieStorage, HeaderStorageInterface $headerStorage)
-    {
+    public function __construct(
+        PhalconFilterInterface $filter,
+        array $serverParams,
+        $uploadedFiles,
+        array $queryParams,
+        array $attributes,
+        $parsedBody,
+        $protocol,
+        $method,
+        VainUriInterface $uri,
+        VainStreamInterface $stream,
+        CookieStorageInterface $cookieStorage,
+        HeaderStorageInterface $headerStorage
+    ) {
         $this->filter = $filter;
-        parent::__construct($serverParams, $uploadedFiles, $queryParams, $attributes, $parsedBody, $protocol, $method, $uri, $stream, $cookieStorage, $headerStorage);
+        parent::__construct(
+            $serverParams,
+            $uploadedFiles,
+            $queryParams,
+            $attributes,
+            $parsedBody,
+            $protocol,
+            $method,
+            $uri,
+            $stream,
+            $cookieStorage,
+            $headerStorage
+        );
     }
 
     /**
@@ -83,7 +108,6 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
 
         if (null === $filters) {
             return $value;
-
         }
 
         return $this->filter->sanitize($value, $filters);
@@ -182,7 +206,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
      */
     public function isMethod($methods, $strict = false)
     {
-        switch(true) {
+        switch (true) {
             case is_string($methods):
                 return ($methods === $this->getMethod());
                 break;
@@ -192,6 +216,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
                         return true;
                     }
                 }
+
                 return false;
                 break;
             default:
@@ -199,7 +224,6 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
                 break;
         }
     }
-
 
     /**
      * @inheritDoc

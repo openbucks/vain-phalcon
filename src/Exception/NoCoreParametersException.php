@@ -26,6 +26,11 @@ class NoCoreParametersException extends DiFactoryException
      */
     public function __construct(DiFactoryInterface $diFactory)
     {
-        parent::__construct($diFactory, 'Some core parameters %app.dir%, %app.config.dir% are missing from container', 0, null);
+        parent::__construct(
+            $diFactory,
+            'Some core parameters %app.dir%, %app.config.dir% are missing from container',
+            0,
+            null
+        );
     }
 }

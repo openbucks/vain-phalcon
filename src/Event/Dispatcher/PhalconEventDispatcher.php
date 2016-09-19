@@ -27,7 +27,6 @@ use Vain\Phalcon\Exception\UnsupportedResponsesException;
  */
 class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispatcherInterface, EventManagerInterface
 {
-
     const NAME_SEPARATOR = ':';
     const NAME_COUNT = 2;
 
@@ -35,7 +34,7 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
 
     /**
      * @param ListenerInterface[] $listeners
-     * @param EventInterface $event
+     * @param EventInterface      $event
      *
      */
     protected function propagateEvent($listeners, EventInterface $event)

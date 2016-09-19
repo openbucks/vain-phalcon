@@ -60,6 +60,7 @@ class PhalconHttpFactory implements
 
     /**
      * PhalconHttpFactory constructor.
+     *
      * @param PhalconFilterInterface  $phalconFilter
      * @param HeaderProviderInterface $headerProvider
      * @param CookieFactoryInterface  $cookieFactory
@@ -157,11 +158,13 @@ class PhalconHttpFactory implements
         foreach ($data as $key => $fileSpec) {
             switch (true) {
                 case is_array($fileSpec) && array_key_exists('tmp_name', $fileSpec):
-                    $files[$key] = $this->processFile($fileSpec['tmp_name'],
-                                                      $fileSpec['size'],
-                                                      $fileSpec['error'],
-                                                      $fileSpec['name'],
-                                                      $fileSpec['type']);
+                    $files[$key] = $this->processFile(
+                        $fileSpec['tmp_name'],
+                        $fileSpec['size'],
+                        $fileSpec['error'],
+                        $fileSpec['name'],
+                        $fileSpec['type']
+                    );
                     break;
                 case is_array($fileSpec):
                     $files[$key] = $this->createFiles($fileSpec);
@@ -190,11 +193,13 @@ class PhalconHttpFactory implements
         }
         $files = [];
         foreach (array_keys($tmpName) as $tmpFileName) {
-            $files[$tmpFileName] = $this->processFile($tmpFileName,
-                                                      $size[$tmpFileName],
-                                                      $error[$tmpFileName],
-                                                      $name[$tmpFileName],
-                                                      $type[$tmpFileName]);
+            $files[$tmpFileName] = $this->processFile(
+                $tmpFileName,
+                $size[$tmpFileName],
+                $error[$tmpFileName],
+                $name[$tmpFileName],
+                $type[$tmpFileName]
+            );
         }
 
         return $files;

@@ -23,7 +23,6 @@ use Phalcon\DiInterface as PhalconDiInterface;
  */
 abstract class AbstractEntity extends PhalconMvcModel implements EntityInterface
 {
-
     /**
      * @inheritDoc
      */
@@ -45,7 +44,7 @@ abstract class AbstractEntity extends PhalconMvcModel implements EntityInterface
         if (null === $di) {
             $di = PhalconDi::getDefault();
         }
-        
+
         $criteria = new PhalconCriteria();
         $criteria->setDI($di);
         $criteria->setModelName(get_called_class());

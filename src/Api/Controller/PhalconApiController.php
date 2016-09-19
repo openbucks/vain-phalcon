@@ -44,10 +44,10 @@ class PhalconApiController extends AbstractController
     private $encoder;
 
     /**
-     * @param ApiProcessorInterface $apiProcessor
+     * @param ApiProcessorInterface      $apiProcessor
      * @param ApiConfigProviderInterface $apiConfigProvider
      * @param ApiRequestFactoryInterface $apiRequestFactory
-     * @param EncoderInterface $encoder
+     * @param EncoderInterface           $encoder
      */
     public function initialize(
         ApiProcessorInterface $apiProcessor,

@@ -23,7 +23,8 @@ use Vain\Phalcon\Http\Response\PhalconResponse;
  * @method PhalconResponse getCurrentMessage
  * @method PhalconResponse popResponse
  */
-class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponseProxyInterface, PhalconHttpResponseInterface
+class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponseProxyInterface,
+                                                                    PhalconHttpResponseInterface
 {
     /**
      * @inheritDoc

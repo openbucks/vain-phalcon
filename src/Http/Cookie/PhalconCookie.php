@@ -25,7 +25,7 @@ class PhalconCookie extends AbstractCookie implements PhalconCookieInterface
     /**
      * @inheritDoc
      */
-    public function getValue($filters = NULL, $defaultValue = NULL) : string
+    public function getValue($filters = null, $defaultValue = null) : string
     {
         return parent::getValue();
     }
@@ -93,5 +93,4 @@ class PhalconCookie extends AbstractCookie implements PhalconCookieInterface
     {
         return $this->isHttpOnly();
     }
-
 }

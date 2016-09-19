@@ -40,9 +40,24 @@ class PhalconCookieStorage extends AbstractCookieStorage implements PhalconCooki
     /**
      * @inheritDoc
      */
-    public function set($name, $value = null, $expire = 0, $path = "/", $secure = null, $domain = null, $httpOnly = null)
-    {
-        return $this->createCookie($name, $value, (new \DateTime())->modify("+ {$expire}"), $path, $secure, $domain, $httpOnly);
+    public function set(
+        $name,
+        $value = null,
+        $expire = 0,
+        $path = "/",
+        $secure = null,
+        $domain = null,
+        $httpOnly = null
+    ) {
+        return $this->createCookie(
+            $name,
+            $value,
+            (new \DateTime())->modify("+ {$expire}"),
+            $path,
+            $secure,
+            $domain,
+            $httpOnly
+        );
     }
 
     /**

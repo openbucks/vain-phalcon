@@ -19,5 +19,4 @@ use Vain\Http\Uri\AbstractUri;
  */
 class PhalconUri extends AbstractUri
 {
-
 }

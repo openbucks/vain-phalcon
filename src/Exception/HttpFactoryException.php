@@ -24,10 +24,11 @@ class HttpFactoryException extends AbstractCoreException
 
     /**
      * HttpFactoryException constructor.
+     *
      * @param RequestFactoryInterface $factory
-     * @param string $message
-     * @param int $code
-     * @param \Exception $previous
+     * @param string                  $message
+     * @param int                     $code
+     * @param \Exception              $previous
      */
     public function __construct(RequestFactoryInterface $factory, $message, $code, \Exception $previous = null)
     {
@@ -42,6 +43,4 @@ class HttpFactoryException extends AbstractCoreException
     {
         return $this->httpFactory;
     }
-
-
 }

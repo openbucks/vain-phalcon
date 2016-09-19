@@ -37,7 +37,7 @@ class PhalconApiConfigProvider implements ApiConfigProviderInterface, ApiConfigS
      * PhalconApiConfigProvider constructor.
      *
      * @param PhalconMvcRouterInterface $router
-     * @param ConfigProviderInterface $configProvider
+     * @param ConfigProviderInterface   $configProvider
      * @param ApiConfigFactoryInterface $apiConfigFactory
      */
     public function __construct(

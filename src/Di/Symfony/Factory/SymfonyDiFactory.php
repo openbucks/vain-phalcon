@@ -51,8 +51,14 @@ class SymfonyDiFactory implements DiFactoryInterface
      *
      * @return SymfonyContainerBuilder
      */
-    protected function createContainer($applicationPath, $configDir, $applicationEnv, $applicationMode, $cachingEnabled, $containerPath)
-    {
+    protected function createContainer(
+        $applicationPath,
+        $configDir,
+        $applicationEnv,
+        $applicationMode,
+        $cachingEnabled,
+        $containerPath
+    ) {
         $builder = new SymfonyContainerBuilder;
         $builder->setParameter('app.dir', $applicationPath);
         $builder->setParameter('app.env', $applicationEnv);

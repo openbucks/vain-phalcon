@@ -13,6 +13,7 @@ namespace Vain\Phalcon\Database;
 
 use Phalcon\Db\AdapterInterface as PhalconDatabaseInterface;
 use Vain\Database\Generator\Factory\GeneratorFactoryInterface;
+use Vain\Database\Generator\GeneratorInterface;
 use Vain\Phalcon\Database\Cursor\PhalconCursor;
 use Vain\Phalcon\Exception\PhalconQueryException;
 use Vain\Database\AbstractDatabase;
@@ -30,7 +31,7 @@ class PhalconDatabase extends AbstractDatabase
      * PhalconDatabase constructor.
      *
      * @param GeneratorFactoryInterface $generatorFactory
-     * @param PhalconDatabaseInterface $phalconDatabase
+     * @param PhalconDatabaseInterface  $phalconDatabase
      */
     public function __construct(GeneratorFactoryInterface $generatorFactory, PhalconDatabaseInterface $phalconDatabase)
     {
@@ -41,7 +42,7 @@ class PhalconDatabase extends AbstractDatabase
     /**
      * @inheritDoc
      */
-    public function transaction()
+    public function startTransaction() : bool
     {
         return $this->phalconDatabase->begin();
     }
@@ -49,7 +50,7 @@ class PhalconDatabase extends AbstractDatabase
     /**
      * @inheritDoc
      */
-    public function commit()
+    public function commitTransaction() : bool
     {
         return $this->phalconDatabase->commit();
     }
@@ -57,7 +58,7 @@ class PhalconDatabase extends AbstractDatabase
     /**
      * @inheritDoc
      */
-    public function rollback()
+    public function rollbackTransaction() : bool
     {
         return $this->phalconDatabase->rollback();
     }
@@ -65,7 +66,7 @@ class PhalconDatabase extends AbstractDatabase
     /**
      * @inheritDoc
      */
-    public function query($query, array $bindParams)
+    public function runQuery($query, array $bindParams) : GeneratorInterface
     {
         if (false === ($result = $this->phalconDatabase->query($query, $bindParams))) {
             throw new PhalconQueryException($this, $query);

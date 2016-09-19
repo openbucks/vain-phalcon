@@ -21,6 +21,7 @@ class UnsupportedResponsesException extends DispatcherException
 {
     /**
      * UnsupportedResponsesException constructor.
+     *
      * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(EventDispatcherInterface $dispatcher)

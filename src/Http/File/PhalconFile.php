@@ -53,7 +53,7 @@ class PhalconFile extends AbstractFile implements PhalconFileInterface
         if (false === is_resource($fileInfo)) {
             return '';
         }
-        
+
         return finfo_file($fileInfo, $this->getStream()->getResource());
     }
 

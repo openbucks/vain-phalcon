@@ -107,7 +107,6 @@ class SymfonyDiBuilder implements DiBuilderInterface
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -234,7 +233,8 @@ class SymfonyDiBuilder implements DiBuilderInterface
         if (null !== $this->applicationEnv
             && null !== $this->applicationMode
             && null !== $this->appDir
-            && null !== $this->configDir) {
+            && null !== $this->configDir
+        ) {
             $this->readConfig($this->container, $this->appDir, $this->configDir);
         }
 

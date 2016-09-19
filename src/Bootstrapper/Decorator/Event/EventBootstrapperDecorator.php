@@ -24,7 +24,6 @@ use Phalcon\Application as PhalconApplication;
  */
 class EventBootstrapperDecorator extends AbstractBootstrapperDecorator
 {
-
     private $eventManager;
 
     private $listenerProxy;

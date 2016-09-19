@@ -87,7 +87,10 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
         if (null === $charset) {
             $this->getHeaderStorage()->createHeader(self::HEADER_CONTENT_TYPE, $contentType);
         } else {
-            $this->getHeaderStorage()->createHeader(self::HEADER_CONTENT_TYPE, sprintf('%s";charset=%s"', $contentType, $charset));
+            $this->getHeaderStorage()->createHeader(
+                self::HEADER_CONTENT_TYPE,
+                sprintf('%s";charset=%s"', $contentType, $charset)
+            );
         }
 
         return $this;
@@ -100,7 +103,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     {
         if ($statusCode < 300 || $statusCode > 308) {
             throw new BadRedirectCodeException($this, $statusCode);
-		}
+        }
 
         return $this
             ->withStatus($statusCode)
@@ -125,7 +128,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
         if (false === ($encoded = json_encode($content))) {
             throw new JsonErrorException($this, $content);
         }
-        
+
         return $this->setContent($encoded);
     }
 
@@ -198,11 +201,11 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
         }
 
         $this->getBody()->write(readfile($filePath));
-        
+
         return $this
             ->setHeader(self::HEADER_CONTENT_DESCRIPTION, 'File Transfer')
-			->setHeader(self::HEADER_CONTENT_TYPE, 'application/octet-stream')
-			->setHeader(self::HEADER_CONTENT_DISPOSITION, sprintf('attachment; filename=%s', $basePath))
-			->setHeader(self::HEADER_CONTENT_TRANSFER_ENCODING, 'binary');
+            ->setHeader(self::HEADER_CONTENT_TYPE, 'application/octet-stream')
+            ->setHeader(self::HEADER_CONTENT_DISPOSITION, sprintf('attachment; filename=%s', $basePath))
+            ->setHeader(self::HEADER_CONTENT_TRANSFER_ENCODING, 'binary');
     }
 }

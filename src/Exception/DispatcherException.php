@@ -24,10 +24,11 @@ class DispatcherException extends AbstractCoreException
 
     /**
      * DispatcherException constructor.
+     *
      * @param EventDispatcherInterface $dispatcher
-     * @param string $message
-     * @param int $code
-     * @param \Exception|null $previous
+     * @param string                   $message
+     * @param int                      $code
+     * @param \Exception|null          $previous
      */
     public function __construct(EventDispatcherInterface $dispatcher, $message, $code, \Exception $previous = null)
     {

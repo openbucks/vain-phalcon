@@ -28,6 +28,7 @@ class SymfonyContainerAdapter implements CompileAwareContainerInterface, Symfony
 
     /**
      * SymfonyContainerAdapter constructor.
+     *
      * @param SymfonyContainerInterface $symfonyContainer
      */
     public function __construct(SymfonyContainerInterface $symfonyContainer)
@@ -168,7 +169,6 @@ class SymfonyContainerAdapter implements CompileAwareContainerInterface, Symfony
      */
     public static function getDefault()
     {
-
     }
 
     /**

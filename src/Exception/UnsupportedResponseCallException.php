@@ -24,7 +24,7 @@ class UnsupportedResponseCallException extends ResponseException
      * UnsupportedResponseCallException constructor.
      *
      * @param AbstractResponse $response
-     * @param string                $method
+     * @param string           $method
      */
     public function __construct(AbstractResponse $response, $method)
     {

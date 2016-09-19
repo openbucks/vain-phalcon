@@ -27,8 +27,9 @@ class RouterBootstrapperDecorator extends AbstractBootstrapperDecorator
 
     /**
      * RouterBootstrapperDecorator constructor.
+     *
      * @param BootstrapperInterface $bootstrapper
-     * @param ConfigInterface $config
+     * @param ConfigInterface       $config
      */
     public function __construct(BootstrapperInterface $bootstrapper, ConfigInterface $config)
     {

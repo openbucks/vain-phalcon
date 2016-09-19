@@ -31,10 +31,11 @@ class PhalconEvent extends AbstractEvent implements EventInterface
 
     /**
      * PhalconEvent constructor.
+     *
      * @param string $name
-     * @param mixed $source
-     * @param mixed $data
-     * @param bool $cancelable
+     * @param mixed  $source
+     * @param mixed  $data
+     * @param bool   $cancelable
      */
     public function __construct($name, $source, $data, $cancelable = true)
     {
@@ -113,7 +114,6 @@ class PhalconEvent extends AbstractEvent implements EventInterface
     public function getCancelable()
     {
         return $this->cancelable;
-
     }
 
     /**

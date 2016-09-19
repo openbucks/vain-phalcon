@@ -42,7 +42,6 @@ interface DiBuilderInterface
      */
     public function mode($applicationMode);
 
-
     /**
      * @param string $appDir
      *

@@ -24,6 +24,7 @@ abstract class AbstractBootstrapperDecorator implements BootstrapperInterface
 
     /**
      * AbstractBootstrapperDecorator constructor.
+     *
      * @param BootstrapperInterface $bootstrapper
      */
     public function __construct(BootstrapperInterface $bootstrapper)

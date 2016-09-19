@@ -39,10 +39,10 @@ class MvcApplication extends PhalconMvcApplication implements HttpApplicationInt
     /**
      * PhalconApplication constructor.
      *
-     * @param HttpRequestProxyInterface $requestProxy
+     * @param HttpRequestProxyInterface  $requestProxy
      * @param HttpResponseProxyInterface $responseProxy
-     * @param ResponseFactoryInterface $responseFactory
-     * @param PhalconDiInterface $di
+     * @param ResponseFactoryInterface   $responseFactory
+     * @param PhalconDiInterface         $di
      */
     public function __construct(
         HttpRequestProxyInterface $requestProxy,

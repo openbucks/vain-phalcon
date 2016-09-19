@@ -24,10 +24,11 @@ class DiException extends AbstractCoreException
 
     /**
      * DiException constructor.
+     *
      * @param PhalconDiInterface $di
-     * @param string $message
-     * @param int $code
-     * @param \Exception $previous
+     * @param string             $message
+     * @param int                $code
+     * @param \Exception         $previous
      */
     public function __construct(PhalconDiInterface $di, $message, $code, \Exception $previous = null)
     {

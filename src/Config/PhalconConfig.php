@@ -19,5 +19,4 @@ use Vain\Config\AbstractConfig;
  */
 class PhalconConfig extends AbstractConfig
 {
-
 }

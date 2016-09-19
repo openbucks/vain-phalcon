@@ -21,6 +21,7 @@ class UnreachableFileException extends AbstractCoreException
 {
     /**
      * UnreachableFileException constructor.
+     *
      * @param string $fileName
      * @param string $mode
      */

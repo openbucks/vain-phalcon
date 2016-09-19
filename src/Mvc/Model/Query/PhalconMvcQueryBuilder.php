@@ -24,7 +24,7 @@ class PhalconMvcQueryBuilder extends PhalconQueryBuilder
      * Returns the query built
      */
     public function getQuery()
-	{
+    {
         $query = new PhalconMvcQuery($this->getPhql(), $this->_dependencyInjector);
 
         if (is_array($this->_bindParams)) {
@@ -40,5 +40,5 @@ class PhalconMvcQueryBuilder extends PhalconQueryBuilder
         }
 
         return $query;
-	}
+    }
 }

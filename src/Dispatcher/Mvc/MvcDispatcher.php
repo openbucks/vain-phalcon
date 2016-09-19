@@ -19,7 +19,6 @@ use Phalcon\Mvc\Dispatcher as PhalconMvcDispatcher;
  */
 class MvcDispatcher extends PhalconMvcDispatcher
 {
-
     private $separator;
 
     /**

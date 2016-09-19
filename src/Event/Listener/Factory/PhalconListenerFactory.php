@@ -21,7 +21,6 @@ use Vain\Event\Listener\ListenerInterface;
  */
 class PhalconListenerFactory implements ListenerFactoryInterface
 {
-
     private $di;
 
     /**

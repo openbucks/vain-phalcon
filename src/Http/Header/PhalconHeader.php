@@ -19,5 +19,4 @@ use Vain\Http\Header\AbstractHeader;
  */
 class PhalconHeader extends AbstractHeader
 {
-
 }

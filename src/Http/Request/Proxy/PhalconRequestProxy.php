@@ -19,7 +19,7 @@ use Vain\Phalcon\Http\Request\PhalconRequest;
  * Class PhalconRequestProxy
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
- * 
+ *
  * @method PhalconRequest getCurrentMessage
  */
 class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestProxyInterface, PhalconHttpRequestInterface
