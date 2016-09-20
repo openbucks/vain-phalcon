@@ -135,12 +135,6 @@ services:
   app.database.phalcon:
     class: Vain\Phalcon\Database\PhalconDatabase
     arguments: ['@database.generator.factory', '@database.phalcon']
-  connection.main.pdo:
-    class: \PDO
-    factory: ['@connection.storage', getConnection]
-    arguments:
-      - 'main'
-  connection.mvcc: '@connection.main.pdo'
   database.phalcon.mysql:
     class: Vain\Phalcon\Database\PDO\Mysql\PhalconMysqlAdapter
     arguments: ['@connection.main.pdo']
