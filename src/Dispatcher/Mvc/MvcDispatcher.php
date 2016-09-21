@@ -11,6 +11,7 @@
 namespace Vain\Phalcon\Dispatcher\Mvc;
 
 use Phalcon\Mvc\Dispatcher as PhalconMvcDispatcher;
+use Phalcon\Text as PhalconText;
 
 /**
  * Class MvcDispatcher
@@ -39,7 +40,7 @@ class MvcDispatcher extends PhalconMvcDispatcher
         $this->_resolveEmptyProperties();
 
         if (false === strpos("\\", $this->_handlerName)) {
-            $camelizedClass = str_replace(' ', '', ucwords(str_replace('_', ' ', $this->_handlerName)));
+            $camelizedClass = PhalconText::camelize($this->_handlerName, '_-');
         } else {
             $camelizedClass = $this->_handlerName;
         }
