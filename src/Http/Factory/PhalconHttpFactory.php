@@ -250,7 +250,7 @@ class PhalconHttpFactory implements
                 $body = json_decode($contents, true);
                 break;
             default:
-                $body = [];
+                $body = $_POST;
                 break;
         }
 
