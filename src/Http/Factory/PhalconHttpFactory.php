@@ -18,6 +18,7 @@ use Vain\Http\Exception\UnsupportedUriException;
 use Vain\Http\File\Factory\FileFactoryInterface;
 use Vain\Http\Header\Factory\HeaderFactoryInterface;
 use Vain\Http\Header\Provider\HeaderProviderInterface;
+use Vain\Http\Message\VainMessageInterface;
 use Vain\Http\Request\Factory\RequestFactoryInterface;
 use Vain\Http\Request\VainServerRequestInterface;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
@@ -225,6 +226,38 @@ class PhalconHttpFactory implements
     }
 
     /**
+     * @param string          $requestMethod
+     * @param string          $contentType
+     * @param StreamInterface $stream
+     *
+     * @return array
+     */
+    protected function parseBody($requestMethod, $contentType, StreamInterface $stream)
+    {
+        $method = strtolower($requestMethod);
+        if ('post' !== $method && 'put' !== $method) {
+            return [];
+        }
+
+        $contents = $stream->getContents();
+        switch ($contentType) {
+            case VainMessageInterface::CONTENT_TYPE_URL_ENCODED:
+            case VainMessageInterface::CONTENT_TYPE_FORM_DATA:
+                $body = [];
+                parse_str($contents, $body);
+                break;
+            case VainMessageInterface::CONTENT_TYPE_APPLICATION_JSON:
+                $body = json_decode($contents, true);
+                break;
+            default:
+                $body = [];
+                break;
+        }
+
+        return $body;
+    }
+
+    /**
      * @inheritDoc
      */
     public function createFromGlobals()
@@ -238,6 +271,8 @@ class PhalconHttpFactory implements
         foreach ($this->headerProvider->getHeaders($_SERVER) as $headerName => $headerValue) {
             $headerStorage->createHeader($headerName, $headerValue);
         }
+        $contentType = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : '';
+        $stream = $this->createStream('php://input', 'r');
 
         return new PhalconRequest(
             $this->filter,
@@ -245,11 +280,11 @@ class PhalconHttpFactory implements
             $files,
             $_GET,
             [],
-            $_POST,
+            $this->parseBody(strtolower($_SERVER['REQUEST_METHOD']), $contentType, $stream),
             $this->transformProtocol($_SERVER['SERVER_PROTOCOL']),
             $_SERVER['REQUEST_METHOD'],
             $this->createUri($_SERVER['REQUEST_URI']),
-            $this->createStream('php://input', 'r'),
+            $stream,
             $cookieStorage,
             $headerStorage
         );
