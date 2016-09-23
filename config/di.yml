@@ -142,7 +142,7 @@ services:
     class: Vain\Phalcon\Database\PDO\Postgresql\PhalconPostgresqlAdapter
     arguments: ['@connection.main.pdo']
   connection.factory.phalcon.pdo:
-    class: Vain\Connection\Factory\PDO\PDOConnectionFactory
+    class: Vain\Connection\Factory\Pdo\PdoConnectionFactory
     arguments: ['phalcon.pdo']
     tags:
         - {name: connection.factory}
