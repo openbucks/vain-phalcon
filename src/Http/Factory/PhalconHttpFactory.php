@@ -22,6 +22,7 @@ use Vain\Http\Message\VainMessageInterface;
 use Vain\Http\Request\Factory\RequestFactoryInterface;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Http\Stream\Factory\StreamFactoryInterface;
+use Vain\Http\Stream\StringStream;
 use Vain\Http\Stream\VainStreamInterface;
 use Vain\Http\Uri\Factory\UriFactoryInterface;
 use Vain\Http\Uri\VainUriInterface;
@@ -94,7 +95,7 @@ class PhalconHttpFactory implements
             throw new UnreachableFileException($source, $mode);
         }
 
-        return new PhalconStream($resource);
+        return new StringStream((new PhalconStream($source, $mode))->getContents());
     }
 
     /**
@@ -255,10 +256,12 @@ class PhalconHttpFactory implements
                 }
                 $body = [];
                 parse_str($contents, $body);
+
                 return $body;
                 break;
             case VainMessageInterface::CONTENT_TYPE_APPLICATION_JSON:
                 $body = json_decode($contents, true);
+
                 return $body;
                 break;
             default:
