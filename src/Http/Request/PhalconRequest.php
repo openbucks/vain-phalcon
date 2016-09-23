@@ -79,11 +79,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
      */
     public function get($name = null, $filters = null, $defaultValue = null)
     {
-        if ($this->isGet() || $this->isDelete()) {
-            return $this->getQuery($name, $filters, $defaultValue);
-        }
-
-        return $this->getPost($name, $filters, $defaultValue);
+        return $this->getQuery($name, $filters, $defaultValue);
     }
 
     /**
