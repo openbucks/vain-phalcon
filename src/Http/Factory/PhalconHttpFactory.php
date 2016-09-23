@@ -242,8 +242,7 @@ class PhalconHttpFactory implements
      */
     protected function parseBody($requestMethod, $contentType, StreamInterface $stream, array $post)
     {
-        $method = strtolower($requestMethod);
-        if ('POST' !== $method && 'PUT' !== $method) {
+        if (false === in_array($requestMethod, ['POST', 'PUT', 'PATCH'])) {
             return [];
         }
 
@@ -251,18 +250,21 @@ class PhalconHttpFactory implements
         switch ($contentType) {
             case VainMessageInterface::CONTENT_TYPE_URL_ENCODED:
             case VainMessageInterface::CONTENT_TYPE_FORM_DATA:
+                if ($requestMethod === 'POST') {
+                    return $post;
+                }
                 $body = [];
                 parse_str($contents, $body);
+                return $body;
                 break;
             case VainMessageInterface::CONTENT_TYPE_APPLICATION_JSON:
                 $body = json_decode($contents, true);
+                return $body;
                 break;
             default:
-                $body = $post;
+                return $post;
                 break;
         }
-
-        return $body;
     }
 
     /**
