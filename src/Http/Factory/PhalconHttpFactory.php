@@ -217,16 +217,33 @@ class PhalconHttpFactory implements
     }
 
     /**
-     * @param string          $requestMethod
-     * @param string          $contentType
-     * @param StreamInterface $stream
+     * @param string $requestMethod
+     * @param array  $get
+     * @param array  $request
      *
      * @return array
      */
-    protected function parseBody($requestMethod, $contentType, StreamInterface $stream)
+    protected function getQueryParams($requestMethod, array $get, array $request)
+    {
+        if ('GET' === $requestMethod) {
+            return $get;
+        }
+
+        return $request;
+    }
+
+    /**
+     * @param string          $requestMethod
+     * @param string          $contentType
+     * @param StreamInterface $stream
+     * @param array           $post
+     *
+     * @return array
+     */
+    protected function parseBody($requestMethod, $contentType, StreamInterface $stream, array $post)
     {
         $method = strtolower($requestMethod);
-        if ('post' !== $method && 'put' !== $method) {
+        if ('POST' !== $method && 'PUT' !== $method) {
             return [];
         }
 
@@ -241,7 +258,7 @@ class PhalconHttpFactory implements
                 $body = json_decode($contents, true);
                 break;
             default:
-                $body = $_POST;
+                $body = $post;
                 break;
         }
 
@@ -269,9 +286,9 @@ class PhalconHttpFactory implements
             $this->filter,
             $_SERVER,
             $files,
-            $_GET,
+            $this->getQueryParams(strtoupper($_SERVER['REQUEST_METHOD']), $_GET, $_REQUEST),
             [],
-            $this->parseBody(strtolower($_SERVER['REQUEST_METHOD']), $contentType, $stream),
+            $this->parseBody(strtoupper($_SERVER['REQUEST_METHOD']), $contentType, $stream, $_POST),
             $this->transformProtocol($_SERVER['SERVER_PROTOCOL']),
             $_SERVER['REQUEST_METHOD'],
             $this->createUri($_SERVER['REQUEST_URI']),
