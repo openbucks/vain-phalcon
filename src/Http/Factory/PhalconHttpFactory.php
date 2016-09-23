@@ -89,13 +89,21 @@ class PhalconHttpFactory implements
     /**
      * @inheritDoc
      */
+    public function createRequestStream($source, $mode)
+    {
+        return new StringStream($this->createStream($source, $mode)->getContents());
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function createStream($source, $mode)
     {
         if (false === ($resource = @fopen($source, $mode))) {
             throw new UnreachableFileException($source, $mode);
         }
 
-        return new StringStream((new PhalconStream($resource, $mode))->getContents());
+        return new PhalconStream($resource, $mode);
     }
 
     /**
@@ -285,7 +293,7 @@ class PhalconHttpFactory implements
             $headerStorage->createHeader($headerName, $headerValue);
         }
         $contentType = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : '';
-        $stream = $this->createStream('php://input', 'r');
+        $stream = $this->createRequestStream('php://input', 'r');
 
         return new PhalconRequest(
             $this->filter,
