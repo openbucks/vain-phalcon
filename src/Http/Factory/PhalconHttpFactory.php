@@ -103,7 +103,7 @@ class PhalconHttpFactory implements
             throw new UnreachableFileException($source, $mode);
         }
 
-        return new StringStream((new PhalconStream($source, $mode))->getContents());
+        return new StringStream((new PhalconStream($resource, $mode))->getContents());
     }
 
     /**
