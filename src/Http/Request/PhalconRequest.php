@@ -83,10 +83,10 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     }
 
     /**
-     * @param array $data
+     * @param array  $data
      * @param string $name
-     * @param array $filters
-     * @param mixed $defaultValue
+     * @param array  $filters
+     * @param mixed  $defaultValue
      *
      * @return mixed
      */
