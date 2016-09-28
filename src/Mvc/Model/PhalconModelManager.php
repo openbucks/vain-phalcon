@@ -11,6 +11,7 @@
 namespace Vain\Phalcon\Mvc\Model;
 
 use Phalcon\Mvc\Model\Manager as PhalconManager;
+use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 use Vain\Phalcon\Mvc\Model\Query\PhalconMvcQueryBuilder;
 
@@ -29,5 +30,16 @@ class PhalconModelManager extends PhalconManager
     public function createBuilder($params = null)
     {
         return new PhalconMvcQueryBuilder($params, $this->_dependencyInjector);
+    }
+
+    public function executeQuery($phql, $placeholders = null, $types = null)
+    {
+        $di = $this->getDI();
+
+        $query = new Query($phql, $di);
+
+        $this->_lastQuery = $query;
+
+        return $query->execute($placeholders, $types);
     }
 }
