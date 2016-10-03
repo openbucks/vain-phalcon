@@ -197,31 +197,4 @@ class PhalconResponseProxy extends AbstractResponseProxy implements HttpResponse
 
         return $this;
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function getStatusCode()
-    {
-        return $this->getCurrentMessage()->getStatusCode();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withStatus($code, $reasonPhrase = '')
-    {
-        $response = $this->popResponse()->withStatus($code, $reasonPhrase);
-        $this->addResponse($response);
-
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getReasonPhrase()
-    {
-        return $this->getCurrentMessage()->getReasonPhrase();
-    }
 }

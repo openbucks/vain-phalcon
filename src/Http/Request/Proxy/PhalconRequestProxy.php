@@ -13,13 +13,14 @@ namespace Vain\Phalcon\Http\Request\Proxy;
 use Vain\Http\Request\Proxy\AbstractRequestProxy;
 use Vain\Http\Request\Proxy\HttpRequestProxyInterface;
 use Phalcon\Http\RequestInterface as PhalconHttpRequestInterface;
+use Vain\Phalcon\Http\Request\PhalconRequest;
 
 /**
  * Class PhalconRequestProxy
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  * 
- * @method PhalconHttpRequestInterface getCurrentMessage
+ * @method PhalconRequest getCurrentMessage
  */
 class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestProxyInterface, PhalconHttpRequestInterface
 {
@@ -202,30 +203,6 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getUploadedFiles($onlySuccessful = false)
-    {
-        return $this->getCurrentMessage()->getUploadedFiles($onlySuccessful);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getServer($name, $default = null)
-    {
-        return $this->getCurrentMessage()->getServer($name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function hasServer($name)
-    {
-        return $this->getCurrentMessage()->hasServer($name);
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function get($name = null, $filters = null, $default = null)
     {
         return $this->getCurrentMessage()->get($name, $filters, $default);
@@ -234,176 +211,8 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getUserAgent()
-    {
-        return $this->getCurrentMessage()->getUserAgent();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getServerAddress()
-    {
-        return $this->getCurrentMessage()->getServerAddress();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getServerName()
-    {
-        return $this->getCurrentMessage()->getServerName();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHttpHost()
-    {
-        return $this->getCurrentMessage()->getHttpHost();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isPost()
-    {
-        return $this->getCurrentMessage()->isPost();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isGet()
-    {
-        return $this->getCurrentMessage()->isGet();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isPut()
-    {
-        return $this->getCurrentMessage()->isPut();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getScheme()
-    {
-        return $this->getCurrentMessage()->getScheme();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isHead()
-    {
-        return $this->getCurrentMessage()->isHead();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isDelete()
-    {
-        return $this->getCurrentMessage()->isDelete();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isOptions()
-    {
-        return $this->getCurrentMessage()->isOptions();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isSecureRequest()
-    {
-        return $this->getCurrentMessage()->isSecureRequest();
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getPort()
     {
         return $this->getCurrentMessage()->getPort();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isPurge()
-    {
-        return $this->getCurrentMessage()->isPurge();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isTrace()
-    {
-        return $this->getCurrentMessage()->isTrace();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isConnect()
-    {
-        return $this->getCurrentMessage()->isConnect();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getContents()
-    {
-        return $this->getCurrentMessage()->getContents();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function hasQueryParam($name)
-    {
-        return $this->getCurrentMessage()->hasQueryParam($name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function hasBodyParam($name)
-    {
-        return $this->getCurrentMessage()->hasBodyParam($name);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function post($name, $default = null)
-    {
-        return $this->getCurrentMessage()->post($name, $default);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getContentType()
-    {
-        return $this->getCurrentMessage()->getContentType();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHttpPort()
-    {
-        return $this->getCurrentMessage()->getHttpPort();
     }
 }
