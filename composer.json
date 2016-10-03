@@ -24,7 +24,7 @@
         "vain/http": "^0.3"
     },
     "require-dev": {
-        "phalcon/devtools": "^3.0"
+        "phalcon/devtools": "^3"
     },
     "repositories": [
         {

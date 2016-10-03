@@ -211,6 +211,14 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
+    public function getUploadedFiles($onlySuccessFul = true)
+    {
+        return $this->getCurrentMessage()->getUploadedFiles($onlySuccessFul);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getPort()
     {
         return $this->getCurrentMessage()->getPort();
