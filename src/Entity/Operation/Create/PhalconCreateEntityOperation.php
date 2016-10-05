@@ -29,7 +29,7 @@ class PhalconCreateEntityOperation extends AbstractCreateEntityOperation
      */
     public function execute()
     {
-        if (false === $this->getEntity()->save()) {
+        if (false === $this->getEntity()->create()) {
             return new FailedOperationResult();
         }
 
