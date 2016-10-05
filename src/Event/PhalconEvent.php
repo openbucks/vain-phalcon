@@ -138,4 +138,34 @@ class PhalconEvent extends AbstractEvent implements EventInterface
 
         return $this;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function toArray() : array
+    {
+        return array_merge(
+            [
+                'source' => $this->source,
+                'data' => $this->data,
+                'cancelable' => $this->cancelable,
+                'stopper' => $this->stopped,
+            ],
+            parent::toArray()
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromArray(array $data) : EventInterface
+    {
+        $this->source = $data['source'];
+        $this->data = $data['data'];
+        $this->cancelable = $data['cancelable'];
+        $this->stopped = $data['stopped'];
+
+        return parent::fromArray($data);
+
+    }
 }
