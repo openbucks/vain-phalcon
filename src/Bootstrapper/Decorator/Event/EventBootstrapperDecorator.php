@@ -58,9 +58,7 @@ class EventBootstrapperDecorator extends AbstractBootstrapperDecorator
         parent::bootstrap($application);
 
         foreach ($this->config as $componentName => $componentData) {
-            foreach ($componentData as $eventName => $aliasName) {
-                $this->eventManager->addListener(sprintf('%s:%s', $componentName, $eventName), $this->listenerProxy);
-            }
+            $this->eventManager->addListener(sprintf('%s:*', $componentName), $this->listenerProxy);
         }
     }
 }
