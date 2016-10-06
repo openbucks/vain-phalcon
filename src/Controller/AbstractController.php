@@ -25,6 +25,6 @@ use Vain\Http\Response\VainResponseInterface;
  * @property VainResponseInterface      $response
  * @property CookieStorageInterface     $cookies
  */
-class AbstractController extends PhalconMvcController
+abstract class AbstractController extends PhalconMvcController
 {
 }
