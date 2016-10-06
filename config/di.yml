@@ -79,7 +79,6 @@ services:
   event.manager: '@event.dispatcher'
   event.listener.resolver:
     class: Vain\Phalcon\Event\Resolver\PhalconResolver
-    arguments: ['@config.event']
   event.listener.factory:
     class: Vain\Phalcon\Event\Listener\Factory\PhalconListenerFactory
     arguments: ['@app.di']
