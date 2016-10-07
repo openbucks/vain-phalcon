@@ -34,11 +34,6 @@ class PhalconApiController extends AbstractController
     private $configProvider;
 
     /**
-     * @var ApiRequestFactoryInterface
-     */
-    private $requestFactory;
-
-    /**
      * @var EncoderInterface
      */
     private $encoder;
@@ -46,18 +41,15 @@ class PhalconApiController extends AbstractController
     /**
      * @param ApiProcessorInterface      $apiProcessor
      * @param ApiConfigProviderInterface $apiConfigProvider
-     * @param ApiRequestFactoryInterface $apiRequestFactory
      * @param EncoderInterface           $encoder
      */
     public function initialize(
         ApiProcessorInterface $apiProcessor,
         ApiConfigProviderInterface $apiConfigProvider,
-        ApiRequestFactoryInterface $apiRequestFactory,
         EncoderInterface $encoder
     ) {
         $this->processor = $apiProcessor;
         $this->configProvider = $apiConfigProvider;
-        $this->requestFactory = $apiRequestFactory;
         $this->encoder = $encoder;
     }
 
@@ -67,14 +59,6 @@ class PhalconApiController extends AbstractController
     public function getProcessor()
     {
         return $this->processor;
-    }
-
-    /**
-     * @return ApiRequestFactoryInterface
-     */
-    public function getRequestFactory()
-    {
-        return $this->requestFactory;
     }
 
     /**
@@ -90,11 +74,8 @@ class PhalconApiController extends AbstractController
      */
     public function indexAction()
     {
-        $apiResponse = $this->processor
-            ->process(
-                $this->requestFactory->createRequest($this->request),
-                $this->configProvider->getConfig($this->request)
-            );
+        $apiResponse = $this->processor->process($this->request, $this->configProvider->getConfig($this->request));
+
         $this->response->withStatus($apiResponse->getStatus());
         foreach ($apiResponse->getHeaders() as $header => $value) {
             $this->response->withHeader($header, $value);
