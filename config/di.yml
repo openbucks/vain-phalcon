@@ -149,4 +149,4 @@ services:
     class: Vain\Phalcon\Api\Request\Validator\Module\Source\Dispatcher\Factory\ApiValidatorDispatcherModuleFactory
     arguments: ['@app.dispatcher', '%api.validator.module.factory.query.name%']
     tags:
-        - {name: validator.module}
+        - {name: validator.factory}
