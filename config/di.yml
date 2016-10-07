@@ -79,9 +79,10 @@ services:
   event.manager: '@event.dispatcher'
   event.listener.resolver:
     class: Vain\Phalcon\Event\Resolver\PhalconResolver
-  event.listener.factory:
+  event.listener.factory.phalcon:
     class: Vain\Phalcon\Event\Listener\Factory\PhalconListenerFactory
     arguments: ['@app.di']
+  event.listener.factory: '@event.listener.factory.phalcon'
   http.filter:
     class: Phalcon\Filter
   filter: '@http.filter'
