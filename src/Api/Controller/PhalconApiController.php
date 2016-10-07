@@ -12,7 +12,6 @@ namespace Vain\Phalcon\Api\Controller;
 
 use Vain\Api\Config\Provider\ApiConfigProviderInterface;
 use Vain\Api\Processor\ApiProcessorInterface;
-use Vain\Api\Request\Factory\ApiRequestFactoryInterface;
 use Vain\Core\Encoder\EncoderInterface;
 use Vain\Phalcon\Controller\AbstractController;
 
