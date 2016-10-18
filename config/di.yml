@@ -2,6 +2,7 @@ parameters:
     http.views.dir: '../www/views'
     dispatcher.separator: '/'
     api.validator.module.factory.query.name: ['dispatcher', 'url']
+    phalcon.config.required.fields: []
 
 services:
   api.config.provider:
