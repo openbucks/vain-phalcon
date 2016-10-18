@@ -17,7 +17,7 @@ use Vain\Database\Generator\Factory\GeneratorFactoryInterface;
 use Vain\Pdo\Connection\PdoConnectionInterface;
 use Vain\Phalcon\Database\PhalconMysqlAdapter;
 use Vain\Phalcon\Database\PhalconPostgresqlAdapter;
-use Vain\Phalcon\Exception\UnknownPhalconDriverException;
+use Vain\Phalcon\Exception\UnknownPhalconTypeException;
 
 /**
  * Class PhalconDatabaseFactory
@@ -48,8 +48,8 @@ class PhalconDatabaseFactory extends AbstractDatabaseFactory
         /**
          * @var PdoConnectionInterface $connection
          */
-        $driver = $configData['type'];
-        switch ($driver) {
+        $type = $configData['type'];
+        switch ($type) {
             case 'pgsql':
                 return new PhalconPostgresqlAdapter($this->generatorFactory, $connection);
                 break;
@@ -57,7 +57,7 @@ class PhalconDatabaseFactory extends AbstractDatabaseFactory
                 return new PhalconMysqlAdapter($this->generatorFactory, $connection);
                 break;
             default:
-                throw new UnknownPhalconDriverException($this, $driver);
+                throw new UnknownPhalconTypeException($this, $type);
         }
     }
 }
