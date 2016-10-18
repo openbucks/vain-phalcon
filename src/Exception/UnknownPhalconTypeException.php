@@ -20,7 +20,7 @@ use Vain\Database\Factory\DatabaseFactoryInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class UnknownPhalconDriverException extends DatabaseFactoryException
+class UnknownPhalconTypeException extends DatabaseFactoryException
 {
     /**
      * UnknownPhalconDriverException constructor.
@@ -32,7 +32,7 @@ class UnknownPhalconDriverException extends DatabaseFactoryException
     {
         parent::__construct(
             $databaseFactory,
-            sprintf('Cannot create phalcon database of unknown driver %s', $driver),
+            sprintf('Cannot create phalcon database of unknown type %s', $driver),
             0,
             null
         );

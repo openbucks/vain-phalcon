@@ -131,12 +131,6 @@ services:
   flashSession: '@http.flash.session'
   entity.operation.factory:
     class: Vain\Phalcon\Entity\Operation\Factory\PhalconEntityOperationFactory
-  connection.mvcc.pdo:
-    class: \PDO
-    factory: ['@connection.storage', getConnection]
-    arguments:
-      - 'main'
-  connection.mvcc: '@connection.main.pdo'
   database.factory.phalcon:
     class: Vain\Phalcon\Database\Factory\PhalconDatabaseFactory
     arguments: ['phalcon', '@database.generator.factory']
