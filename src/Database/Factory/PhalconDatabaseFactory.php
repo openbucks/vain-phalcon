@@ -48,7 +48,7 @@ class PhalconDatabaseFactory extends AbstractDatabaseFactory
         /**
          * @var PdoConnectionInterface $connection
          */
-        $driver = $configData['driver'];
+        $driver = $configData['type'];
         switch ($driver) {
             case 'pgsql':
                 return new PhalconPostgresqlAdapter($this->generatorFactory, $connection);
