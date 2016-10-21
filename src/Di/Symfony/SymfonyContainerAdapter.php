@@ -11,8 +11,9 @@
 namespace Vain\Phalcon\Di\Symfony;
 
 use Phalcon\Di\InjectionAwareInterface as PhalconDiAwareInterface;
+use Symfony\Component\DependencyInjection\Container as SymfonyContainer;
 use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainerInterface;
-use Vain\Phalcon\Di\Compile\CompileAwareContainerInterface;
+use Vain\Core\Container\ContainerInterface;
 use Vain\Phalcon\Exception\UnsupportedDiCallException;
 use \Phalcon\Di\ServiceInterface as PhalconServiceInterface;
 use \Phalcon\DiInterface as PhalconDiInterface;
@@ -22,16 +23,16 @@ use \Phalcon\DiInterface as PhalconDiInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class SymfonyContainerAdapter implements CompileAwareContainerInterface, SymfonyContainerInterface
+class SymfonyContainerAdapter implements PhalconDiInterface, SymfonyContainerInterface, ContainerInterface
 {
     private $symfonyContainer;
 
     /**
      * SymfonyContainerAdapter constructor.
      *
-     * @param SymfonyContainerInterface $symfonyContainer
+     * @param SymfonyContainer $symfonyContainer
      */
-    public function __construct(SymfonyContainerInterface $symfonyContainer)
+    public function __construct(SymfonyContainer $symfonyContainer)
     {
         $this->symfonyContainer = $symfonyContainer;
     }
@@ -239,6 +240,8 @@ class SymfonyContainerAdapter implements CompileAwareContainerInterface, Symfony
      */
     public function setParameter($name, $value)
     {
-        return $this->symfonyContainer->setParameter($name, $value);
+        $this->symfonyContainer->setParameter($name, $value);
+
+        return $this;
     }
 }
