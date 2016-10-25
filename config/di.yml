@@ -30,6 +30,7 @@ services:
     class: Vain\Phalcon\Mvc\Model\PhalconModelManager
     calls:
       - [setEventsManager, ['@event.manager']]
+      - [setDI, ['@app.di']]
   modelsManager: '@app.model.manager'
   app.modelsMetadata:
     class: Phalcon\Mvc\Model\MetaData\Memory
