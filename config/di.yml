@@ -75,12 +75,15 @@ services:
     factory: ['@config.provider', getConfig]
     arguments:
       - 'router'
-  event.dispatcher:
+  event.dispatcher.phalcon:
     class: Vain\Phalcon\Event\Dispatcher\PhalconEventDispatcher
+    arguments: ['@event.resolver.phalcon']
+  event.dispatcher: '@event.dispatcher.phalcon'
   eventManager: '@event.dispatcher'
   event.manager: '@event.dispatcher'
-  event.listener.resolver:
+  event.resolver.phalcon:
     class: Vain\Phalcon\Event\Resolver\PhalconResolver
+  event.resolver: '@event.resolver.phalcon'
   event.listener.factory.phalcon:
     class: Vain\Phalcon\Event\Listener\Factory\PhalconListenerFactory
     arguments: ['@app.di']

@@ -15,8 +15,8 @@ use Vain\Event\Dispatcher\EventDispatcherInterface;
 use Vain\Event\EventInterface;
 use Vain\Event\Listener\ListenerInterface;
 use Vain\Event\Manager\EventManagerInterface;
+use Vain\Event\Resolver\ResolverInterface;
 use Vain\Phalcon\Event\PhalconEvent;
-use Vain\Phalcon\Exception\BadNameException;
 use Vain\Phalcon\Exception\UnsupportedPrioritiesException;
 use Vain\Phalcon\Exception\UnsupportedResponsesException;
 
@@ -31,6 +31,18 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     const NAME_COUNT = 2;
 
     private $listeners = [];
+
+    private $resolver;
+
+    /**
+     * PhalconEventDispatcher constructor.
+     *
+     * @param ResolverInterface $resolver
+     */
+    public function __construct(ResolverInterface $resolver)
+    {
+        $this->resolver = $resolver;
+    }
 
     /**
      * @param ListenerInterface[] $listeners
@@ -49,19 +61,14 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
      */
     public function dispatch(EventInterface $event) : EventDispatcherInterface
     {
-        $eventParts = explode(self::NAME_SEPARATOR, $event->getName());
+        $eventGroup = $this->resolver->resolveGroup($event);
+        $eventName = $event->getName();
 
-        if (self::NAME_COUNT !== count($eventParts)) {
-            throw new BadNameException($this, $event, self::NAME_SEPARATOR, self::NAME_COUNT);
+        if (array_key_exists($eventGroup, $this->listeners)) {
+            $this->propagateEvent($this->listeners[$eventGroup], $event);
         }
 
-        list ($eventType, $eventName) = $eventParts;
-
-        if (array_key_exists($eventType, $this->listeners)) {
-            $this->propagateEvent($this->listeners[$eventType], $event);
-        }
-
-        if (array_key_exists($event->getName(), $this->listeners)) {
+        if (array_key_exists($eventName, $this->listeners)) {
             $this->propagateEvent($this->listeners[$eventName], $event);
         }
 
