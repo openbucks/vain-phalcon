@@ -142,3 +142,9 @@ services:
     arguments: ['@app.dispatcher', '%api.validator.module.factory.query.name%']
     tags:
         - {name: validator.factory}
+  http.request: '@http.request.proxy'
+  http.response: '@http.response.proxy'
+  http.context.phalcon:
+    class: Vain\Phalcon\Http\Context\PhalconHttpContext
+    parent: http.context.abstract
+  http.context: '@http.context.phalcon'
