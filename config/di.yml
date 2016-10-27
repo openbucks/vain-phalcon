@@ -13,7 +13,7 @@ services:
     arguments: ['@service_container']
   app.bootstrapper.factory:
     class: Vain\Phalcon\Bootstrapper\Factory\MvcBootstrapperFactory
-    arguments: ['@config.router', '@config.event', '@event.listener.lazy', '@event.manager']
+    arguments: ['@config.router', '@config.event', '@event.handler.lazy', '@event.manager']
   app.router:
     class: Phalcon\Mvc\Router
     arguments: [false]

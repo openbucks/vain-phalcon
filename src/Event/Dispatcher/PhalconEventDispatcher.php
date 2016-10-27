@@ -13,7 +13,7 @@ namespace Vain\Phalcon\Event\Dispatcher;
 use Phalcon\Events\ManagerInterface as PhalconEventManagerInterface;
 use Vain\Event\Dispatcher\EventDispatcherInterface;
 use Vain\Event\EventInterface;
-use Vain\Event\Listener\ListenerInterface;
+use Vain\Event\Handler\HandlerInterface;
 use Vain\Event\Manager\EventManagerInterface;
 use Vain\Event\Resolver\ResolverInterface;
 use Vain\Phalcon\Event\PhalconEvent;
@@ -30,7 +30,7 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     const NAME_SEPARATOR = ':';
     const NAME_COUNT = 2;
 
-    private $listeners = [];
+    private $handlers = [];
 
     private $resolver;
 
@@ -45,7 +45,7 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     }
 
     /**
-     * @param ListenerInterface[] $listeners
+     * @param HandlerInterface[] $listeners
      * @param EventInterface      $event
      *
      */
@@ -64,12 +64,12 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
         $eventGroup = $this->resolver->resolveGroup($event);
         $eventName = $event->getName();
 
-        if (array_key_exists($eventGroup, $this->listeners)) {
-            $this->propagateEvent($this->listeners[$eventGroup], $event);
+        if (array_key_exists($eventGroup, $this->handlers)) {
+            $this->propagateEvent($this->handlers[$eventGroup], $event);
         }
 
-        if (array_key_exists($eventName, $this->listeners)) {
-            $this->propagateEvent($this->listeners[$eventName], $event);
+        if (array_key_exists($eventName, $this->handlers)) {
+            $this->propagateEvent($this->handlers[$eventName], $event);
         }
 
         return $this;
@@ -80,7 +80,7 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
      */
     public function attach($eventType, $handler, $priority = 100)
     {
-        $this->listeners[$eventType][] = $handler;
+        $this->handlers[$eventType][] = $handler;
 
         return $this;
     }
@@ -88,7 +88,7 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     /**
      * @inheritDoc
      */
-    public function addListener(string $eventName, ListenerInterface $listener) : EventManagerInterface
+    public function addHandler(string $eventName, HandlerInterface $listener) : EventManagerInterface
     {
         return $this->attach($eventName, $listener);
     }
@@ -96,7 +96,7 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     /**
      * @inheritDoc
      */
-    public function removeListener(string $eventName, ListenerInterface $listener) : EventManagerInterface
+    public function removeHandler(string $eventName, HandlerInterface $listener) : EventManagerInterface
     {
         return $this->detach($eventName, $listener);
     }
@@ -104,7 +104,7 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     /**
      * @inheritDoc
      */
-    public function removeListeners(string $eventName) : EventManagerInterface
+    public function removeHandlers(string $eventName) : EventManagerInterface
     {
         return $this->detachAll($eventName);
     }
@@ -114,15 +114,15 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
      */
     public function detach($eventType, $handler)
     {
-        if (false === array_key_exists($eventType, $this->listeners)) {
+        if (false === array_key_exists($eventType, $this->handlers)) {
             return $this;
         }
 
-        if (false === ($key = array_search($handler, $this->listeners[$eventType]))) {
+        if (false === ($key = array_search($handler, $this->handlers[$eventType]))) {
             return $this;
         }
 
-        unset($this->listeners[$eventType]);
+        unset($this->handlers[$eventType]);
 
         return $this;
     }
@@ -133,12 +133,12 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     public function detachAll($type = null)
     {
         if (null === $type) {
-            $this->listeners = [];
+            $this->handlers = [];
 
             return $this;
         }
 
-        $this->listeners[$type] = [];
+        $this->handlers[$type] = [];
 
         return $this;
     }
@@ -154,13 +154,13 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     /**
      * @inheritDoc
      */
-    public function getListeners($type)
+    public function getHandlers($type)
     {
-        if (false === array_key_exists($type, $this->listeners)) {
+        if (false === array_key_exists($type, $this->handlers)) {
             return [];
         }
 
-        return $this->listeners[$type];
+        return $this->handlers[$type];
     }
 
     /**
