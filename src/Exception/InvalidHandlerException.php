@@ -8,6 +8,8 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-http
  */
+declare(strict_types = 1);
+
 namespace Vain\Phalcon\Exception;
 
 use Vain\Event\Dispatcher\EventDispatcherInterface;
@@ -27,6 +29,6 @@ class InvalidHandlerException extends DispatcherException
      */
     public function __construct(EventDispatcherInterface $dispatcher, $handler)
     {
-        parent::__construct($dispatcher, sprintf('Handler must be object, %s given', gettext($handler)), 0, null);
+        parent::__construct($dispatcher, sprintf('Handler must be object, %s given', gettext($handler)));
     }
 }

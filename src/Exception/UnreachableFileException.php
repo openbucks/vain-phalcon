@@ -8,6 +8,8 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-http
  */
+declare(strict_types = 1);
+
 namespace Vain\Phalcon\Exception;
 
 use Vain\Core\Exception\AbstractCoreException;
@@ -27,6 +29,6 @@ class UnreachableFileException extends AbstractCoreException
      */
     public function __construct($fileName, $mode)
     {
-        parent::__construct(sprintf('Cannot open file %s with mode %s', $fileName, $mode), 0, null);
+        parent::__construct(sprintf('Cannot open file %s with mode %s', $fileName, $mode));
     }
 }

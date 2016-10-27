@@ -8,6 +8,8 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-http
  */
+declare(strict_types = 1);
+
 namespace Vain\Phalcon\Exception;
 
 use Vain\Event\Dispatcher\EventDispatcherInterface;
@@ -26,6 +28,6 @@ class UnsupportedPrioritiesException extends DispatcherException
      */
     public function __construct(EventDispatcherInterface $dispatcher)
     {
-        parent::__construct($dispatcher, 'Priorities are not supported in Phalcon bridge', 0, null);
+        parent::__construct($dispatcher, 'Priorities are not supported in Phalcon bridge');
     }
 }

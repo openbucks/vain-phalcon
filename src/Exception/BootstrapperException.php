@@ -8,6 +8,8 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-phalcon
  */
+declare(strict_types = 1);
+
 namespace Vain\Phalcon\Exception;
 
 use Vain\Core\Exception\AbstractCoreException;
@@ -30,8 +32,12 @@ class BootstrapperException extends AbstractCoreException
      * @param int                   $code
      * @param \Exception|null       $previous
      */
-    public function __construct(BootstrapperInterface $bootstrapper, $message, $code, \Exception $previous = null)
-    {
+    public function __construct(
+        BootstrapperInterface $bootstrapper,
+        string $message,
+        int $code = 500,
+        \Exception $previous = null
+    ) {
         $this->bootstrapper = $bootstrapper;
         parent::__construct($message, $code, $previous);
     }

@@ -8,6 +8,8 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-http
  */
+declare(strict_types=1);
+
 namespace Vain\Phalcon\Exception;
 
 use Vain\Phalcon\Di\Builder\DiBuilderInterface;
@@ -27,6 +29,6 @@ class UnableToCacheContainerException extends DiBuilderException
      */
     public function __construct(DiBuilderInterface $builder, $filename)
     {
-        parent::__construct($builder, sprintf('Unable to write container to %s', $filename), 0, null);
+        parent::__construct($builder, sprintf('Unable to write container to %s', $filename));
     }
 }

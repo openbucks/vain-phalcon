@@ -26,15 +26,10 @@ class UnknownPhalconTypeException extends DatabaseFactoryException
      * UnknownPhalconDriverException constructor.
      *
      * @param DatabaseFactoryInterface $databaseFactory
-     * @param string                     $driver
+     * @param string                   $driver
      */
     public function __construct(DatabaseFactoryInterface $databaseFactory, string $driver)
     {
-        parent::__construct(
-            $databaseFactory,
-            sprintf('Cannot create phalcon database of unknown type %s', $driver),
-            0,
-            null
-        );
+        parent::__construct($databaseFactory, sprintf('Cannot create phalcon database of unknown type %s', $driver));
     }
 }

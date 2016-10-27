@@ -8,6 +8,8 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-http
  */
+declare(strict_types = 1);
+
 namespace Vain\Phalcon\Exception;
 
 use Vain\Http\Exception\HeaderStorageException;
@@ -30,9 +32,7 @@ class UnsupportedHeaderStorageCallException extends HeaderStorageException
     {
         parent::__construct(
             $headerStorage,
-            sprintf('Call to method %s on header storage object is not supported', $method),
-            0,
-            null
+            sprintf('Call to method %s on header storage object is not supported', $method)
         );
     }
 }

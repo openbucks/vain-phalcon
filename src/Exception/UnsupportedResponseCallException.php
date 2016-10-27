@@ -8,6 +8,8 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-http
  */
+declare(strict_types = 1);
+
 namespace Vain\Phalcon\Exception;
 
 use Vain\Http\Exception\ResponseException;
@@ -28,11 +30,6 @@ class UnsupportedResponseCallException extends ResponseException
      */
     public function __construct(AbstractResponse $response, $method)
     {
-        parent::__construct(
-            $response,
-            sprintf('Call to method %s on response object is not supported', $method),
-            0,
-            null
-        );
+        parent::__construct($response, sprintf('Call to method %s on response object is not supported', $method));
     }
 }

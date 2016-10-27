@@ -8,6 +8,8 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-http
  */
+declare(strict_types = 1);
+
 namespace Vain\Phalcon\Exception;
 
 use Vain\Event\Exception\EventException;
@@ -27,6 +29,6 @@ class NonCancelableException extends EventException
      */
     public function __construct(PhalconEvent $event)
     {
-        parent::__construct($event, 'Trying to stop event propagation on non-cancelable event', 0, null);
+        parent::__construct($event, 'Trying to stop event propagation on non-cancelable event');
     }
 }

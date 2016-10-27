@@ -8,6 +8,8 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-http
  */
+declare(strict_types = 1);
+
 namespace Vain\Phalcon\Exception;
 
 use Vain\Http\Cookie\VainCookieInterface;
@@ -28,6 +30,6 @@ class UnsupportedCookieCallException extends CookieException
      */
     public function __construct(VainCookieInterface $cookie, $method)
     {
-        parent::__construct($cookie, sprintf('Call to method %s on cookie object is not supported', $method), 0, null);
+        parent::__construct($cookie, sprintf('Call to method %s on cookie object is not supported', $method));
     }
 }

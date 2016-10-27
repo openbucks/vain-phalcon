@@ -8,6 +8,8 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-http
  */
+declare(strict_types = 1);
+
 namespace Vain\Phalcon\Exception;
 
 use Vain\Http\Request\Factory\RequestFactoryInterface;
@@ -27,6 +29,6 @@ class UnknownProtocolException extends HttpFactoryException
      */
     public function __construct(RequestFactoryInterface $factory, $protocol)
     {
-        parent::__construct($factory, sprintf('Cannot extract http protocol from %s', $protocol), 0, null);
+        parent::__construct($factory, sprintf('Cannot extract http protocol from %s', $protocol));
     }
 }

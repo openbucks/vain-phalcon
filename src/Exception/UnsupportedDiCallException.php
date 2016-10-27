@@ -8,6 +8,8 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-http
  */
+declare(strict_types = 1);
+
 namespace Vain\Phalcon\Exception;
 
 use \Phalcon\DiInterface as PhalconDiInterface;
@@ -27,6 +29,6 @@ class UnsupportedDiCallException extends DiException
      */
     public function __construct(PhalconDiInterface $di, $method)
     {
-        parent::__construct($di, sprintf('Call to method %s on di object is not supported', $method), 0, null);
+        parent::__construct($di, sprintf('Call to method %s on di object is not supported', $method));
     }
 }

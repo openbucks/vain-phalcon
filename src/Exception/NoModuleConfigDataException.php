@@ -8,6 +8,8 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-phalcon
  */
+declare(strict_types = 1);
+
 namespace Vain\Phalcon\Exception;
 
 use Vain\Api\Config\Provider\ApiConfigProviderInterface;
@@ -36,7 +38,7 @@ class NoModuleConfigDataException extends ConfigProviderException
         $moduleName
     ) {
         $this->request = $request;
-        parent::__construct($apiConfigProvider, sprintf('Cannot find api config for module %s', $moduleName), 0, null);
+        parent::__construct($apiConfigProvider, sprintf('Cannot find api config for module %s', $moduleName));
     }
 
     /**

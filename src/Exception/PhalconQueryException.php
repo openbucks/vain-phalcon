@@ -8,6 +8,7 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-phalcon
  */
+declare(strict_types=1);
 
 namespace Vain\Phalcon\Exception;
 
@@ -29,6 +30,6 @@ class PhalconQueryException extends DatabaseException
      */
     public function __construct(DatabaseInterface $vainDatabase, $query)
     {
-        parent::__construct($vainDatabase, sprintf('Cannot execute query %s', $query), 0, null);
+        parent::__construct($vainDatabase, sprintf('Cannot execute query %s', $query));
     }
 }

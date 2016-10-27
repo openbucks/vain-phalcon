@@ -8,6 +8,8 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-http
  */
+declare(strict_types = 1);
+
 namespace Vain\Phalcon\Exception;
 
 use Vain\Http\Cookie\Storage\CookieStorageInterface;
@@ -30,9 +32,7 @@ class UnsupportedCookieStorageCallException extends CookieStorageException
     {
         parent::__construct(
             $cookieStorage,
-            sprintf('Call to method %s on cookie storage object is not supported', $method),
-            0,
-            null
+            sprintf('Call to method %s on cookie storage object is not supported', $method)
         );
     }
 }

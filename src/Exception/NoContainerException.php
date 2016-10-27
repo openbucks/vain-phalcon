@@ -26,6 +26,6 @@ class NoContainerException extends DiBuilderException
      */
     public function __construct(DiBuilderInterface $builder)
     {
-        parent::__construct($builder, 'No container to build', 0, null);
+        parent::__construct($builder, 'No container to build');
     }
 }

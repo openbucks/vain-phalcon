@@ -37,9 +37,7 @@ class BadNameException extends DispatcherException
                 $event->getName(),
                 $separator,
                 $count - 1
-            ),
-            0,
-            null
+            )
         );
     }
 }
