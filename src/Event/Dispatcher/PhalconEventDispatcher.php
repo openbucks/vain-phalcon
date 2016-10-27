@@ -154,13 +154,21 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     /**
      * @inheritDoc
      */
-    public function getHandlers($type)
+    public function getListeners($type)
     {
-        if (false === array_key_exists($type, $this->handlers)) {
+        return $this->getHandlers((string)$type);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getHandlers($eventName) : array
+    {
+        if (false === array_key_exists($eventName, $this->handlers)) {
             return [];
         }
 
-        return $this->handlers[$type];
+        return $this->handlers[$eventName];
     }
 
     /**
