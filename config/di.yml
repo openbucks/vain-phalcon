@@ -8,7 +8,8 @@ services:
   api.config.provider:
     class: Vain\Phalcon\Api\Config\Provider\PhalconApiConfigProvider
     arguments: ['@app.router', '@config.provider', '@api.config.factory']
-  api.config.storage: '@api.config.provider'
+  api.config.storage:
+    alias: api.config.provider
   app.di:
     class: Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter
     arguments: ['@service_container']
@@ -18,23 +19,27 @@ services:
   app.router:
     class: Phalcon\Mvc\Router
     arguments: [false]
-  router: '@app.router'
+  router:
+    alias: app.router
   app.dispatcher:
     class: Vain\Phalcon\Dispatcher\Mvc\MvcDispatcher
     arguments: ['%dispatcher.separator%']
     calls:
       - [setEventsManager, ['@event.manager']]
       - [setParams, [[]]]
-  dispatcher: '@app.dispatcher'
+  dispatcher:
+    alias: app.dispatcher
   app.model.manager:
     class: Vain\Phalcon\Mvc\Model\PhalconModelManager
     calls:
       - [setEventsManager, ['@event.manager']]
       - [setDI, ['@app.di']]
-  modelsManager: '@app.model.manager'
+  modelsManager:
+    alias: app.model.manager
   app.modelsMetadata:
     class: Phalcon\Mvc\Model\MetaData\Memory
-  modelsMetadata: '@app.modelsMetadata'
+  modelsMetadata:
+    alias: app.modelsMetadata
   app.mvc:
     class: Vain\Phalcon\Application\Mvc\MvcApplication
     arguments: ['@http.request.proxy', '@http.response.proxy', '@http.response.factory', '@app.di']
@@ -43,32 +48,41 @@ services:
     arguments: ['@app.di']
   app.escaper:
     class: Phalcon\Escaper
-  escaper: '@app.escaper'
+  escaper:
+    alias: app.escaper
   app.security:
     class: Phalcon\Security
-  security: '@app.security'
+  security:
+    alias: app.security
   app.crypt:
     class: Phalcon\Crypt
-  crypt: '@app.crypt'
+  crypt:
+    alias: app.crypt
   app.annotations:
     class: Phalcon\Annotations\Adapter\Memory
-  annotaions: '@app.annotations'
+  annotaions:
+    alias: app.annotations
   app.tag:
     class: Phalcon\Tag
-  tag: '@app.tag'
+  tag:
+    alias: app.tag
   app.session:
     class: Phalcon\Session\Adapter\Files
-  session: '@app.session'
+  session:
+    alias: app.session
   app.session.bag:
     class: Phalcon\Session\Bag
-  sessionBag: '@app.session.bag'
+  sessionBag:
+    alias: app.session.bag
   app.transaction.manager:
     class: Phalcon\Mvc\Model\Transaction\Manager
     arguments: ['@app.di']
-  transactionManager: '@app.transaction.manager'
+  transactionManager:
+    alias: app.transaction.manager
   app.assets:
     class: Phalcon\Assets\Manager
-  assets: '@app.assets'
+  assets:
+    alias: app.assets
   config.factory:
     class: Vain\Phalcon\Config\Factory\PhalconConfigFactory
   config.router:
@@ -79,18 +93,24 @@ services:
   event.dispatcher.phalcon:
     class: Vain\Phalcon\Event\Dispatcher\PhalconEventDispatcher
     arguments: ['@event.resolver.phalcon']
-  event.dispatcher: '@event.dispatcher.phalcon'
-  eventManager: '@event.dispatcher'
-  event.manager: '@event.dispatcher'
+  event.dispatcher:
+    alias: event.dispatcher.phalcon
+  eventManager:
+    alias: event.dispatcher
+  event.manager:
+    alias: event.dispatcher
   event.resolver.phalcon:
     class: Vain\Phalcon\Event\Resolver\PhalconResolver
-  event.resolver: '@event.resolver.phalcon'
+  event.resolver:
+    alias: event.resolver.phalcon
   http.filter:
     class: Phalcon\Filter
-  filter: '@http.filter'
+  filter:
+    alias: http.filter
   http.header.factory:
     class: Vain\Phalcon\Http\Header\Factory\PhalconHeaderFactory
-  http.header.provider: '@http.header.provider.server'
+  http.header.provider:
+    alias: http.header.provider.server
   http.cookie.factory:
     class: Vain\Phalcon\Http\Cookie\Factory\PhalconCookieFactory
   http.factory:
@@ -98,18 +118,23 @@ services:
     arguments: ['@http.filter', '@http.header.provider','@http.cookie.factory' ,'@http.header.factory']
   http.response.proxy:
     class: Vain\Phalcon\Http\Response\Proxy\PhalconResponseProxy
-  response: '@http.response.proxy'
-  http.response.factory: '@http.factory'
+  response:
+    alias: http.response.proxy
+  http.response.factory:
+    alias: http.factory
   http.request.proxy:
     class: Vain\Phalcon\Http\Request\Proxy\PhalconRequestProxy
-  request: '@http.request.proxy'
-  http.request.factory: '@http.factory'
+  request:
+    alias: http.request.proxy
+  http.request.factory:
+    alias: http.factory
   http.view:
     class: Phalcon\Mvc\View
     calls:
       - [setViewsDir, ['%http.views.dir%']]
       - [registerEngines, [{'.phtml':'http.engine.php','.php':'http.engine.php','.volt':'http.engine.volt'}]]
-  view: '@http.view'
+  view:
+    alias: http.view
   http.engine.php:
     class: Phalcon\Mvc\View\Engine\Php
     arguments: ['@http.view', '@app.di']
@@ -118,7 +143,8 @@ services:
     arguments: ['@http.view', '@app.di']
   http.url:
     class: Phalcon\Mvc\Url
-  url: '@http.url'
+  url:
+    alias: http.url
   http.cookie.storage:
     class: Vain\Phalcon\Http\Cookie\Storage\PhalconCookieStorage
     arguments: ['@http.cookie.factory']
@@ -126,10 +152,12 @@ services:
     class: Phalcon\Http\Response\Cookies
   http.flash:
     class: Phalcon\Flash\Direct
-  flash: '@http.flash'
+  flash:
+    alias: http.flash
   http.flash.session:
     class: Phalcon\Flash\Session
-  flashSession: '@http.flash.session'
+  flashSession:
+    alias: http.flash.session
   entity.operation.factory:
     class: Vain\Phalcon\Entity\Operation\Factory\PhalconEntityOperationFactory
   database.factory.phalcon:
@@ -142,12 +170,15 @@ services:
     arguments: ['@app.dispatcher', '%api.validator.module.factory.query.name%']
     tags:
         - {name: validator.factory}
-  http.request: '@http.request.proxy'
-  http.response: '@http.response.proxy'
+  http.request:
+    alias: http.request.proxy
+  http.response:
+    alias: http.response.proxy
   http.context.phalcon:
     class: Vain\Phalcon\Http\Context\PhalconHttpContext
     parent: http.context.abstract
-  http.context: '@http.context.phalcon'
+  http.context:
+    alias: http.context.phalcon
   connection.factory.beanstalk.trust:
     class: Vain\Phalcon\Queue\Beanstalk\Factory\BeanstalkConnectionFactory
     arguments: ['beanstalk']
