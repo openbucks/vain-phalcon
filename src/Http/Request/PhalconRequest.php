@@ -250,7 +250,12 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
      */
     public function getAcceptableContent()
     {
+        if (false === $this->getHeaderStorage()->hasHeader('HTTP_ACCEPT')) {
+            return [];
+        }
+
         return $this->getHeader('HTTP_ACCEPT');
+
     }
 
     /**
@@ -268,6 +273,10 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
      */
     public function getClientCharsets()
     {
+        if (false === $this->getHeaderStorage()->hasHeader('HTTP_ACCEPT_CHARSET')) {
+            return [];
+        }
+
         return $this->getHeader('HTTP_ACCEPT_CHARSET');
     }
 
@@ -286,6 +295,10 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
      */
     public function getLanguages()
     {
+        if (false === $this->getHeaderStorage()->hasHeader('HTTP_ACCEPT_LANGUAGE')) {
+            return [];
+        }
+
         return $this->getHeader('HTTP_ACCEPT_LANGUAGE');
     }
 
