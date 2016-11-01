@@ -57,6 +57,10 @@ class BeanstalkQueue extends AbstractQueue
      */
     public function dequeue() : QueueMessageInterface
     {
-        trigger_error('Method dequeue is not implemented', E_USER_ERROR);
+        if (false === ($job = $this->getQueue()->peekReady())) {
+            return null;
+        }
+        $message = $job->getBody();
+
     }
 }
