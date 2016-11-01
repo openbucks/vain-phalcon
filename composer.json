@@ -22,7 +22,8 @@
         "vain/entity": "^0.3",
         "vain/event": "^0.3",
         "vain/http": "^0.3",
-        "vain/pdo": "^0.3"
+        "vain/pdo": "^0.3",
+        "vain/queue": "^0.3"
     },
     "require-dev": {
         "phalcon/devtools": "^3"

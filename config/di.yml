@@ -1,7 +1,8 @@
 parameters:
-    http.views.dir: '../www/views'
-    dispatcher.separator: '/'
-    api.validator.module.factory.query.name: ['dispatcher', 'url']
+  http.views.dir: '../www/views'
+  dispatcher.separator: '/'
+  api.validator.module.factory.query.name: ['dispatcher', 'url']
+  beanstalk.config.required.fields: ['host', 'port']
 
 services:
   api.config.provider:
@@ -147,3 +148,18 @@ services:
     class: Vain\Phalcon\Http\Context\PhalconHttpContext
     parent: http.context.abstract
   http.context: '@http.context.phalcon'
+  connection.factory.beanstalk.trust:
+    class: Vain\Phalcon\Queue\Beanstalk\Factory\BeanstalkConnectionFactory
+    arguments: ['beanstalk']
+  connection.factory.beanstalk.assert:
+    class: Vain\Connection\Factory\Decorator\Assert\ConnectionFactoryAssertDecorator
+    arguments: ['@connection.factory.beanstalk.trust', '%beanstalk.config.required.fields%']
+  connection.factory.beanstalk:
+    alias: connection.factory.beanstalk.assert
+    tags:
+      - {name: connection.factory}
+  queue.factory.amqp:
+    class: Vain\Phalcon\Queue\Beanstalk\Factory\BeanstalkQueueFactory
+    arguments: ['beanstalk']
+    tags:
+      - {name: queue.factory}
