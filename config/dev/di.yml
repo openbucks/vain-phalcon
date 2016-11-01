@@ -1,0 +1,11 @@
+imports:
+  - { resource: '../di.yml' }
+
+parameters:
+  beanstalk.config.required.fields: ['host', 'port']
+
+services:
+  connection.factory.beanstalk:
+    class: Vain\Connection\Factory\Decorator\Assert\ConnectionFactoryAssertDecorator
+    decorates: connection.factory.beanstalk
+    arguments: ['@connection.factory.beanstalk.inner', '%beanstalk.config.required.fields%']
