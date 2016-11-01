@@ -19,9 +19,10 @@ interface DiFactoryInterface
     /**
      * @param string $applicationEnv
      * @param string $applicationMode
+     * @param bool   $isDebug
      * @param bool   $cachingEnabled
      *
      * @return PhalconDiInterface
      */
-    public function createDi($applicationEnv, $applicationMode, $cachingEnabled);
+    public function createDi(string $applicationEnv, string $applicationMode, bool $isDebug, bool $cachingEnabled);
 }
