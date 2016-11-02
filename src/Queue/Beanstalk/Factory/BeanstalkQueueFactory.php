@@ -28,6 +28,6 @@ class BeanstalkQueueFactory extends AbstractQueueFactory
      */
     public function createQueue(ConnectionInterface $connection, array $configData = [])
     {
-        return new BeanstalkQueue($connection, $configData);
+        return new BeanstalkQueue($connection, $this->getFactoryStorage(), $configData);
     }
 }

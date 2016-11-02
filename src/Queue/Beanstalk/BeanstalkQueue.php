@@ -13,6 +13,7 @@ declare(strict_types = 1);
 namespace Vain\Phalcon\Queue\Beanstalk;
 
 use Phalcon\Queue\Beanstalk as PhalconBeanstalkQueue;
+use \Phalcon\Queue\Beanstalk\Job as PhalconBeanstalkJob;
 use Vain\Queue\AbstractQueue;
 use Vain\Queue\Message\QueueMessageInterface;
 use Vain\Queue\QueueInterface;
@@ -26,6 +27,11 @@ use Vain\Queue\QueueInterface;
  */
 class BeanstalkQueue extends AbstractQueue
 {
+    /**
+     * @var PhalconBeanstalkJob[]
+     */
+    private $jobs;
+
     /**
      * @inheritDoc
      */
@@ -55,12 +61,37 @@ class BeanstalkQueue extends AbstractQueue
     /**
      * @inheritDoc
      */
-    public function dequeue() : QueueMessageInterface
+    public function doDequeue() : QueueMessageInterface
     {
-        if (false === ($job = $this->getQueue()->peekReady())) {
+        if (false === ($job = $this->getQueue()->reserve())) {
             return null;
         }
-        $message = $job->getBody();
 
+        $serializedMessage = $job->getBody();
+        $message = $this->getFactoryStorage()->getFactory($serializedMessage['type'])->createFromArray(
+            $serializedMessage
+        );
+
+        $this->jobs[$message->getId()] = $job;
+
+        return $message;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function doConfirm(QueueMessageInterface $queueMessage) : bool
+    {
+        $messageId = $queueMessage->getId();
+        if (false === array_key_exists($messageId, $this->jobs)) {
+            return false;
+        }
+
+        if (false === $this->jobs[$messageId]->delete()) {
+            return false;
+        }
+        unset($this->jobs[$messageId]);
+
+        return true;
     }
 }
