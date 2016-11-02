@@ -19,6 +19,7 @@ use Vain\Config\Provider\ConfigProviderInterface;
 use Vain\Http\Request\VainServerRequestInterface;
 use Vain\Phalcon\Exception\NoModuleConfigDataException;
 use Vain\Phalcon\Exception\NoRouteConfigDataException;
+use Vain\Phalcon\Exception\UnknownRouteException;
 
 /**
  * Class PhalconApiConfigProvider
@@ -55,12 +56,17 @@ class PhalconApiConfigProvider implements ApiConfigProviderInterface, ApiConfigS
      */
     public function getConfig(VainServerRequestInterface $request) : ApiConfigInterface
     {
+        if (false === $this->router->wasMatched()) {
+            throw new UnknownRouteException($this, $request);
+        }
+
         $moduleName = $this->router->getModuleName();
         $routeName = $this->router->getMatchedRoute()->getName();
         $config = $this->configProvider->getConfig('api');
         if (false === $config->offsetExists($moduleName)) {
             throw new NoModuleConfigDataException($this, $request, $moduleName);
         }
+
         $moduleData = $config->offsetGet($moduleName);
         if (false === array_key_exists($routeName, $moduleData)) {
             throw new NoRouteConfigDataException($this, $request, $routeName);
