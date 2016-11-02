@@ -183,7 +183,7 @@ services:
     arguments: ['beanstalk']
     tags:
       - {name: connection.factory}
-  queue.factory.amqp:
+  queue.factory.beanstalk:
     class: Vain\Phalcon\Queue\Beanstalk\Factory\BeanstalkQueueFactory
     arguments: ['beanstalk']
     tags:
