@@ -11,6 +11,7 @@
 namespace Vain\Phalcon\Event\Dispatcher;
 
 use Phalcon\Events\ManagerInterface as PhalconEventManagerInterface;
+use Vain\Event\Config\Factory\EventConfigFactoryInterface;
 use Vain\Event\Dispatcher\EventDispatcherInterface;
 use Vain\Event\EventInterface;
 use Vain\Event\Handler\HandlerInterface;
@@ -32,21 +33,37 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
 
     private $handlers = [];
 
+    private $config;
+
     private $resolver;
+
+    private $configFactory;
+
+    private $handlerStorage;
 
     /**
      * PhalconEventDispatcher constructor.
      *
-     * @param ResolverInterface $resolver
+     * @param \ArrayAccess                $config
+     * @param EventConfigFactoryInterface $configFactory
+     * @param ResolverInterface           $resolver
+     * @param EventHandlerStorageInterface $eventHandlerStorage
      */
-    public function __construct(ResolverInterface $resolver)
-    {
+    public function __construct(
+        \ArrayAccess $config,
+        EventConfigFactoryInterface $configFactory,
+        ResolverInterface $resolver,
+        EventHandlerStorageInterface $handlerStorage
+    ) {
+        $this->config = $config;
+        $this->configFactory = $configFactory;
         $this->resolver = $resolver;
+        $this->handlerStorage = $handlerStorage;
     }
 
     /**
      * @param HandlerInterface[] $listeners
-     * @param EventInterface      $event
+     * @param EventInterface     $event
      *
      */
     protected function propagateEvent($listeners, EventInterface $event)
@@ -62,6 +79,14 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     public function dispatch(EventInterface $event) : EventDispatcherInterface
     {
         $eventGroup = $this->resolver->resolveGroup($event);
+        if (false === $this->config->offsetExists($eventGroup)) {
+            return $this;
+        }
+
+        foreach ($this->config->offsetGet($eventGroup) as $listenerConfig) {
+            $eventConfig = $this->configFactory->createConfig($event->getName(), $listenerConfig);
+        }
+
         $eventName = $event->getName();
 
         if (array_key_exists($eventGroup, $this->handlers)) {
