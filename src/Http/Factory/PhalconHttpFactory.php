@@ -264,7 +264,10 @@ class PhalconHttpFactory implements
             return [];
         }
 
-        $contents = $stream->getContents();
+        if ('' === ($contents = $stream->getContents())) {
+            return [];
+        }
+
         switch ($contentType) {
             case VainMessageInterface::CONTENT_TYPE_URL_ENCODED:
             case VainMessageInterface::CONTENT_TYPE_FORM_DATA:
