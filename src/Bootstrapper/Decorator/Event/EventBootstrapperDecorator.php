@@ -11,7 +11,7 @@
 namespace Vain\Phalcon\Bootstrapper\Decorator\Event;
 
 use Vain\Config\ConfigInterface;
-use Vain\Event\Handler\Proxy\HandlerProxyInterface;
+use Vain\Event\Handler\EventHandlerInterface;
 use Vain\Event\Manager\EventManagerInterface;
 use Vain\Phalcon\Bootstrapper\BootstrapperInterface;
 use Vain\Phalcon\Bootstrapper\Decorator\AbstractBootstrapperDecorator;
@@ -35,13 +35,13 @@ class EventBootstrapperDecorator extends AbstractBootstrapperDecorator
      *
      * @param BootstrapperInterface  $bootstrapper
      * @param EventManagerInterface  $eventManager
-     * @param HandlerProxyInterface $listenerProxy
+     * @param EventHandlerInterface $listenerProxy
      * @param ConfigInterface        $config
      */
     public function __construct(
         BootstrapperInterface $bootstrapper,
         EventManagerInterface $eventManager,
-        HandlerProxyInterface $listenerProxy,
+        EventHandlerInterface $listenerProxy,
         ConfigInterface $config
     ) {
         $this->eventManager = $eventManager;

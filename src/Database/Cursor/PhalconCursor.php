@@ -36,7 +36,7 @@ class PhalconCursor implements CursorInterface
     /**
      * @inheritDoc
      */
-    public function valid()
+    public function valid() : bool
     {
         return ($this->phalconDbResult->getInternalResult()->errorCode() === '00000');
     }
@@ -44,7 +44,7 @@ class PhalconCursor implements CursorInterface
     /**
      * @inheritDoc
      */
-    public function current()
+    public function current() : array
     {
         return $this->phalconDbResult->fetch();
     }
@@ -52,7 +52,7 @@ class PhalconCursor implements CursorInterface
     /**
      * @inheritDoc
      */
-    public function next()
+    public function next() : bool
     {
         return $this->phalconDbResult->getInternalResult()->nextRowset();
     }
@@ -60,7 +60,7 @@ class PhalconCursor implements CursorInterface
     /**
      * @inheritDoc
      */
-    public function close()
+    public function close() : CursorInterface
     {
         $this->phalconDbResult->getInternalResult()->closeCursor();
 
@@ -70,7 +70,7 @@ class PhalconCursor implements CursorInterface
     /**
      * @inheritDoc
      */
-    public function mode($mode)
+    public function mode(int $mode) : CursorInterface
     {
         $this->phalconDbResult->setFetchMode($mode);
 
@@ -80,7 +80,7 @@ class PhalconCursor implements CursorInterface
     /**
      * @inheritDoc
      */
-    public function getSingle()
+    public function getSingle() : array
     {
         return $this->phalconDbResult->fetch();
     }
@@ -88,7 +88,7 @@ class PhalconCursor implements CursorInterface
     /**
      * @inheritDoc
      */
-    public function getAll()
+    public function getAll() : array
     {
         return $this->phalconDbResult->fetchAll();
     }
@@ -96,7 +96,7 @@ class PhalconCursor implements CursorInterface
     /**
      * @inheritDoc
      */
-    public function count()
+    public function count() : int
     {
         return $this->phalconDbResult->numRows();
     }
