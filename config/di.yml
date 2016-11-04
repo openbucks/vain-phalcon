@@ -185,6 +185,6 @@ services:
       - {name: connection.factory}
   queue.factory.beanstalk:
     class: Vain\Phalcon\Queue\Beanstalk\Factory\BeanstalkQueueFactory
-    arguments: ['beanstalk']
+    arguments: ['beanstalk', '@queue.message.factory.storage']
     tags:
       - {name: queue.factory}
