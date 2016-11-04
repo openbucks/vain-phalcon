@@ -91,7 +91,7 @@ services:
       - 'router'
   event.dispatcher.phalcon:
     class: Vain\Phalcon\Event\Dispatcher\PhalconEventDispatcher
-    arguments: ['@event.resolver.phalcon']
+    arguments: ['@config.event', '@event.config.factory', '@event.resolver.phalcon', '@event.handler.storage']
   event.dispatcher:
     alias: event.dispatcher.phalcon
   eventManager:
