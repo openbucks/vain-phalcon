@@ -5,7 +5,7 @@ parameters:
   beanstalk.config.required.fields: ['host', 'port']
 
 services:
-  connection.factory.beanstalk:
+  connection.factory.beanstalk.assert:
     class: Vain\Connection\Factory\Decorator\Assert\ConnectionFactoryAssertDecorator
     decorates: connection.factory.beanstalk
-    arguments: ['@connection.factory.beanstalk.inner', '%beanstalk.config.required.fields%']
+    arguments: ['@connection.factory.beanstalk.assert.inner', '%beanstalk.config.required.fields%']
