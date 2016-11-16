@@ -46,7 +46,7 @@ class MvcDispatcher extends PhalconMvcDispatcher
         }
 
         if (null === $this->_namespaceName) {
-            return $camelizedClass . $this->_handlerSuffix;
+            return sprintf('%s%s%s', $camelizedClass, $this->separator, $this->_handlerSuffix);
         }
 
         $namespace = $this->_namespaceName;
