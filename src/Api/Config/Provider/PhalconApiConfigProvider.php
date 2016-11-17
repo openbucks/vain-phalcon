@@ -11,11 +11,11 @@
 namespace Vain\Phalcon\Api\Config\Provider;
 
 use Vain\Api\Config\ApiConfigInterface;
+use Vain\Api\Config\Composite\Factory\ApiCompositeConfigFactoryInterface;
 use Vain\Api\Config\Factory\ApiConfigFactoryInterface;
 use Vain\Api\Config\Provider\ApiConfigProviderInterface;
 use Phalcon\Mvc\RouterInterface as PhalconMvcRouterInterface;
 use Vain\Api\Config\Storage\ApiConfigStorageInterface;
-use Vain\Config\Provider\ConfigProviderInterface;
 use Vain\Http\Request\VainServerRequestInterface;
 use Vain\Phalcon\Exception\NoRouteConfigDataException;
 use Vain\Phalcon\Exception\UnknownRouteException;
@@ -33,21 +33,35 @@ class PhalconApiConfigProvider implements ApiConfigProviderInterface, ApiConfigS
 
     private $configFactory;
 
+    private $apiConfig = null;
+
     /**
      * PhalconApiConfigProvider constructor.
      *
      * @param PhalconMvcRouterInterface $router
-     * @param ConfigProviderInterface   $configProvider
+     * @param ApiCompositeConfigFactoryInterface   $configProvider
      * @param ApiConfigFactoryInterface $apiConfigFactory
      */
     public function __construct(
         PhalconMvcRouterInterface $router,
-        ConfigProviderInterface $configProvider,
+        ApiCompositeConfigFactoryInterface $configProvider,
         ApiConfigFactoryInterface $apiConfigFactory
     ) {
         $this->router = $router;
         $this->configProvider = $configProvider;
         $this->configFactory = $apiConfigFactory;
+    }
+
+    /**
+     * @return \ArrayAccess
+     */
+    public function getApiConfig()
+    {
+        if (null === $this->apiConfig) {
+            $this->apiConfig = $this->configProvider->getApiConfig();
+        }
+
+        return $this->apiConfig;
     }
 
     /**
@@ -60,7 +74,7 @@ class PhalconApiConfigProvider implements ApiConfigProviderInterface, ApiConfigS
         }
 
         $routeName = $this->router->getMatchedRoute()->getName();
-        $config = $this->configProvider->getConfig('api');
+        $config = $this->getApiConfig();
         if (false === $config->offsetExists($routeName)) {
             throw new NoRouteConfigDataException($this, $request, $routeName);
         }
@@ -74,7 +88,7 @@ class PhalconApiConfigProvider implements ApiConfigProviderInterface, ApiConfigS
     public function getConfigs() : array
     {
         $apiRouteConfigs = [];
-        foreach ($this->configProvider->getConfig('api') as $routeName => $routeDescription) {
+        foreach ($this->getApiConfig() as $routeName => $routeDescription) {
             $apiRouteConfigs[] = $this->configFactory->createConfig($routeName, $routeDescription);
         }
 
