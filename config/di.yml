@@ -157,7 +157,7 @@ services:
     class: Phalcon\Flash\Session
   flashSession:
     alias: http.flash.session
-  entity.operation.factory:
+  entity.operation.factory.phalcon:
     class: Vain\Phalcon\Entity\Operation\Factory\PhalconEntityOperationFactory
   database.factory.phalcon:
     class: Vain\Phalcon\Database\Factory\PhalconDatabaseFactory
