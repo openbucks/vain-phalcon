@@ -96,14 +96,6 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
             $this->handlerStorage->getHandler($eventConfig)->handle($event, $eventConfig);
         }
 
-        if (array_key_exists($eventGroup, $this->handlers)) {
-            $this->propagateEvent($this->handlers[$eventGroup], $event);
-        }
-
-        if (array_key_exists($eventName, $this->handlers)) {
-            $this->propagateEvent($this->handlers[$eventName], $event);
-        }
-
         return $this;
     }
 
