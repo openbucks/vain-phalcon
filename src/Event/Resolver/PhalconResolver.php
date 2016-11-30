@@ -27,7 +27,7 @@ class PhalconResolver implements ResolverInterface
     {
         list ($component, $method) = explode(':', $event->getName());
 
-        return $method;
+        return strtolower($method);
     }
 
     /**
@@ -37,6 +37,6 @@ class PhalconResolver implements ResolverInterface
     {
         list ($component, $method) = explode(':', $event->getName());
 
-        return $component;
+        return strtolower($component);
     }
 }
