@@ -86,12 +86,16 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
     public function dispatch(EventInterface $event) : EventDispatcherInterface
     {
         $eventGroup = $this->resolver->resolveGroup($event);
-        $eventName = $event->getName();
+        $eventName = $this->resolver->resolveMethod($event);;
         if (false === $this->config->offsetExists($eventGroup)) {
             return $this;
         }
 
-        foreach ($this->config->offsetGet($eventGroup) as $listenerConfig) {
+        if (false === array_key_exists($eventName, $this->config->offsetGet($eventGroup))) {
+            return $this;
+        }
+
+        foreach ($this->config->offsetGet($eventGroup)[$eventName] as $listenerConfig) {
             $eventConfig = $this->configFactory->createConfig($eventName, $listenerConfig);
             $this->handlerStorage->getHandler($eventConfig)->handle($event, $eventConfig);
         }
