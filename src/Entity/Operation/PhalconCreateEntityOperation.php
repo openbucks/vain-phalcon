@@ -8,9 +8,9 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-phalcon
  */
-namespace Vain\Phalcon\Entity\Operation\Update;
+namespace Vain\Phalcon\Entity\Operation;
 
-use Vain\Entity\Operation\Update\AbstractUpdateEntityOperation;
+use Vain\Entity\Operation\AbstractCreateEntityOperation;
 use Vain\Operation\Result\Failed\FailedOperationResult;
 use Vain\Operation\Result\OperationResultInterface;
 use Vain\Operation\Result\Successful\SuccessfulOperationResult;
@@ -23,14 +23,14 @@ use Vain\Phalcon\Entity\AbstractEntity;
  *
  * @method AbstractEntity getEntity
  */
-class PhalconUpdateEntityOperation extends AbstractUpdateEntityOperation
+class PhalconCreateEntityOperation extends AbstractCreateEntityOperation
 {
     /**
      * @inheritDoc
      */
     public function execute() : OperationResultInterface
     {
-        if (false === $this->getEntity()->save()) {
+        if (false === $this->getEntity()->create()) {
             return new FailedOperationResult();
         }
 

@@ -13,9 +13,9 @@ namespace Vain\Phalcon\Entity\Operation\Factory;
 use Vain\Entity\EntityInterface;
 use Vain\Entity\Operation\Factory\EntityOperationFactoryInterface;
 use Vain\Operation\OperationInterface;
-use Vain\Phalcon\Entity\Operation\Create\PhalconCreateEntityOperation;
-use Vain\Phalcon\Entity\Operation\Delete\PhalconDeleteEntityOperation;
-use Vain\Phalcon\Entity\Operation\Update\PhalconUpdateEntityOperation;
+use Vain\Phalcon\Entity\Operation\PhalconCreateEntityOperation;
+use Vain\Phalcon\Entity\Operation\PhalconDeleteEntityOperation;
+use Vain\Phalcon\Entity\Operation\PhalconUpdateEntityOperation;
 
 /**
  * Class PhalconEntityOperationFactory
@@ -27,7 +27,7 @@ class PhalconEntityOperationFactory implements EntityOperationFactoryInterface
     /**
      * @inheritDoc
      */
-    public function create(EntityInterface $entity) : OperationInterface
+    public function createEntity(EntityInterface $entity) : OperationInterface
     {
         return new PhalconCreateEntityOperation($entity);
     }
@@ -35,15 +35,15 @@ class PhalconEntityOperationFactory implements EntityOperationFactoryInterface
     /**
      * @inheritDoc
      */
-    public function update(EntityInterface $entity) : OperationInterface
+    public function updateEntity(EntityInterface $newEntity, EntityInterface $oldEntity) : OperationInterface
     {
-        return new PhalconUpdateEntityOperation($entity);
+        return new PhalconUpdateEntityOperation($newEntity, $oldEntity);
     }
 
     /**
      * @inheritDoc
      */
-    public function delete(EntityInterface $entity) : OperationInterface
+    public function deleteEntity(EntityInterface $entity) : OperationInterface
     {
         return new PhalconDeleteEntityOperation($entity);
     }

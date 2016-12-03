@@ -8,29 +8,29 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-phalcon
  */
-namespace Vain\Phalcon\Entity\Operation\Delete;
+namespace Vain\Phalcon\Entity\Operation;
 
-use Vain\Entity\Operation\Delete\AbstractDeleteEntityOperation;
+use Vain\Entity\Operation\AbstractUpdateEntityOperation;
 use Vain\Operation\Result\Failed\FailedOperationResult;
 use Vain\Operation\Result\OperationResultInterface;
 use Vain\Operation\Result\Successful\SuccessfulOperationResult;
 use Vain\Phalcon\Entity\AbstractEntity;
 
 /**
- * Class PhalconDeleteEntityOperation
+ * Class PhalconCreateEntityOperation
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  *
  * @method AbstractEntity getEntity
  */
-class PhalconDeleteEntityOperation extends AbstractDeleteEntityOperation
+class PhalconUpdateEntityOperation extends AbstractUpdateEntityOperation
 {
     /**
      * @inheritDoc
      */
     public function execute() : OperationResultInterface
     {
-        if (false === $this->getEntity()->delete()) {
+        if (false === $this->getEntity()->save()) {
             return new FailedOperationResult();
         }
 
