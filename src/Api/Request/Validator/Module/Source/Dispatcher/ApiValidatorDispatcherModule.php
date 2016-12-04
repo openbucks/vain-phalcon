@@ -40,10 +40,12 @@ class ApiValidatorDispatcherModule extends AbstractApiValidatorModule
      */
     public function validate(VainServerRequestInterface $serverRequest, ApiParameterConfigInterface $parameterConfig)
     {
-        return $this->mvcDispatcher->getParam(
-            $parameterConfig->getSourceName(),
-            [],
-            $parameterConfig->getDefaultValue()
-        );
+        return [
+            $parameterConfig->getName() => $this->mvcDispatcher->getParam(
+                $parameterConfig->getSourceName(),
+                [],
+                $parameterConfig->getDefaultValue()
+            ),
+        ];
     }
 }
