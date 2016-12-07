@@ -11,22 +11,22 @@
 namespace Vain\Phalcon\Application\Mvc;
 
 use Phalcon\Mvc\Application as PhalconMvcApplication;
+use Vain\Event\Dispatcher\EventDispatcherInterface;
 use Vain\Http\Application\HttpApplicationInterface;
+use Vain\Http\Event\Factory\HttpEventFactoryInterface;
 use Vain\Http\Request\Proxy\HttpRequestProxyInterface;
 use Vain\Http\Request\VainServerRequestInterface;
 use Vain\Http\Response\Factory\ResponseFactoryInterface;
 use Vain\Http\Response\Proxy\HttpResponseProxyInterface;
 use Phalcon\DiInterface as PhalconDiInterface;
 use Vain\Http\Response\VainResponseInterface;
-use Vain\Phalcon\Application\Module\PhalconApplicationModuleInterface;
-use Vain\Phalcon\Application\PhalconApplicationInterface;
 
 /**
  * Class PhalconApplication
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class MvcApplication extends PhalconMvcApplication implements HttpApplicationInterface, PhalconApplicationInterface
+class MvcApplication extends PhalconMvcApplication implements HttpApplicationInterface
 {
     private $requestProxy;
 
@@ -34,7 +34,9 @@ class MvcApplication extends PhalconMvcApplication implements HttpApplicationInt
 
     private $responseFactory;
 
-    private $modules;
+    private $eventFactory;
+
+    private $eventDispatcher;
 
     /**
      * PhalconApplication constructor.
@@ -47,31 +49,17 @@ class MvcApplication extends PhalconMvcApplication implements HttpApplicationInt
     public function __construct(
         HttpRequestProxyInterface $requestProxy,
         HttpResponseProxyInterface $responseProxy,
+        HttpEventFactoryInterface $eventFactory,
+        EventDispatcherInterface $eventDispatcher,
         ResponseFactoryInterface $responseFactory,
         PhalconDiInterface $di
     ) {
         $this->requestProxy = $requestProxy;
         $this->responseProxy = $responseProxy;
+        $this->eventFactory = $eventFactory;
+        $this->eventDispatcher = $eventDispatcher;
         $this->responseFactory = $responseFactory;
         parent::__construct($di);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function addModule($alias, PhalconApplicationModuleInterface $applicationModule)
-    {
-        $this->modules[$alias] = $applicationModule;
-
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getApplicationModules()
-    {
-        return $this->modules;
     }
 
     /**
@@ -81,6 +69,8 @@ class MvcApplication extends PhalconMvcApplication implements HttpApplicationInt
     {
         $this->requestProxy->addRequest($request);
         $this->responseProxy->addResponse($this->responseFactory->createResponse('php://temp'));
+        $this->eventDispatcher->dispatch($this->eventFactory->createRequestEvent($request));
+
         try {
             $this->handle($request->getUri()->getPath());
         } catch (\Exception $e) {
@@ -91,9 +81,11 @@ class MvcApplication extends PhalconMvcApplication implements HttpApplicationInt
                     ->withStatus($e->getCode(), $e->getMessage())
             );
         }
+        $response = $this->responseProxy->popResponse();
+        $this->eventDispatcher->dispatch($this->eventFactory->createResponseEvent($response));
         $this->requestProxy->popRequest();
 
-        return $this->responseProxy->popResponse();
+        return $response;
     }
 
     /**

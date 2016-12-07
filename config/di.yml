@@ -37,10 +37,7 @@ services:
   modelsMetadata: '@app.modelsMetadata'
   app.mvc:
     class: Vain\Phalcon\Application\Mvc\MvcApplication
-    arguments: ['@http.request.proxy', '@http.response.proxy', '@http.response.factory', '@app.di']
-  app.phalcon:
-    class: Phalcon\Mvc\Application
-    arguments: ['@app.di']
+    arguments: ['@http.request.proxy', '@http.response.proxy', '@event.factory.http', '@event.dispatcher', '@http.response.factory', '@app.di']
   app.escaper:
     class: Phalcon\Escaper
   escaper: '@app.escaper'
@@ -81,13 +78,10 @@ services:
       - 'router'
   event.dispatcher.phalcon:
     class: Vain\Phalcon\Event\Dispatcher\PhalconEventDispatcher
-    arguments: ['@config.event', '@event.config.factory', '@event.resolver.phalcon', '@event.handler.storage']
+    arguments: ['@config.event', '@event.config.factory', '@event.resolver', '@event.handler.storage']
   event.dispatcher: '@event.dispatcher.phalcon'
   eventManager: '@event.dispatcher'
   event.manager: '@event.dispatcher'
-  event.resolver.phalcon:
-    class: Vain\Phalcon\Event\Resolver\PhalconResolver
-  event.resolver: '@event.resolver.phalcon'
   http.filter:
     class: Phalcon\Filter
   filter: '@http.filter'
