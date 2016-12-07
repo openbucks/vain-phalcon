@@ -4,10 +4,11 @@ parameters:
   api.validator.module.factory.dispatcher.name: ['dispatcher', 'url']
 
 services:
-  api.config.provider:
-    class: Vain\Phalcon\Api\Config\Provider\PhalconApiConfigProvider
-    arguments: ['@app.router', '@api.config.composite', '@api.config.factory']
-  api.config.storage: '@api.config.provider'
+  api.config.storage.phalcon:
+    decorates: api.config.storage
+    decoration_priority: 100
+    class: Vain\Phalcon\Api\Config\Storage\PhalconApiConfigStorage
+    arguments: ['app.router']
   app.di:
     class: Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter
     arguments: ['@service_container']
@@ -66,8 +67,6 @@ services:
   app.assets:
     class: Phalcon\Assets\Manager
   assets: '@app.assets'
-  config.factory:
-    class: Vain\Phalcon\Config\Factory\PhalconConfigFactory
   event.dispatcher.phalcon:
     decorates: event.dispatcher
     decoration_priority: 100

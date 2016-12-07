@@ -98,7 +98,7 @@ class PhalconApiController extends AbstractController
      */
     public function indexAction()
     {
-        $apiConfig = $this->configProvider->getConfig($this->request);
+        $apiConfig = $this->configProvider->getConfig($this->request->getUri()->getPath());
         $validatorResult = $this->validator->validate($this->request, $apiConfig);
         if (false === $validatorResult->isSuccessful()) {
             $this->response
