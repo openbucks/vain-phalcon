@@ -42,10 +42,12 @@ class MvcApplication extends PhalconMvcApplication implements HttpApplicationInt
     private $eventDispatcher;
 
     /**
-     * PhalconApplication constructor.
+     * MvcApplication constructor.
      *
      * @param HttpRequestProxyInterface  $requestProxy
      * @param HttpResponseProxyInterface $responseProxy
+     * @param HttpEventFactoryInterface  $eventFactory
+     * @param EventDispatcherInterface   $eventDispatcher
      * @param ResponseFactoryInterface   $responseFactory
      * @param PhalconDiInterface         $di
      */
