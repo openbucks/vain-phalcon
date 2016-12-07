@@ -11,6 +11,7 @@
 namespace Vain\Phalcon\Application\Mvc;
 
 use Phalcon\Mvc\Application as PhalconMvcApplication;
+use Vain\Core\Container\ContainerInterface;
 use Vain\Event\Dispatcher\EventDispatcherInterface;
 use Vain\Http\Application\HttpApplicationInterface;
 use Vain\Http\Event\Factory\HttpEventFactoryInterface;
@@ -25,6 +26,8 @@ use Vain\Http\Response\VainResponseInterface;
  * Class PhalconApplication
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ *
+ * @method ContainerInterface getDI
  */
 class MvcApplication extends PhalconMvcApplication implements HttpApplicationInterface
 {
@@ -86,6 +89,14 @@ class MvcApplication extends PhalconMvcApplication implements HttpApplicationInt
         $this->requestProxy->popRequest();
 
         return $response;
+    }
+
+    /**
+     * @return ContainerInterface
+     */
+    public function getContainer() : ContainerInterface
+    {
+        return $this->getDI();
     }
 
     /**
