@@ -69,7 +69,7 @@ services:
   config.factory:
     class: Vain\Phalcon\Config\Factory\PhalconConfigFactory
   event.dispatcher.phalcon:
-    decortes: event.dispatcher
+    decorates: event.dispatcher
     decoration_priority: 100
     class: Vain\Phalcon\Event\Dispatcher\PhalconEventDispatcher
     arguments: ['@event.dispatcher.phalcon.inner']
