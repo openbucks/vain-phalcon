@@ -66,9 +66,6 @@ services:
   app.assets:
     class: Phalcon\Assets\Manager
   assets: '@app.assets'
-  app.logger.phalcon:
-    class: Vain\Phalcon\Logger\PhalconLogger
-    arguments: ['@phalcon.logger.instance']
   config.factory:
     class: Vain\Phalcon\Config\Factory\PhalconConfigFactory
   event.dispatcher.phalcon:
