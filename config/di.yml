@@ -8,7 +8,7 @@ services:
     decorates: api.config.storage
     decoration_priority: 100
     class: Vain\Phalcon\Api\Config\Storage\PhalconApiConfigStorage
-    arguments: ['app.router']
+    arguments: ['@api.config.storage.phalcon.inner', '@app.router']
   app.di:
     class: Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter
     arguments: ['@service_container']
