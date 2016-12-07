@@ -11,9 +11,10 @@ services:
   app.di:
     class: Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter
     arguments: ['@service_container']
-  app.bootstrapper.factory:
+  app.bootstrapper.factory.mvc:
     class: Vain\Phalcon\Bootstrapper\Factory\MvcBootstrapperFactory
-    arguments: ['@config.router', '@config.event', '@event.handler.lazy', '@event.manager']
+  app.bootstrapper.factory.cli:
+    class: Vain\Phalcon\Bootstrapper\Factory\CliBootstrapperFactory
   app.router:
     class: Phalcon\Mvc\Router
     arguments: [false]
@@ -133,6 +134,7 @@ services:
     class: Phalcon\Flash\Session
   flashSession: '@http.flash.session'
   entity.operation.factory.phalcon:
+    parent: entity.operation.factory.abstract
     class: Vain\Phalcon\Entity\Operation\Factory\PhalconEntityOperationFactory
   database.factory.phalcon:
     class: Vain\Phalcon\Database\Factory\PhalconDatabaseFactory
