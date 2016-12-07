@@ -11,13 +11,10 @@
 namespace Vain\Phalcon\Event\Dispatcher;
 
 use Phalcon\Events\ManagerInterface as PhalconEventManagerInterface;
-use Vain\Event\Config\Factory\EventConfigFactoryInterface;
 use Vain\Event\Dispatcher\EventDispatcherInterface;
 use Vain\Event\EventInterface;
 use Vain\Event\Handler\EventHandlerInterface;
-use Vain\Event\Handler\Storage\EventHandlerStorageInterface;
 use Vain\Event\Manager\EventManagerInterface;
-use Vain\Event\Resolver\ResolverInterface;
 use Vain\Phalcon\Event\PhalconEvent;
 use Vain\Phalcon\Exception\UnsupportedPrioritiesException;
 use Vain\Phalcon\Exception\UnsupportedResponsesException;
@@ -27,80 +24,20 @@ use Vain\Phalcon\Exception\UnsupportedResponsesException;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispatcherInterface, EventManagerInterface
+class PhalconEventDispatcher implements
+    PhalconEventManagerInterface,
+    EventDispatcherInterface, EventManagerInterface
 {
-    const NAME_SEPARATOR = ':';
-    const NAME_COUNT = 2;
-
-    private $handlers = [];
-
-    private $config;
-
-    private $resolver;
-
-    private $configFactory;
-
-    private $handlerStorage;
+    private $eventDispatcher;
 
     /**
      * PhalconEventDispatcher constructor.
      *
-     * @param \ArrayAccess                 $config
-     * @param EventConfigFactoryInterface  $configFactory
-     * @param ResolverInterface            $resolver
-     * @param EventHandlerStorageInterface $handlerStorage
+     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(
-        \ArrayAccess $config,
-        EventConfigFactoryInterface $configFactory,
-        ResolverInterface $resolver,
-        EventHandlerStorageInterface $handlerStorage
-    ) {
-        $this->config = $config;
-        $this->configFactory = $configFactory;
-        $this->resolver = $resolver;
-        $this->handlerStorage = $handlerStorage;
-    }
-
-    /**
-     * @param EventHandlerInterface[] $listeners
-     * @param EventInterface          $event
-     *
-     */
-    protected function propagateEvent($listeners, EventInterface $event)
+    public function __construct(EventDispatcherInterface $eventDispatcher)
     {
-        foreach ($listeners as $listener) {
-            $listener->handle(
-                $event,
-                $this->configFactory->createConfig(
-                    $event->getName(),
-                    ['alias' => get_class($listener), 'background' => false]
-                )
-            );
-        }
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function dispatch(EventInterface $event) : EventDispatcherInterface
-    {
-        $eventGroup = $this->resolver->resolveGroup($event);
-        $eventName = $this->resolver->resolveMethod($event);;
-        if (false === $this->config->offsetExists($eventGroup)) {
-            return $this;
-        }
-
-        if (false === array_key_exists($eventName, $this->config->offsetGet($eventGroup))) {
-            return $this;
-        }
-
-        foreach ($this->config->offsetGet($eventGroup)[$eventName] as $listenerConfig) {
-            $eventConfig = $this->configFactory->createConfig($eventName, $listenerConfig);
-            $this->handlerStorage->getHandler($eventConfig)->handle($event, $eventConfig);
-        }
-
-        return $this;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -108,8 +45,6 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
      */
     public function attach($eventType, $handler, $priority = 100)
     {
-        $this->handlers[$eventType][] = $handler;
-
         return $this;
     }
 
@@ -142,16 +77,6 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
      */
     public function detach($eventType, $handler)
     {
-        if (false === array_key_exists($eventType, $this->handlers)) {
-            return $this;
-        }
-
-        if (false === ($key = array_search($handler, $this->handlers[$eventType]))) {
-            return $this;
-        }
-
-        unset($this->handlers[$eventType]);
-
         return $this;
     }
 
@@ -160,13 +85,15 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
      */
     public function detachAll($type = null)
     {
-        if (null === $type) {
-            $this->handlers = [];
+        return $this;
+    }
 
-            return $this;
-        }
-
-        $this->handlers[$type] = [];
+    /**
+     * @inheritDoc
+     */
+    public function dispatch(EventInterface $event) : EventDispatcherInterface
+    {
+        $this->eventDispatcher->dispatch($event);
 
         return $this;
     }
@@ -192,11 +119,7 @@ class PhalconEventDispatcher implements PhalconEventManagerInterface, EventDispa
      */
     public function getHandlers($eventName) : array
     {
-        if (false === array_key_exists($eventName, $this->handlers)) {
-            return [];
-        }
-
-        return $this->handlers[$eventName];
+        return [];
     }
 
     /**

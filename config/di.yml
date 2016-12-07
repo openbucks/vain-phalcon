@@ -71,15 +71,10 @@ services:
     arguments: ['@phalcon.logger.instance']
   config.factory:
     class: Vain\Phalcon\Config\Factory\PhalconConfigFactory
-  config.router:
-    class: Config
-    factory: ['@config.provider', getConfig]
-    arguments:
-      - 'router'
   event.dispatcher.phalcon:
+    decortes: event.dispatcher
     class: Vain\Phalcon\Event\Dispatcher\PhalconEventDispatcher
-    arguments: ['@config.event', '@event.config.factory', '@event.resolver', '@event.handler.storage']
-  event.dispatcher: '@event.dispatcher.phalcon'
+    arguments: ['@event.dispatcher.phalcon.inner']
   eventManager: '@event.dispatcher'
   event.manager: '@event.dispatcher'
   http.filter:
