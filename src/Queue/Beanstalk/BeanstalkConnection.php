@@ -13,20 +13,41 @@ declare(strict_types = 1);
 namespace Vain\Phalcon\Queue\Beanstalk;
 
 use Phalcon\Queue\Beanstalk;
-use Vain\Connection\AbstractConnection;
+use Vain\Connection\ConnectionInterface;
 
 /**
  * Class BeanstalkConnection
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class BeanstalkConnection extends AbstractConnection
+class BeanstalkConnection implements ConnectionInterface
 {
+
+    private $configData;
+
+    /**
+     * BeanstalkConnection constructor.
+     *
+     * @param array $configData
+     */
+    public function __construct(array $configData)
+    {
+        $this->configData = $configData;
+    }
+
     /**
      * @inheritDoc
      */
-    public function doConnect(array $configData)
+    public function getName() : string
     {
-        return new Beanstalk($configData);
+        return $this->configData['type'];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function establish()
+    {
+        return new Beanstalk($this->configData);
     }
 }
