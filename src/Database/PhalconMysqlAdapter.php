@@ -12,10 +12,10 @@
 namespace Vain\Phalcon\Database;
 
 use Phalcon\Db\Adapter\Pdo\Mysql as PhalconMysqlDatabase;
+use Vain\Connection\ConnectionInterface;
 use Vain\Database\Generator\Factory\GeneratorFactoryInterface;
 use Vain\Database\Generator\GeneratorInterface;
 use Vain\Database\Mvcc\MvccDatabaseInterface;
-use Vain\Pdo\Connection\PdoConnectionInterface;
 use Vain\Phalcon\Database\Cursor\PhalconCursor;
 use Vain\Phalcon\Exception\PhalconQueryException;
 
@@ -28,18 +28,18 @@ class PhalconMysqlAdapter extends PhalconMysqlDatabase implements MvccDatabaseIn
 {
     private $generatorFactory;
 
-    private $pdoConnection;
+    private $connection;
 
     /**
      * PhalconPostgresqlAdapter constructor.
      *
      * @param GeneratorFactoryInterface $generatorFactory
-     * @param PdoConnectionInterface    $pdoConnection
+     * @param ConnectionInterface       $connection
      */
-    public function __construct(GeneratorFactoryInterface $generatorFactory, PdoConnectionInterface $pdoConnection)
+    public function __construct(GeneratorFactoryInterface $generatorFactory, ConnectionInterface $connection)
     {
         $this->generatorFactory = $generatorFactory;
-        $this->pdoConnection = $pdoConnection;
+        $this->connection = $connection;
         parent::__construct([]);
     }
 
@@ -49,7 +49,7 @@ class PhalconMysqlAdapter extends PhalconMysqlDatabase implements MvccDatabaseIn
     public function connect(array $descriptor = null)
     {
         if (null === $this->_pdo) {
-            $this->_pdo = $this->pdoConnection->establish();
+            $this->_pdo = $this->connection->establish();
         }
 
         return $this->_pdo;

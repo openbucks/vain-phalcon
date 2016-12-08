@@ -32,6 +32,13 @@ class PhalconModelManager extends PhalconManager
         return new PhalconMvcQueryBuilder($params, $this->_dependencyInjector);
     }
 
+    /**
+     * @param string $phql
+     * @param null   $placeholders
+     * @param null   $types
+     *
+     * @return mixed
+     */
     public function executeQuery($phql, $placeholders = null, $types = null)
     {
         $di = $this->getDI();

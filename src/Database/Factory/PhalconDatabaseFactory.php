@@ -14,7 +14,6 @@ namespace Vain\Phalcon\Database\Factory;
 use Vain\Connection\ConnectionInterface;
 use Vain\Database\Factory\AbstractDatabaseFactory;
 use Vain\Database\Generator\Factory\GeneratorFactoryInterface;
-use Vain\Pdo\Connection\PdoConnectionInterface;
 use Vain\Phalcon\Database\PhalconMysqlAdapter;
 use Vain\Phalcon\Database\PhalconPostgresqlAdapter;
 use Vain\Phalcon\Exception\UnknownPhalconTypeException;
@@ -45,9 +44,6 @@ class PhalconDatabaseFactory extends AbstractDatabaseFactory
      */
     public function createDatabase(array $configData, ConnectionInterface $connection)
     {
-        /**
-         * @var PdoConnectionInterface $connection
-         */
         $type = $configData['type'];
         switch ($type) {
             case 'pgsql':

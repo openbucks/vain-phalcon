@@ -26,7 +26,8 @@ use Vain\Phalcon\Exception\UnsupportedResponsesException;
  */
 class PhalconEventDispatcher implements
     PhalconEventManagerInterface,
-    EventDispatcherInterface, EventManagerInterface
+    EventDispatcherInterface,
+    EventManagerInterface
 {
     private $eventDispatcher;
 

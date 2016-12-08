@@ -255,7 +255,6 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
         }
 
         return $this->getHeader('HTTP_ACCEPT');
-
     }
 
     /**

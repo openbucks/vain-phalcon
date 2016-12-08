@@ -28,9 +28,10 @@ class ApiValidatorDispatcherModuleFactory extends AbstractApiValidatorModuleFact
     private $mvcDispatcher;
 
     /**
-     * ApiValidatorDispatcherModule constructor.
+     * ApiValidatorDispatcherModuleFactory constructor.
      *
      * @param MvcDispatcher $mvcDispatcher
+     * @param array         $names
      */
     public function __construct(MvcDispatcher $mvcDispatcher, array $names)
     {

@@ -32,8 +32,12 @@ class HttpFactoryException extends AbstractCoreException
      * @param int                     $code
      * @param \Exception              $previous
      */
-    public function __construct(RequestFactoryInterface $factory, string $message, int $code = 500, \Exception $previous = null)
-    {
+    public function __construct(
+        RequestFactoryInterface $factory,
+        string $message,
+        int $code = 500,
+        \Exception $previous = null
+    ) {
         $this->httpFactory = $factory;
         parent::__construct($message, $code, $previous);
     }

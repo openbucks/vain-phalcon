@@ -1,9 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: allflame
- * Date: 5/20/16
- * Time: 11:48 AM
+ * Vain Framework
+ *
+ * PHP Version 7
+ *
+ * @package   vain-http
+ * @license   https://opensource.org/licenses/MIT MIT License
+ * @link      https://github.com/allflame/vain-http
  */
 namespace Vain\Phalcon\Di\Factory;
 

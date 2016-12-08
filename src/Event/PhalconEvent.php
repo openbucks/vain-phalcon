@@ -166,6 +166,5 @@ class PhalconEvent extends AbstractEvent implements EventInterface
         $this->stopped = $data['stopped'];
 
         return parent::fromArray($data);
-
     }
 }
