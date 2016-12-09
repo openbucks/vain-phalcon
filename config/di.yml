@@ -134,10 +134,6 @@ services:
         - {name: validator.factory}
   http.request: '@http.request.proxy'
   http.response: '@http.response.proxy'
-  http.context.phalcon:
-    class: Vain\Phalcon\Http\Context\PhalconHttpContext
-    parent: http.context.abstract
-  http.context: '@http.context.phalcon'
   connection.factory.beanstalk:
     class: Vain\Phalcon\Queue\Beanstalk\Factory\BeanstalkConnectionFactory
     arguments: ['beanstalk']
