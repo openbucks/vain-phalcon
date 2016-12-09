@@ -65,10 +65,10 @@ class SymfonyDiFactory implements DiFactoryInterface
         $builder->setParameter('app.env', $applicationEnv);
         $builder->setParameter('app.mode', $applicationMode);
         $builder->setParameter('app.debug', $isDebug);
-        $builder->setParameter('app.config.dir', $configDir);
-        $builder->setParameter('app.cache.dir', $this->cacheDir);
         $builder->setParameter('app.caching', $cachingEnabled);
         $builder->setParameter('app.container.path', $containerPath);
+        $builder->setParameter('config.dir', $configDir);
+        $builder->setParameter('cache.dir', $this->cacheDir);
 
         return $builder;
     }
