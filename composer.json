@@ -18,7 +18,6 @@
         "php": ">=7.0",
         "ext-phalcon": "^3.0",
         "vain/api": "^0.4",
-        "vain/config": "^0.4",
         "vain/entity": "^0.4",
         "vain/event": "^0.4",
         "vain/http": "^0.4",
