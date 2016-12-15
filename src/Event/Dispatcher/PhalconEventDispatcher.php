@@ -13,8 +13,6 @@ namespace Vain\Phalcon\Event\Dispatcher;
 use Phalcon\Events\ManagerInterface as PhalconEventManagerInterface;
 use Vain\Core\Event\Dispatcher\EventDispatcherInterface;
 use Vain\Core\Event\EventInterface;
-use Vain\Core\Event\Handler\EventHandlerInterface;
-use Vain\Event\Manager\EventManagerInterface;
 use Vain\Phalcon\Event\PhalconEvent;
 use Vain\Phalcon\Exception\UnsupportedPrioritiesException;
 use Vain\Phalcon\Exception\UnsupportedResponsesException;
@@ -26,8 +24,7 @@ use Vain\Phalcon\Exception\UnsupportedResponsesException;
  */
 class PhalconEventDispatcher implements
     PhalconEventManagerInterface,
-    EventDispatcherInterface,
-    EventManagerInterface
+    EventDispatcherInterface
 {
     private $eventDispatcher;
 
@@ -47,30 +44,6 @@ class PhalconEventDispatcher implements
     public function attach($eventType, $handler, $priority = 100)
     {
         return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function addHandler(string $eventName, EventHandlerInterface $listener) : EventManagerInterface
-    {
-        return $this->attach($eventName, $listener);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function removeHandler(string $eventName, EventHandlerInterface $listener) : EventManagerInterface
-    {
-        return $this->detach($eventName, $listener);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function removeHandlers(string $eventName) : EventManagerInterface
-    {
-        return $this->detachAll($eventName);
     }
 
     /**
