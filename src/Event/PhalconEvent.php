@@ -10,8 +10,8 @@
  */
 namespace Vain\Phalcon\Event;
 
-use Vain\Event\AbstractEvent;
-use Vain\Event\EventInterface;
+use Vain\Core\Event\AbstractEvent;
+use Vain\Core\Event\EventInterface;
 use Vain\Phalcon\Exception\NonCancelableException;
 
 /**

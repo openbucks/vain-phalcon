@@ -12,7 +12,7 @@ declare(strict_types = 1);
 
 namespace Vain\Phalcon\Exception;
 
-use Vain\Event\Exception\EventException;
+use Vain\Core\Exception\EventException;
 use Vain\Phalcon\Event\PhalconEvent;
 
 /**

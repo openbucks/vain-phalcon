@@ -10,8 +10,8 @@
  */
 namespace Vain\Phalcon\Exception;
 
-use Vain\Event\Dispatcher\EventDispatcherInterface;
-use Vain\Event\EventInterface;
+use Vain\Core\Event\Dispatcher\EventDispatcherInterface;
+use Vain\Core\Event\EventInterface;
 
 /**
  * Class BadNameException

@@ -13,7 +13,7 @@ declare(strict_types = 1);
 namespace Vain\Phalcon\Exception;
 
 use Vain\Core\Exception\AbstractCoreException;
-use Vain\Event\Dispatcher\EventDispatcherInterface;
+use Vain\Core\Event\Dispatcher\EventDispatcherInterface;
 
 /**
  * Class DispatcherException

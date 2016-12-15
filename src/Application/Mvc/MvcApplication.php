@@ -12,7 +12,7 @@ namespace Vain\Phalcon\Application\Mvc;
 
 use Phalcon\Mvc\Application as PhalconMvcApplication;
 use Vain\Core\Container\ContainerInterface;
-use Vain\Event\Dispatcher\EventDispatcherInterface;
+use Vain\Core\Event\Dispatcher\EventDispatcherInterface;
 use Vain\Http\Application\HttpApplicationInterface;
 use Vain\Http\Event\Factory\HttpEventFactoryInterface;
 use Vain\Http\Request\Proxy\HttpRequestProxyInterface;

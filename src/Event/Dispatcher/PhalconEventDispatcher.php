@@ -11,9 +11,9 @@
 namespace Vain\Phalcon\Event\Dispatcher;
 
 use Phalcon\Events\ManagerInterface as PhalconEventManagerInterface;
-use Vain\Event\Dispatcher\EventDispatcherInterface;
-use Vain\Event\EventInterface;
-use Vain\Event\Handler\EventHandlerInterface;
+use Vain\Core\Event\Dispatcher\EventDispatcherInterface;
+use Vain\Core\Event\EventInterface;
+use Vain\Core\Event\Handler\EventHandlerInterface;
 use Vain\Event\Manager\EventManagerInterface;
 use Vain\Phalcon\Event\PhalconEvent;
 use Vain\Phalcon\Exception\UnsupportedPrioritiesException;
