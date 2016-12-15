@@ -21,6 +21,8 @@ use Vain\Phalcon\Exception\NonCancelableException;
  */
 class PhalconEvent extends AbstractEvent implements EventInterface
 {
+    private $name;
+
     private $source;
 
     private $data;
@@ -39,11 +41,19 @@ class PhalconEvent extends AbstractEvent implements EventInterface
      */
     public function __construct($name, $source, $data, $cancelable = true)
     {
+        $this->name = $name;
         $this->source = $source;
         $this->data = $data;
         $this->cancelable = $cancelable;
         $this->stopped = false;
-        parent::__construct($name);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getName() : string
+    {
+        return $this->name;
     }
 
     /**
@@ -137,34 +147,5 @@ class PhalconEvent extends AbstractEvent implements EventInterface
         $this->stopped = true;
 
         return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function toArray() : array
-    {
-        return array_merge(
-            [
-                'source' => $this->source,
-                'data' => $this->data,
-                'cancelable' => $this->cancelable,
-                'stopper' => $this->stopped,
-            ],
-            parent::toArray()
-        );
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function fromArray(array $data) : EventInterface
-    {
-        $this->source = $data['source'];
-        $this->data = $data['data'];
-        $this->cancelable = $data['cancelable'];
-        $this->stopped = $data['stopped'];
-
-        return parent::fromArray($data);
     }
 }
