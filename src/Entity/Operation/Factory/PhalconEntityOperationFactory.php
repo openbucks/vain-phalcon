@@ -10,10 +10,10 @@
  */
 namespace Vain\Phalcon\Entity\Operation\Factory;
 
-use Vain\Entity\EntityInterface;
+use Vain\Core\Entity\EntityInterface;
 use Vain\Entity\Operation\Factory\AbstractEntityOperationFactory;
 use Vain\Entity\Operation\Factory\EntityOperationFactoryInterface;
-use Vain\Operation\OperationInterface;
+use Vain\Core\Operation\OperationInterface;
 use Vain\Phalcon\Entity\Operation\PhalconCreateEntityOperation;
 use Vain\Phalcon\Entity\Operation\PhalconDeleteEntityOperation;
 use Vain\Phalcon\Entity\Operation\PhalconUpdateEntityOperation;

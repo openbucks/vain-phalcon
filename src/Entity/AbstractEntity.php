@@ -12,7 +12,7 @@ namespace Vain\Phalcon\Entity;
 
 use Phalcon\Mvc\Model as PhalconMvcModel;
 use Phalcon\Mvc\Model\Criteria as PhalconCriteria;
-use Vain\Entity\EntityInterface;
+use Vain\Core\Entity\EntityInterface;
 use Phalcon\Di as PhalconDi;
 use Phalcon\DiInterface as PhalconDiInterface;
 
