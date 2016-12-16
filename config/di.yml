@@ -1,7 +1,6 @@
 parameters:
   http.views.dir: '../www/views'
   dispatcher.separator: '/'
-  api.validator.module.factory.dispatcher.name: ['dispatcher', 'url']
 
 services:
   api.config.storage.phalcon:
@@ -129,7 +128,7 @@ services:
       - {name: database.factory}
   api.validator.module.factory.dispatcher:
     class: Vain\Phalcon\Api\Request\Validator\Module\Source\Dispatcher\Factory\ApiValidatorDispatcherModuleFactory
-    arguments: ['@app.dispatcher', '%api.validator.module.factory.dispatcher.name%']
+    arguments: ['@app.dispatcher']
     tags:
         - {name: validator.factory}
   http.request: '@http.request.proxy'

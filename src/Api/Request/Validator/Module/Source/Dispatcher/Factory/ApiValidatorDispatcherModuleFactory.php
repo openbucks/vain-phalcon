@@ -13,7 +13,7 @@ namespace Vain\Phalcon\Api\Request\Validator\Module\Source\Dispatcher\Factory;
 
 use Vain\Core\Api\Config\Parameter\ApiParameterConfigInterface;
 use Vain\Core\Api\Request\Validator\Module\ApiValidatorModuleInterface;
-use Vain\Core\Api\Request\Validator\Module\Factory\AbstractApiValidatorModuleFactory;
+use Vain\Core\Api\Request\Validator\Module\Factory\ApiValidatorModuleFactoryInterface;
 use Vain\Phalcon\Api\Request\Validator\Module\Source\Dispatcher\ApiValidatorDispatcherModule;
 use Vain\Phalcon\Dispatcher\Mvc\MvcDispatcher;
 
@@ -22,7 +22,7 @@ use Vain\Phalcon\Dispatcher\Mvc\MvcDispatcher;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class ApiValidatorDispatcherModuleFactory extends AbstractApiValidatorModuleFactory
+class ApiValidatorDispatcherModuleFactory implements ApiValidatorModuleFactoryInterface
 {
 
     private $mvcDispatcher;
@@ -31,12 +31,18 @@ class ApiValidatorDispatcherModuleFactory extends AbstractApiValidatorModuleFact
      * ApiValidatorDispatcherModuleFactory constructor.
      *
      * @param MvcDispatcher $mvcDispatcher
-     * @param array         $names
      */
-    public function __construct(MvcDispatcher $mvcDispatcher, array $names)
+    public function __construct(MvcDispatcher $mvcDispatcher)
     {
         $this->mvcDispatcher = $mvcDispatcher;
-        parent::__construct($names);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getNames() : array
+    {
+        return ['dispatcher', 'url'];
     }
 
     /**
