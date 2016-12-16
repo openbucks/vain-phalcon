@@ -26,8 +26,16 @@ class BeanstalkConnectionFactory extends AbstractConnectionFactory
     /**
      * @inheritDoc
      */
-    public function createConnection(array $config) : ConnectionInterface
+    public function getName() : string
     {
-        return new BeanstalkConnection($config);
+        return 'beanstalk';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function createConnection(string $connectionName) : ConnectionInterface
+    {
+        return new BeanstalkConnection($this->getConfigData($connectionName));
     }
 }

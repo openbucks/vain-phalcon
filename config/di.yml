@@ -135,7 +135,6 @@ services:
   http.response: '@http.response.proxy'
   connection.factory.beanstalk:
     class: Vain\Phalcon\Queue\Beanstalk\Factory\BeanstalkConnectionFactory
-    arguments: ['beanstalk']
     tags:
       - {name: connection.factory}
   queue.factory.beanstalk:
