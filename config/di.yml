@@ -139,6 +139,8 @@ services:
     factory: ['@connection.factory.beanstalk', 'createConnection']
     arguments:
       - '%beanstalk.connection.name%'
+    tags:
+      - {name: connection}
   connection.factory.beanstalk:
     parent: connection.factory.abstract
     class: Vain\Phalcon\Queue\Beanstalk\Factory\BeanstalkConnectionFactory
