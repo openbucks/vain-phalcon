@@ -6,6 +6,6 @@ parameters:
 
 services:
   connection.factory.beanstalk.assert:
-    class: Vain\Connection\Factory\Decorator\Assert\ConnectionFactoryAssertDecorator
+    class: Vain\Core\Connection\Factory\Decorator\Assert\ConnectionFactoryAssertDecorator
     decorates: connection.factory.beanstalk
     arguments: ['@connection.factory.beanstalk.assert.inner', '%beanstalk.config.required.fields%']
