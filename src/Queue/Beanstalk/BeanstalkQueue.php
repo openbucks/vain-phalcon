@@ -14,9 +14,9 @@ namespace Vain\Phalcon\Queue\Beanstalk;
 
 use Phalcon\Queue\Beanstalk as PhalconBeanstalkQueue;
 use \Phalcon\Queue\Beanstalk\Job as PhalconBeanstalkJob;
-use Vain\Queue\AbstractQueue;
-use Vain\Queue\Message\QueueMessageInterface;
-use Vain\Queue\QueueInterface;
+use Vain\Core\Queue\AbstractQueue;
+use Vain\Core\Queue\Message\QueueMessageInterface;
+use Vain\Core\Queue\QueueInterface;
 
 /**
  * Class BeanstalkQueue

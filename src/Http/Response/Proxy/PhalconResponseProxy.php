@@ -10,8 +10,8 @@
  */
 namespace Vain\Phalcon\Http\Response\Proxy;
 
-use Vain\Http\Response\Proxy\AbstractResponseProxy;
-use Vain\Http\Response\Proxy\HttpResponseProxyInterface;
+use Vain\Core\Http\Response\Proxy\AbstractResponseProxy;
+use Vain\Core\Http\Response\Proxy\HttpResponseProxyInterface;
 use Phalcon\Http\ResponseInterface as PhalconHttpResponseInterface;
 use Vain\Phalcon\Http\Response\PhalconResponse;
 

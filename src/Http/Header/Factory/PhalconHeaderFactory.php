@@ -11,8 +11,8 @@
 
 namespace Vain\Phalcon\Http\Header\Factory;
 
-use Vain\Http\Header\Factory\HeaderFactoryInterface;
-use Vain\Http\Header\VainHeaderInterface;
+use Vain\Core\Http\Header\Factory\HeaderFactoryInterface;
+use Vain\Core\Http\Header\VainHeaderInterface;
 use Vain\Phalcon\Http\Header\PhalconHeader;
 
 /**

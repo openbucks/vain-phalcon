@@ -12,8 +12,8 @@ declare(strict_types = 1);
 
 namespace Vain\Phalcon\Exception;
 
-use Vain\Http\Cookie\Storage\CookieStorageInterface;
-use Vain\Http\Exception\CookieStorageException;
+use Vain\Core\Http\Cookie\Storage\CookieStorageInterface;
+use Vain\Core\Exception\CookieStorageException;
 
 /**
  * Class UnsupportedCookieStorageCallException

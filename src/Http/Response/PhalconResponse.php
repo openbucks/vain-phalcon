@@ -10,7 +10,7 @@
  */
 namespace Vain\Phalcon\Http\Response;
 
-use Vain\Http\Response\AbstractResponse;
+use Vain\Core\Http\Response\AbstractResponse;
 use Vain\Phalcon\Exception\BadRedirectCodeException;
 use Vain\Phalcon\Exception\JsonErrorException;
 use Phalcon\Http\ResponseInterface as PhalconHttpResponseInterface;

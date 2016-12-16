@@ -10,9 +10,9 @@
  */
 namespace Vain\Phalcon\Api\Controller;
 
-use Vain\Api\Command\ApiCommandInterface;
-use Vain\Api\Config\Provider\ApiConfigProviderInterface;
-use Vain\Api\Request\Validator\ApiValidatorInterface;
+use Vain\Core\Api\Command\ApiCommandInterface;
+use Vain\Core\Api\Config\Provider\ApiConfigProviderInterface;
+use Vain\Core\Api\Request\Validator\ApiValidatorInterface;
 use Vain\Core\Encoder\EncoderInterface;
 use Vain\Phalcon\Controller\AbstractController;
 

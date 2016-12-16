@@ -10,8 +10,8 @@
  */
 namespace Vain\Phalcon\Http\Cookie\Factory;
 
-use Vain\Http\Cookie\Factory\CookieFactoryInterface;
-use Vain\Http\Cookie\VainCookieInterface;
+use Vain\Core\Http\Cookie\Factory\CookieFactoryInterface;
+use Vain\Core\Http\Cookie\VainCookieInterface;
 use Vain\Phalcon\Http\Cookie\PhalconCookie;
 
 /**

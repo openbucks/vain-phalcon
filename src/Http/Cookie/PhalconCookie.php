@@ -11,8 +11,8 @@
 namespace Vain\Phalcon\Http\Cookie;
 
 use Phalcon\Http\CookieInterface as PhalconCookieInterface;
-use Vain\Http\Cookie\AbstractCookie;
-use Vain\Http\Cookie\VainCookieInterface;
+use Vain\Core\Http\Cookie\AbstractCookie;
+use Vain\Core\Http\Cookie\VainCookieInterface;
 use Vain\Phalcon\Exception\UnsupportedCookieCallException;
 
 /**

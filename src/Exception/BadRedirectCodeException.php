@@ -12,8 +12,8 @@ declare(strict_types = 1);
 
 namespace Vain\Phalcon\Exception;
 
-use Vain\Http\Exception\ResponseException;
-use Vain\Http\Response\AbstractResponse;
+use Vain\Core\Exception\ResponseException;
+use Vain\Core\Http\Response\AbstractResponse;
 
 /**
  * Class BadRedirectCodeException

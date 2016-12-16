@@ -12,8 +12,8 @@ declare(strict_types = 1);
 
 namespace Vain\Phalcon\Exception;
 
-use Vain\Http\Exception\HeaderException;
-use Vain\Http\Header\VainHeaderInterface;
+use Vain\Core\Exception\HeaderException;
+use Vain\Core\Http\Header\VainHeaderInterface;
 
 /**
  * Class UnsupportedHeaderCallException

@@ -10,7 +10,7 @@
  */
 namespace Vain\Phalcon\Http\Stream;
 
-use Vain\Http\Stream\AbstractStream;
+use Vain\Core\Http\Stream\AbstractStream;
 
 /**
  * Class PhalconStream

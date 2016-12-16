@@ -10,8 +10,8 @@
  */
 namespace Vain\Phalcon\Http\Request\Proxy;
 
-use Vain\Http\Request\Proxy\AbstractRequestProxy;
-use Vain\Http\Request\Proxy\HttpRequestProxyInterface;
+use Vain\Core\Http\Request\Proxy\AbstractRequestProxy;
+use Vain\Core\Http\Request\Proxy\HttpRequestProxyInterface;
 use Phalcon\Http\RequestInterface as PhalconHttpRequestInterface;
 use Vain\Phalcon\Http\Request\PhalconRequest;
 

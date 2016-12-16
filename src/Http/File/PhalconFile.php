@@ -11,7 +11,7 @@
 namespace Vain\Phalcon\Http\File;
 
 use Phalcon\Http\Request\FileInterface as PhalconFileInterface;
-use Vain\Http\File\AbstractFile;
+use Vain\Core\Http\File\AbstractFile;
 
 /**
  * Class PhalconFile

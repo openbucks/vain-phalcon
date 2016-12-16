@@ -11,9 +11,9 @@
 
 namespace Vain\Phalcon\Api\Request\Validator\Module\Source\Dispatcher;
 
-use Vain\Api\Config\Parameter\ApiParameterConfigInterface;
-use Vain\Api\Request\Validator\Module\AbstractApiValidatorModule;
-use Vain\Http\Request\VainServerRequestInterface;
+use Vain\Core\Api\Config\Parameter\ApiParameterConfigInterface;
+use Vain\Core\Api\Request\Validator\Module\AbstractApiValidatorModule;
+use Vain\Core\Http\Request\VainServerRequestInterface;
 use Vain\Phalcon\Dispatcher\Mvc\MvcDispatcher;
 
 /**

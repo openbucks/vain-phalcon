@@ -14,7 +14,7 @@ namespace Vain\Phalcon\Queue\Beanstalk\Factory;
 
 use Vain\Core\Connection\ConnectionInterface;
 use Vain\Phalcon\Queue\Beanstalk\BeanstalkQueue;
-use Vain\Queue\Factory\AbstractQueueFactory;
+use Vain\Core\Queue\Factory\AbstractQueueFactory;
 
 /**
  * Class BeanstalkQueueFactory

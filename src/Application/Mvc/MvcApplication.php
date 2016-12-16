@@ -13,14 +13,14 @@ namespace Vain\Phalcon\Application\Mvc;
 use Phalcon\Mvc\Application as PhalconMvcApplication;
 use Vain\Core\Container\ContainerInterface;
 use Vain\Core\Event\Dispatcher\EventDispatcherInterface;
-use Vain\Http\Application\HttpApplicationInterface;
-use Vain\Http\Event\Factory\HttpEventFactoryInterface;
-use Vain\Http\Request\Proxy\HttpRequestProxyInterface;
-use Vain\Http\Request\VainServerRequestInterface;
-use Vain\Http\Response\Factory\ResponseFactoryInterface;
-use Vain\Http\Response\Proxy\HttpResponseProxyInterface;
+use Vain\Core\Http\Application\HttpApplicationInterface;
+use Vain\Core\Http\Event\Factory\HttpEventFactoryInterface;
+use Vain\Core\Http\Request\Proxy\HttpRequestProxyInterface;
+use Vain\Core\Http\Request\VainServerRequestInterface;
+use Vain\Core\Http\Response\Factory\ResponseFactoryInterface;
+use Vain\Core\Http\Response\Proxy\HttpResponseProxyInterface;
 use Phalcon\DiInterface as PhalconDiInterface;
-use Vain\Http\Response\VainResponseInterface;
+use Vain\Core\Http\Response\VainResponseInterface;
 
 /**
  * Class PhalconApplication

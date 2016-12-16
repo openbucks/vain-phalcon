@@ -12,8 +12,8 @@ declare(strict_types = 1);
 
 namespace Vain\Phalcon\Exception;
 
-use Vain\Http\Exception\HeaderStorageException;
-use Vain\Http\Header\Storage\HeaderStorageInterface;
+use Vain\Core\Exception\HeaderStorageException;
+use Vain\Core\Http\Header\Storage\HeaderStorageInterface;
 
 /**
  * Class UnsupportedHeaderStorageCallException

@@ -10,10 +10,10 @@
  */
 namespace Vain\Phalcon\Api\Config\Storage;
 
-use Vain\Api\Config\ApiConfigInterface;
+use Vain\Core\Api\Config\ApiConfigInterface;
 use Phalcon\Mvc\RouterInterface as PhalconMvcRouterInterface;
-use Vain\Api\Config\Storage\ApiConfigStorageInterface;
-use Vain\Api\Exception\UnknownRouteException;
+use Vain\Core\Api\Config\Storage\ApiConfigStorageInterface;
+use Vain\Core\Exception\UnknownRouteException;
 
 /**
  * Class PhalconApiConfigStorage

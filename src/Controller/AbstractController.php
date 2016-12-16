@@ -12,9 +12,9 @@
 namespace Vain\Phalcon\Controller;
 
 use Phalcon\Mvc\Controller as PhalconMvcController;
-use Vain\Http\Cookie\Storage\CookieStorageInterface;
-use Vain\Http\Request\VainServerRequestInterface;
-use Vain\Http\Response\VainResponseInterface;
+use Vain\Core\Http\Cookie\Storage\CookieStorageInterface;
+use Vain\Core\Http\Request\VainServerRequestInterface;
+use Vain\Core\Http\Response\VainResponseInterface;
 
 /**
  * Class AbstractController

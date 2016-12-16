@@ -10,7 +10,7 @@
  */
 namespace Vain\Phalcon\Http\Uri;
 
-use Vain\Http\Uri\AbstractUri;
+use Vain\Core\Http\Uri\AbstractUri;
 
 /**
  * Class PhalconUri

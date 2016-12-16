@@ -10,7 +10,7 @@
  */
 namespace Vain\Phalcon\Http\Header;
 
-use Vain\Http\Header\AbstractHeader;
+use Vain\Core\Http\Header\AbstractHeader;
 
 /**
  * Class PhalconHeader

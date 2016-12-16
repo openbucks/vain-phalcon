@@ -11,13 +11,13 @@
 namespace Vain\Phalcon\Http\Request;
 
 use Phalcon\FilterInterface as PhalconFilterInterface;
-use Vain\Http\Cookie\Storage\CookieStorageInterface;
-use Vain\Http\File\VainFileInterface;
-use Vain\Http\Header\Storage\HeaderStorageInterface;
-use Vain\Http\Request\AbstractServerRequest;
-use Vain\Http\Stream\VainStreamInterface;
+use Vain\Core\Http\Cookie\Storage\CookieStorageInterface;
+use Vain\Core\Http\File\VainFileInterface;
+use Vain\Core\Http\Header\Storage\HeaderStorageInterface;
+use Vain\Core\Http\Request\AbstractServerRequest;
+use Vain\Core\Http\Stream\VainStreamInterface;
 use Phalcon\Http\RequestInterface as PhalconHttpRequestInterface;
-use Vain\Http\Uri\VainUriInterface;
+use Vain\Core\Http\Uri\VainUriInterface;
 
 /**
  * Class PhalconRequest

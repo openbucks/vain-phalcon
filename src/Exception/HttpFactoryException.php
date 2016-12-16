@@ -13,7 +13,7 @@ declare(strict_types = 1);
 namespace Vain\Phalcon\Exception;
 
 use Vain\Core\Exception\AbstractCoreException;
-use Vain\Http\Request\Factory\RequestFactoryInterface;
+use Vain\Core\Http\Request\Factory\RequestFactoryInterface;
 
 /**
  * Class HttpFactoryException

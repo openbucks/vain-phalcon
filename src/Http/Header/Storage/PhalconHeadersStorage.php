@@ -12,7 +12,7 @@
 namespace Vain\Phalcon\Http\Header\Storage;
 
 use Phalcon\Http\Response\HeadersInterface as PhalconHeadersInterface;
-use Vain\Http\Header\Storage\AbstractHeaderStorage;
+use Vain\Core\Http\Header\Storage\AbstractHeaderStorage;
 use Vain\Phalcon\Exception\UnsupportedHeaderStorageCallException;
 use Vain\Phalcon\Http\Header\Factory\PhalconHeaderFactory;
 

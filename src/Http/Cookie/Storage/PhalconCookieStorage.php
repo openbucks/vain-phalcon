@@ -11,7 +11,7 @@
 namespace Vain\Phalcon\Http\Cookie\Storage;
 
 use Phalcon\Http\Response\CookiesInterface as PhalconCookiesInterface;
-use Vain\Http\Cookie\Storage\AbstractCookieStorage;
+use Vain\Core\Http\Cookie\Storage\AbstractCookieStorage;
 use Vain\Phalcon\Exception\UnsupportedCookieStorageCallException;
 
 /**
