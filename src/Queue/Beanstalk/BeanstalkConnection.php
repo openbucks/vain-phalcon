@@ -13,7 +13,7 @@ declare(strict_types = 1);
 namespace Vain\Phalcon\Queue\Beanstalk;
 
 use Phalcon\Queue\Beanstalk;
-use Vain\Connection\ConnectionInterface;
+use Vain\Core\Connection\ConnectionInterface;
 
 /**
  * Class BeanstalkConnection

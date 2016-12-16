@@ -12,9 +12,9 @@
 namespace Vain\Phalcon\Database;
 
 use Phalcon\Db\Adapter\Pdo\Mysql as PhalconMysqlDatabase;
-use Vain\Connection\ConnectionInterface;
-use Vain\Database\Generator\Factory\GeneratorFactoryInterface;
-use Vain\Database\Generator\GeneratorInterface;
+use Vain\Core\Connection\ConnectionInterface;
+use Vain\Core\Database\Generator\Factory\DatabaseGeneratorFactoryInterface;
+use Vain\Core\Database\Generator\DatabaseGeneratorInterface;
 use Vain\Database\Mvcc\MvccDatabaseInterface;
 use Vain\Phalcon\Database\Cursor\PhalconCursor;
 use Vain\Phalcon\Exception\PhalconQueryException;
@@ -33,10 +33,10 @@ class PhalconMysqlAdapter extends PhalconMysqlDatabase implements MvccDatabaseIn
     /**
      * PhalconPostgresqlAdapter constructor.
      *
-     * @param GeneratorFactoryInterface $generatorFactory
+     * @param DatabaseGeneratorFactoryInterface $generatorFactory
      * @param ConnectionInterface       $connection
      */
-    public function __construct(GeneratorFactoryInterface $generatorFactory, ConnectionInterface $connection)
+    public function __construct(DatabaseGeneratorFactoryInterface $generatorFactory, ConnectionInterface $connection)
     {
         $this->generatorFactory = $generatorFactory;
         $this->connection = $connection;
@@ -82,7 +82,7 @@ class PhalconMysqlAdapter extends PhalconMysqlDatabase implements MvccDatabaseIn
     /**
      * @inheritDoc
      */
-    public function runQuery($query, array $bindParams, array $bindTypes = []) : GeneratorInterface
+    public function runQuery($query, array $bindParams, array $bindTypes = []) : DatabaseGeneratorInterface
     {
         if (false === ($result = $this->query($query, $bindParams, $bindTypes))) {
             throw new PhalconQueryException($this, $query);

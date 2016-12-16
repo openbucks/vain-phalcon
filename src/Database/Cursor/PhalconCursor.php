@@ -12,14 +12,14 @@
 namespace Vain\Phalcon\Database\Cursor;
 
 use Phalcon\Db\ResultInterface as PhalconDbResultInterface;
-use Vain\Database\Cursor\CursorInterface;
+use Vain\Core\Database\Cursor\DatabaseCursorInterface;
 
 /**
  * Class PhalconCursor
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class PhalconCursor implements CursorInterface
+class PhalconCursor implements DatabaseCursorInterface
 {
     private $phalconDbResult;
 
@@ -60,7 +60,7 @@ class PhalconCursor implements CursorInterface
     /**
      * @inheritDoc
      */
-    public function close() : CursorInterface
+    public function close() : DatabaseCursorInterface
     {
         $this->phalconDbResult->getInternalResult()->closeCursor();
 
@@ -70,7 +70,7 @@ class PhalconCursor implements CursorInterface
     /**
      * @inheritDoc
      */
-    public function mode(int $mode) : CursorInterface
+    public function mode(int $mode) : DatabaseCursorInterface
     {
         $this->phalconDbResult->setFetchMode($mode);
 

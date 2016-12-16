@@ -11,9 +11,9 @@
 
 namespace Vain\Phalcon\Database\Factory;
 
-use Vain\Connection\ConnectionInterface;
+use Vain\Core\Connection\ConnectionInterface;
 use Vain\Database\Factory\AbstractDatabaseFactory;
-use Vain\Database\Generator\Factory\GeneratorFactoryInterface;
+use Vain\Core\Database\Generator\Factory\DatabaseGeneratorFactoryInterface;
 use Vain\Phalcon\Database\PhalconMysqlAdapter;
 use Vain\Phalcon\Database\PhalconPostgresqlAdapter;
 use Vain\Phalcon\Exception\UnknownPhalconTypeException;
@@ -31,9 +31,9 @@ class PhalconDatabaseFactory extends AbstractDatabaseFactory
      * PhalconDatabaseFactory constructor.
      *
      * @param string                    $name
-     * @param GeneratorFactoryInterface $generatorFactory
+     * @param DatabaseGeneratorFactoryInterface $generatorFactory
      */
-    public function __construct($name, GeneratorFactoryInterface $generatorFactory)
+    public function __construct($name, DatabaseGeneratorFactoryInterface $generatorFactory)
     {
         $this->generatorFactory = $generatorFactory;
         parent::__construct($name);

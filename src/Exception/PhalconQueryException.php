@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Vain\Phalcon\Exception;
 
-use Vain\Database\DatabaseInterface;
+use Vain\Core\Database\DatabaseInterface;
 use Vain\Database\Exception\DatabaseException;
 
 /**

@@ -12,7 +12,7 @@ declare(strict_types = 1);
 
 namespace Vain\Phalcon\Queue\Beanstalk\Factory;
 
-use Vain\Connection\ConnectionInterface;
+use Vain\Core\Connection\ConnectionInterface;
 use Vain\Phalcon\Queue\Beanstalk\BeanstalkQueue;
 use Vain\Queue\Factory\AbstractQueueFactory;
 
