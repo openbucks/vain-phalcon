@@ -11,8 +11,8 @@
 namespace Vain\Phalcon\Entity\Operation\Factory;
 
 use Vain\Core\Entity\EntityInterface;
-use Vain\Entity\Operation\Factory\AbstractEntityOperationFactory;
-use Vain\Entity\Operation\Factory\EntityOperationFactoryInterface;
+use Vain\Core\Entity\Operation\Factory\AbstractEntityOperationFactory;
+use Vain\Core\Entity\Operation\Factory\EntityOperationFactoryInterface;
 use Vain\Core\Operation\OperationInterface;
 use Vain\Phalcon\Entity\Operation\PhalconCreateEntityOperation;
 use Vain\Phalcon\Entity\Operation\PhalconDeleteEntityOperation;

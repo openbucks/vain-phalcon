@@ -10,7 +10,7 @@
  */
 namespace Vain\Phalcon\Entity\Operation;
 
-use Vain\Entity\Operation\AbstractCreateEntityOperation;
+use Vain\Core\Entity\Operation\AbstractCreateEntityOperation;
 use Vain\Core\Result\FailedResult;
 use Vain\Core\Result\ResultInterface;
 use Vain\Core\Result\SuccessfulResult;
