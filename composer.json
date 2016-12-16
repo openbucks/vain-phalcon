@@ -17,10 +17,7 @@
     "require": {
         "php": ">=7.0",
         "ext-phalcon": "^3.0",
-        "vain/api": "^0.4",
-        "vain/http": "^0.4",
-        "vain/pdo": "^0.4",
-        "vain/queue": "^0.4"
+        "vain/pdo": "^0.4"
     },
     "require-dev": {
         "phalcon/devtools": "^3"
