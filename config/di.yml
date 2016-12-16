@@ -135,15 +135,11 @@ services:
   http.request: '@http.request.proxy'
   http.response: '@http.response.proxy'
   connection.beanstalk:
+    parent: connection.abstract
     class: Vain\Phalcon\Queue\Beanstalk\BeanstalkConnection
-    factory: ['@connection.factory.beanstalk', 'createConnection']
-    arguments:
-      - '%beanstalk.connection.name%'
+    arguments: ['%beanstalk.connection.name%']
     tags:
       - {name: connection}
-  connection.factory.beanstalk:
-    parent: connection.factory.abstract
-    class: Vain\Phalcon\Queue\Beanstalk\Factory\BeanstalkConnectionFactory
   queue.factory.beanstalk:
     class: Vain\Phalcon\Queue\Beanstalk\Factory\BeanstalkQueueFactory
     arguments: ['beanstalk', '@queue.message.factory.storage']
