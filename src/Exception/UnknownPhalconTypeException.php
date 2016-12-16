@@ -12,8 +12,8 @@ declare(strict_types = 1);
 
 namespace Vain\Phalcon\Exception;
 
-use Vain\Database\Exception\DatabaseFactoryException;
-use Vain\Database\Factory\DatabaseFactoryInterface;
+use Vain\Core\Exception\DatabaseFactoryException;
+use Vain\Core\Database\Factory\DatabaseFactoryInterface;
 
 /**
  * Class UnknownPhalconDriverException

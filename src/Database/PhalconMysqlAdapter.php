@@ -15,7 +15,7 @@ use Phalcon\Db\Adapter\Pdo\Mysql as PhalconMysqlDatabase;
 use Vain\Core\Connection\ConnectionInterface;
 use Vain\Core\Database\Generator\Factory\DatabaseGeneratorFactoryInterface;
 use Vain\Core\Database\Generator\DatabaseGeneratorInterface;
-use Vain\Database\Mvcc\MvccDatabaseInterface;
+use Vain\Core\Database\Mvcc\MvccDatabaseInterface;
 use Vain\Phalcon\Database\Cursor\PhalconCursor;
 use Vain\Phalcon\Exception\PhalconQueryException;
 

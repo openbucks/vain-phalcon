@@ -12,7 +12,7 @@
 namespace Vain\Phalcon\Database\Factory;
 
 use Vain\Core\Connection\ConnectionInterface;
-use Vain\Database\Factory\AbstractDatabaseFactory;
+use Vain\Core\Database\Factory\AbstractDatabaseFactory;
 use Vain\Core\Database\Generator\Factory\DatabaseGeneratorFactoryInterface;
 use Vain\Phalcon\Database\PhalconMysqlAdapter;
 use Vain\Phalcon\Database\PhalconPostgresqlAdapter;

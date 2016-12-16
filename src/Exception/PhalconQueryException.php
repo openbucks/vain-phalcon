@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Vain\Phalcon\Exception;
 
 use Vain\Core\Database\DatabaseInterface;
-use Vain\Database\Exception\DatabaseException;
+use Vain\Core\Exception\DatabaseException;
 
 /**
  * Class PhalconQueryException
