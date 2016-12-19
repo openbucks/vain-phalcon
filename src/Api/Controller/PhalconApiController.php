@@ -102,7 +102,7 @@ class PhalconApiController extends AbstractController
         $validatorResult = $this->validator->validate($this->request, $apiConfig);
         if (false === $validatorResult->isSuccessful()) {
             $this->response
-                ->withStatus(402)
+                ->withStatus(400)
                 ->getBody()->write($this->encoder->encode($validatorResult->getErrors()));
 
             return $this;
