@@ -82,7 +82,7 @@ class MvcApplication extends PhalconMvcApplication implements HttpApplicationInt
             $this->responseProxy->popResponse();
             $this->responseProxy->addResponse(
                 $this->responseFactory
-                    ->createResponse('php://temp', $e->getCode(), [], $e->getMessage())
+                    ->createResponse('php://temp', $e->getCode())
                     ->withStatus($e->getCode(), $e->getMessage())
             );
         }
