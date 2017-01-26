@@ -11,9 +11,9 @@
 
 namespace Vain\Phalcon\Api\Request\Validator\Module\Source\Dispatcher;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Vain\Core\Api\Config\Parameter\ApiParameterConfigInterface;
 use Vain\Core\Api\Request\Validator\Module\AbstractApiValidatorModule;
-use Vain\Core\Http\Request\VainServerRequestInterface;
 use Vain\Phalcon\Dispatcher\Mvc\MvcDispatcher;
 
 /**
@@ -38,7 +38,7 @@ class ApiValidatorDispatcherModule extends AbstractApiValidatorModule
     /**
      * @inheritDoc
      */
-    public function validate(VainServerRequestInterface $serverRequest, ApiParameterConfigInterface $parameterConfig)
+    public function validate(ServerRequestInterface $serverRequest, ApiParameterConfigInterface $parameterConfig)
     {
         return [
             $parameterConfig->getName() => $this->mvcDispatcher->getParam(
