@@ -127,11 +127,11 @@ services:
     arguments: ['phalcon', '@database.generator.factory']
     tags:
       - {name: database.factory}
-  api.validator.module.factory.dispatcher:
-    class: Vain\Phalcon\Api\Request\Validator\Module\Source\Dispatcher\Factory\ApiValidatorDispatcherModuleFactory
+  api.config.parameter.factory.body:
+    class: Vain\Phalcon\Api\Config\Parameter\Source\Factory\ApiConfigParameterUrlFactory
     arguments: ['@app.dispatcher']
     tags:
-        - {name: validator.factory}
+        - {name: source.factory}
   http.request: '@http.request.proxy'
   http.response: '@http.response.proxy'
   connection.beanstalk:
