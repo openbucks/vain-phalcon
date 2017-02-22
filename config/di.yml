@@ -36,9 +36,12 @@ services:
   app.modelsMetadata:
     class: Phalcon\Mvc\Model\MetaData\Memory
   modelsMetadata: '@app.modelsMetadata'
+  app.mvc.phalcon:
+    class: Phalcon\Mvc\Application
+    arguments: ['@app.di']
   app.mvc:
-    class: Vain\Phalcon\Application\Mvc\MvcApplication
-    arguments: ['@http.request.proxy', '@http.response.proxy', '@event.factory.http', '@event.dispatcher', '@http.response.factory', '@app.di']
+    class: Vain\Phalcon\Application\Mvc\PhalconApplication
+    arguments: ['@app.mvc.phalcon']
   app.escaper:
     class: Phalcon\Escaper
   escaper: '@app.escaper'
