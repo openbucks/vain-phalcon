@@ -39,9 +39,10 @@ services:
   app.mvc.phalcon:
     class: Phalcon\Mvc\Application
     arguments: ['@app.di']
-  app.mvc:
+  http.application:
     class: Vain\Phalcon\Application\Mvc\PhalconApplication
-    arguments: ['@app.mvc.phalcon']
+    arguments: ['@app.mvc.phalcon', '@http.response.proxy']
+  app.mvc: '@http.application'
   app.escaper:
     class: Phalcon\Escaper
   escaper: '@app.escaper'
