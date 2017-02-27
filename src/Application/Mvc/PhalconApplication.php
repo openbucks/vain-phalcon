@@ -11,7 +11,7 @@
 namespace Vain\Phalcon\Application\Mvc;
 
 use Phalcon\Mvc\Application as PhalconMvcApplication;
-use Vain\Core\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Vain\Core\Http\Application\HttpApplicationInterface;
 use Vain\Core\Http\Request\VainServerRequestInterface;
 use Vain\Core\Http\Response\Proxy\HttpResponseProxyInterface;
