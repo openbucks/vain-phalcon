@@ -8,12 +8,14 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-phalcon
  */
+
 namespace Vain\Phalcon\Api\Controller;
 
 use Vain\Core\Api\Command\ApiCommandInterface;
 use Vain\Core\Api\Config\Provider\ApiConfigProviderInterface;
 use Vain\Core\Api\Request\Validator\ApiValidatorInterface;
 use Vain\Core\Encoder\EncoderInterface;
+use Vain\Core\Http\Response\VainResponseInterface;
 use Vain\Phalcon\Controller\AbstractController;
 
 /**
@@ -64,7 +66,7 @@ class PhalconApiController extends AbstractController
     /**
      * @return ApiCommandInterface
      */
-    public function getCommand() : ApiCommandInterface
+    public function getCommand(): ApiCommandInterface
     {
         return $this->command;
     }
@@ -72,7 +74,7 @@ class PhalconApiController extends AbstractController
     /**
      * @return ApiValidatorInterface
      */
-    public function getValidator() : ApiValidatorInterface
+    public function getValidator(): ApiValidatorInterface
     {
         return $this->validator;
     }
@@ -80,7 +82,7 @@ class PhalconApiController extends AbstractController
     /**
      * @return ApiConfigProviderInterface
      */
-    public function getConfigProvider() : ApiConfigProviderInterface
+    public function getConfigProvider(): ApiConfigProviderInterface
     {
         return $this->configProvider;
     }
@@ -102,8 +104,9 @@ class PhalconApiController extends AbstractController
         $validatorResult = $this->validator->validate($this->request, $apiConfig);
         if (false === $validatorResult->isSuccessful()) {
             $this->response
-                ->withStatus(402)
-                ->getBody()->write($this->encoder->encode($validatorResult->getErrors()));
+                ->withStatus(422)
+                ->getBody()
+                ->write($this->encoder->encode($validatorResult->toDisplay()));
 
             return $this;
         }
@@ -113,13 +116,13 @@ class PhalconApiController extends AbstractController
         foreach ($apiResponse->getHeaders() as $header => $value) {
             $this->response->withHeader($header, $value);
         }
-        if ('' !== ($contentType = $this->request->getContentType())) {
-            $this->response->withContentType($contentType);
-        }
         if ([] === $apiResponse->getData()) {
             return $this;
         }
-        $this->response->getBody()->write($this->encoder->encode($apiResponse->getData()));
+        $this->response
+            ->withContentType(VainResponseInterface::CONTENT_TYPE_APPLICATION_JSON)
+            ->getBody()
+            ->write($this->encoder->encode($apiResponse->getData()));
 
         return $this;
     }
