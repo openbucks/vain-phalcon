@@ -113,17 +113,15 @@ class PhalconApiController extends AbstractController
         }
         $apiResponse = $this->command->execute($validatorResult->getRequest(), $apiConfig);
 
-        $this->response->withStatus($apiResponse->getStatus(), $apiResponse->getShortMessage());
-        foreach ($apiResponse->getHeaders() as $header => $value) {
-            $this->response->withHeader($header, $value);
-        }
-        if ([] === $apiResponse->getData()) {
-            return $this;
-        }
         $this->response
+            ->withStatus($apiResponse->getStatus(), $apiResponse->getShortMessage())
             ->withContentType(VainResponseInterface::CONTENT_TYPE_APPLICATION_JSON)
             ->getBody()
             ->write($this->encoder->encode($apiResponse->getData()));
+
+        foreach ($apiResponse->getHeaders() as $header => $value) {
+            $this->response->withHeader($header, $value);
+        }
 
         return $this;
     }
