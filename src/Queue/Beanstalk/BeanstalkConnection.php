@@ -25,7 +25,7 @@ class BeanstalkConnection extends AbstractConnection
     /**
      * @inheritDoc
      */
-    public function establish()
+    public function doEstablish()
     {
         return new Beanstalk($this->getConfigData());
     }
