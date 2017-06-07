@@ -11,7 +11,6 @@
 namespace Vain\Phalcon\Di\Symfony;
 
 use Phalcon\Di\InjectionAwareInterface as PhalconDiAwareInterface;
-use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container as SymfonyContainer;
 use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainerInterface;
 use Vain\Phalcon\Exception\UnsupportedDiCallException;
@@ -23,7 +22,7 @@ use \Phalcon\DiInterface as PhalconDiInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class SymfonyContainerAdapter implements PhalconDiInterface, SymfonyContainerInterface, ContainerInterface
+class SymfonyContainerAdapter implements PhalconDiInterface, SymfonyContainerInterface
 {
     private $symfonyContainer;
 
