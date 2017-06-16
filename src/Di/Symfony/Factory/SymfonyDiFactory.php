@@ -77,12 +77,13 @@ class SymfonyDiFactory implements DiFactoryInterface
      * @param string $applicationPath
      * @param string $cacheDir
      * @param string $applicationEnv
+     * @paarm string $applicationMode
      *
      * @return string
      */
-    protected function getCachedContainerPath($applicationPath, $cacheDir, $applicationEnv)
+    protected function getCachedContainerPath($applicationPath, $cacheDir, $applicationEnv, $applicationMode)
     {
-        return sprintf('%s/%s/container/di_%s.php', $applicationPath, $cacheDir, $applicationEnv);
+        return sprintf('%s/%s/container/di_%s_%s.php', $applicationPath, $cacheDir, $applicationEnv, $applicationMode);
     }
 
     /**
@@ -90,7 +91,7 @@ class SymfonyDiFactory implements DiFactoryInterface
      */
     public function createDi(string $applicationEnv, string $applicationMode, bool $isDebug, bool $cachingEnabled)
     {
-        $containerPath = $this->getCachedContainerPath($this->applicationPath, $this->cacheDir, $applicationEnv);
+        $containerPath = $this->getCachedContainerPath($this->applicationPath, $this->cacheDir, $applicationEnv, $applicationMode);
         if (false === $cachingEnabled || false === file_exists($containerPath)) {
             return $this->createContainer(
                 $this->applicationPath,
