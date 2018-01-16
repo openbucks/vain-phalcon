@@ -142,8 +142,12 @@ services:
     arguments: ['@app.dispatcher']
     tags:
         - {name: source.factory}
-  http.request: '@http.request.proxy'
-  http.response: '@http.response.proxy'
+  http.request:
+    public: true
+    alias: http.request.proxy
+  http.response:
+    public: true
+    alias: http.response.proxy
   connection.beanstalk:
     parent: connection.abstract
     class: Vain\Phalcon\Queue\Beanstalk\BeanstalkConnection
