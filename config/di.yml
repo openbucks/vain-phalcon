@@ -10,6 +10,7 @@ services:
     class: Vain\Phalcon\Api\Config\Storage\PhalconApiConfigStorage
     arguments: ['@api.config.storage.phalcon.inner', '@app.router']
   app.di:
+    public: true
     class: Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter
     arguments: ['@service_container']
   app.bootstrapper.factory.mvc:
@@ -36,14 +37,20 @@ services:
     public: true
     alias: app.dispatcher
   app.model.manager:
+    public: true
     class: Vain\Phalcon\Mvc\Model\PhalconModelManager
     calls:
       - [setEventsManager, ['@event.manager']]
       - [setDI, ['@app.di']]
-  modelsManager: '@app.model.manager'
+  modelsManager:
+    public: true
+    alias: app.model.manager
   app.modelsMetadata:
+    public: true
     class: Phalcon\Mvc\Model\MetaData\Memory
-  modelsMetadata: '@app.modelsMetadata'
+  modelsMetadata:
+    public: true
+    alias: app.modelsMetadata
   app.mvc.phalcon:
     public: true
     class: Phalcon\Mvc\Application
@@ -56,43 +63,77 @@ services:
     public: true
     alias: http.application
   app.escaper:
+    public: true
     class: Phalcon\Escaper
-  escaper: '@app.escaper'
+  escaper:
+    public: true
+    alias: app.escaper
   app.security:
+    public: true
     class: Phalcon\Security
-  security: '@app.security'
+  security:
+    public: true
+    alias: app.security
   app.crypt:
+    public: true
     class: Phalcon\Crypt
-  crypt: '@app.crypt'
+  crypt:
+    public: true
+    alias: app.crypt
   app.annotations:
+    public: true
     class: Phalcon\Annotations\Adapter\Memory
-  annotaions: '@app.annotations'
+  annotaions:
+    public: true
+    alias: app.annotations
   app.tag:
+    public: true
     class: Phalcon\Tag
-  tag: '@app.tag'
+  tag:
+    public: true
+    alias: app.tag
   app.session:
+    public: true
     class: Phalcon\Session\Adapter\Files
-  session: '@app.session'
+  session:
+    public: true
+    alias: app.session
   app.session.bag:
+    public: true
     class: Phalcon\Session\Bag
-  sessionBag: '@app.session.bag'
+  sessionBag:
+    public: true
+    alias: app.session.bag
   app.transaction.manager:
+    public: true
     class: Phalcon\Mvc\Model\Transaction\Manager
     arguments: ['@app.di']
-  transactionManager: '@app.transaction.manager'
+  transactionManager:
+    public: true
+    alias: app.transaction.manager
   app.assets:
+    public: true
     class: Phalcon\Assets\Manager
-  assets: '@app.assets'
+  assets:
+    public: true
+    alias: app.assets
   event.dispatcher.phalcon:
     decorates: event.dispatcher
     decoration_priority: 100
     class: Vain\Phalcon\Event\Dispatcher\PhalconEventDispatcher
     arguments: ['@event.dispatcher.phalcon.inner']
-  eventManager: '@event.dispatcher'
-  event.manager: '@event.dispatcher'
+  eventManager:
+    public: true
+    alias: event.dispatcher
+  event.manager:
+    public: true
+    alias: event.dispatcher
   http.filter:
+    public: true
     class: Phalcon\Filter
-  filter: '@http.filter'
+  filter:
+    public: true
+    alias: http.filter
   http.header.factory:
     class: Vain\Phalcon\Http\Header\Factory\PhalconHeaderFactory
   http.header.provider: '@http.header.provider.server'
@@ -116,11 +157,14 @@ services:
     alias: http.request.proxy
   http.request.factory: '@http.factory'
   http.view:
+    public: true
     class: Phalcon\Mvc\View
     calls:
       - [setViewsDir, ['%http.views.dir%']]
       - [registerEngines, [{'.phtml': 'http.engine.php','.php': 'http.engine.php','.volt': 'http.engine.volt'}]]
-  view: '@http.view'
+  view:
+    public: true
+    alias: http.view
   http.engine.php:
     public: true
     class: Phalcon\Mvc\View\Engine\Php
@@ -130,19 +174,29 @@ services:
     class: Phalcon\Mvc\View\Engine\Volt
     arguments: ['@http.view', '@app.di']
   http.url:
+    public: true
     class: Phalcon\Mvc\Url
-  url: '@http.url'
+  url:
+    public: true
+    alias: http.url
   http.cookie.storage:
     class: Vain\Phalcon\Http\Cookie\Storage\PhalconCookieStorage
     arguments: ['@http.cookie.factory']
   cookies:
+    public: true
     class: Phalcon\Http\Response\Cookies
   http.flash:
+    public: true
     class: Phalcon\Flash\Direct
-  flash: '@http.flash'
+  flash:
+    public: true
+    alias: http.flash
   http.flash.session:
+    public: true
     class: Phalcon\Flash\Session
-  flashSession: '@http.flash.session'
+  flashSession:
+    public: true
+    alias: http.flash.session
   entity.operation.factory.phalcon:
     parent: entity.operation.factory.abstract
     class: Vain\Phalcon\Entity\Operation\Factory\PhalconEntityOperationFactory
