@@ -96,12 +96,18 @@ services:
     class: Vain\Phalcon\Http\Factory\PhalconHttpFactory
     arguments: ['@http.filter', '@http.header.provider','@http.cookie.factory' ,'@http.header.factory']
   http.response.proxy:
+    public: true
     class: Vain\Phalcon\Http\Response\Proxy\PhalconResponseProxy
-  response: '@http.response.proxy'
+  response:
+    public: true
+    alias: http.response.proxy
   http.response.factory: '@http.factory'
   http.request.proxy:
+    public: true
     class: Vain\Phalcon\Http\Request\Proxy\PhalconRequestProxy
-  request: '@http.request.proxy'
+  request:
+    public: true
+    alias: http.request.proxy
   http.request.factory: '@http.factory'
   http.view:
     class: Phalcon\Mvc\View
