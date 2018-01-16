@@ -39,6 +39,7 @@ services:
     class: Phalcon\Mvc\Model\MetaData\Memory
   modelsMetadata: '@app.modelsMetadata'
   app.mvc.phalcon:
+    public: true
     class: Phalcon\Mvc\Application
     arguments: ['@app.di']
   http.application:
