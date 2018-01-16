@@ -13,8 +13,10 @@ services:
     class: Vain\Phalcon\Di\Symfony\SymfonyContainerAdapter
     arguments: ['@service_container']
   app.bootstrapper.factory.mvc:
+    public: true
     class: Vain\Phalcon\Bootstrapper\Factory\MvcBootstrapperFactory
   app.bootstrapper.factory.cli:
+    public: true
     class: Vain\Phalcon\Bootstrapper\Factory\CliBootstrapperFactory
   app.router:
     class: Phalcon\Mvc\Router
