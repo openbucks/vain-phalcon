@@ -43,6 +43,7 @@ services:
     class: Phalcon\Mvc\Application
     arguments: ['@app.di']
   http.application:
+    public: true
     class: Vain\Phalcon\Application\Mvc\PhalconApplication
     arguments: ['@app.mvc.phalcon', '@http.response.proxy']
   app.mvc: '@http.application'
