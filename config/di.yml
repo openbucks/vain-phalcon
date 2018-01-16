@@ -19,16 +19,22 @@ services:
     public: true
     class: Vain\Phalcon\Bootstrapper\Factory\CliBootstrapperFactory
   app.router:
+    public: true
     class: Phalcon\Mvc\Router
     arguments: [false]
-  router: '@app.router'
+  router:
+    public: true
+    alias: app.router
   app.dispatcher:
+    public: true
     class: Vain\Phalcon\Dispatcher\Mvc\MvcDispatcher
     arguments: ['%dispatcher.separator%']
     calls:
       - [setEventsManager, ['@event.manager']]
       - [setParams, [[]]]
-  dispatcher: '@app.dispatcher'
+  dispatcher:
+    public: true
+    alias: app.dispatcher
   app.model.manager:
     class: Vain\Phalcon\Mvc\Model\PhalconModelManager
     calls:
