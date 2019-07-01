@@ -97,4 +97,14 @@ class BeanstalkQueue extends AbstractQueue
 
         return true;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function choose(string $tubeName) : QueueInterface
+    {
+        $this->getQueue()->choose($tubeName);
+
+        return $this;
+    }
 }
