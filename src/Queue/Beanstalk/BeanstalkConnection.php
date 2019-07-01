@@ -27,6 +27,12 @@ class BeanstalkConnection extends AbstractConnection
      */
     public function doEstablish()
     {
-        return new Beanstalk($this->getConfigData());
+        $config = $this->getConfigData();
+        $connection = new Beanstalk($config);
+        if (isset($config['tube'])) {
+            $connection->choose($config['tube']);
+            $connection->watch($config['tube']);
+        }
+        return $connection;
     }
 }
