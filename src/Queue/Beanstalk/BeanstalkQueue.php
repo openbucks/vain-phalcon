@@ -63,7 +63,7 @@ class BeanstalkQueue extends AbstractQueue
      */
     public function doDequeue() : ?QueueMessageInterface
     {
-        if (false === ($job = $this->getQueue()->peekReady())) {
+        if (false === ($job = $this->getQueue()->reserve())) {
             return null;
         }
 
@@ -73,9 +73,6 @@ class BeanstalkQueue extends AbstractQueue
         );
 
         $this->jobs[$message->getId()] = $job;
-
-        // delete from queue
-        $job->delete();
 
         return $message;
     }
