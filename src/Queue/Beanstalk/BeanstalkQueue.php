@@ -61,20 +61,25 @@ class BeanstalkQueue extends AbstractQueue
     /**
      * @inheritDoc
      */
-    public function doDequeue() : ?QueueMessageInterface
+    public function doDequeue(array $configData) : ?QueueMessageInterface
     {
-        if (false === ($job = $this->getQueue()->reserve())) {
-            return null;
+        $sleep = isset($configData['sleep']) ? $configData['sleep'] : 500000;
+        while (true) {
+            while ($this->getQueue()->peekReady() !== false) {
+                if (false === ($job = $this->getQueue()->reserve())) {
+                    return null;
+                }
+                $serializedMessage = $job->getBody();
+                $message = $this->getFactoryStorage()->getFactory($serializedMessage['type'])->createFromArray(
+                    $serializedMessage
+                );
+
+                $this->jobs[$message->getId()] = $job;
+
+                return $message;
+            }
+            usleep($sleep);
         }
-
-        $serializedMessage = $job->getBody();
-        $message = $this->getFactoryStorage()->getFactory($serializedMessage['type'])->createFromArray(
-            $serializedMessage
-        );
-
-        $this->jobs[$message->getId()] = $job;
-
-        return $message;
     }
 
     /**
