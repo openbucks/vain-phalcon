@@ -16,11 +16,11 @@
     },
     "require": {
         "php": ">=7.0",
-        "ext-phalcon": "^3.0",
+        "ext-phalcon": "^4.0",
         "vain/pdo": "^0.4"
     },
     "require-dev": {
-        "phalcon/devtools": "^3"
+        "phalcon/devtools": "^4"
     },
     "repositories": [
         {
