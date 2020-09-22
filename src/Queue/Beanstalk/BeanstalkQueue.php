@@ -13,7 +13,7 @@ declare(strict_types = 1);
 namespace Vain\Phalcon\Queue\Beanstalk;
 
 use Phalcon\Queue\Beanstalk as PhalconBeanstalkQueue;
-use \Phalcon\Queue\Beanstalk\Job as PhalconBeanstalkJob;
+use Phalcon\Queue\Beanstalk\Job as PhalconBeanstalkJob;
 use Vain\Core\Queue\AbstractQueue;
 use Vain\Core\Queue\Message\QueueMessageInterface;
 use Vain\Core\Queue\QueueInterface;

@@ -11,7 +11,7 @@
 namespace Vain\Phalcon\Mvc\Model\Query;
 
 use Phalcon\Mvc\Model\Query\Builder as PhalconQueryBuilder;
-use \Phalcon\Mvc\Model\Query as PhalconMvcQuery;
+use Phalcon\Mvc\Model\Query as PhalconMvcQuery;
 
 /**
  * Class PhalconMvcQueryBuilder

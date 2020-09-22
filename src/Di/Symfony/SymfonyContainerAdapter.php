@@ -14,8 +14,8 @@ use Phalcon\Di\InjectionAwareInterface as PhalconDiAwareInterface;
 use Symfony\Component\DependencyInjection\Container as SymfonyContainer;
 use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainerInterface;
 use Vain\Phalcon\Exception\UnsupportedDiCallException;
-use \Phalcon\Di\ServiceInterface as PhalconServiceInterface;
-use \Phalcon\Di\DiInterface as PhalconDiInterface;
+use Phalcon\Di\ServiceInterface as PhalconServiceInterface;
+use Phalcon\Di\DiInterface as PhalconDiInterface;
 
 /**
  * Class SymfonyContainerAdapter
