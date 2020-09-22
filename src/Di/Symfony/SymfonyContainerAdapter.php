@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Container as SymfonyContainer;
 use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainerInterface;
 use Vain\Phalcon\Exception\UnsupportedDiCallException;
 use \Phalcon\Di\ServiceInterface as PhalconServiceInterface;
-use \Phalcon\DiInterface as PhalconDiInterface;
+use \Phalcon\Di\DiInterface as PhalconDiInterface;
 
 /**
  * Class SymfonyContainerAdapter
@@ -55,7 +55,7 @@ class SymfonyContainerAdapter implements PhalconDiInterface, SymfonyContainerInt
     /**
      * @inheritDoc
      */
-    public function set($name, $definition, $shared = false)
+    public function set($name, $definition, $shared = false): PhalconServiceInterface
     {
         $this->symfonyContainer->set($name, $definition);
 
@@ -65,7 +65,7 @@ class SymfonyContainerAdapter implements PhalconDiInterface, SymfonyContainerInt
     /**
      * @inheritDoc
      */
-    public function setShared($name, $definition)
+    public function setShared($name, $definition): PhalconServiceInterface
     {
         return $this->set($name, $definition);
     }
@@ -73,7 +73,7 @@ class SymfonyContainerAdapter implements PhalconDiInterface, SymfonyContainerInt
     /**
      * @inheritDoc
      */
-    public function remove($name)
+    public function remove($name): void
     {
         throw new UnsupportedDiCallException($this, __METHOD__);
     }
@@ -131,7 +131,7 @@ class SymfonyContainerAdapter implements PhalconDiInterface, SymfonyContainerInt
     /**
      * @inheritDoc
      */
-    public function getService($name)
+    public function getService($name): PhalconServiceInterface
     {
         return $this->get($name);
     }
@@ -139,7 +139,15 @@ class SymfonyContainerAdapter implements PhalconDiInterface, SymfonyContainerInt
     /**
      * @inheritDoc
      */
-    public function has($name)
+    public function setService(string $name, PhalconServiceInterface $rawDefinition): PhalconServiceInterface
+    {
+        throw new UnsupportedDiCallException($this, __METHOD__);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function has($name): bool
     {
         return $this->symfonyContainer->has($name);
     }
@@ -155,7 +163,7 @@ class SymfonyContainerAdapter implements PhalconDiInterface, SymfonyContainerInt
     /**
      * @inheritDoc
      */
-    public function getServices()
+    public function getServices(): array
     {
         throw new UnsupportedDiCallException($this, __METHOD__);
     }
@@ -163,7 +171,7 @@ class SymfonyContainerAdapter implements PhalconDiInterface, SymfonyContainerInt
     /**
      * @inheritDoc
      */
-    public static function setDefault(PhalconDiInterface $dependencyInjector)
+    public static function setDefault(PhalconDiInterface $dependencyInjector): void
     {
         throw new UnsupportedDiCallException($dependencyInjector, __METHOD__);
     }
@@ -171,14 +179,14 @@ class SymfonyContainerAdapter implements PhalconDiInterface, SymfonyContainerInt
     /**
      * @inheritDoc
      */
-    public static function getDefault()
+    public static function getDefault(): ?PhalconDiInterface
     {
     }
 
     /**
      * @inheritDoc
      */
-    public static function reset()
+    public static function reset(): void
     {
     }
 

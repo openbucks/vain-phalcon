@@ -12,7 +12,7 @@ declare(strict_types = 1);
 
 namespace Vain\Phalcon\Exception;
 
-use \Phalcon\DiInterface as PhalconDiInterface;
+use \Phalcon\Di\DiInterface as PhalconDiInterface;
 
 /**
  * Class UnsupportedDiCallException

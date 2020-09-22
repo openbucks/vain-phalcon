@@ -10,7 +10,7 @@
  */
 namespace Vain\Phalcon\Di\Factory;
 
-use \Phalcon\DiInterface as PhalconDiInterface;
+use \Phalcon\Di\DiInterface as PhalconDiInterface;
 
 /**
  * Interface DiFactoryInterface

@@ -10,7 +10,7 @@
  */
 namespace Vain\Phalcon\Di\Builder;
 
-use Phalcon\DiInterface as PhalconDiInterface;
+use Phalcon\Di\DiInterface as PhalconDiInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 

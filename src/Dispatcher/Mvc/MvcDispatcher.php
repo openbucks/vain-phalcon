@@ -35,7 +35,7 @@ class MvcDispatcher extends PhalconMvcDispatcher
     /**
      * @return string
      */
-    public function getHandlerClass()
+    public function getHandlerClass(): string
     {
         $this->_resolveEmptyProperties();
 

@@ -10,7 +10,7 @@
  */
 namespace Vain\Phalcon\Http\Factory;
 
-use Phalcon\FilterInterface as PhalconFilterInterface;
+use Phalcon\Filter\FilterInterface as PhalconFilterInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Vain\Core\Http\Cookie\Factory\CookieFactoryInterface;

@@ -10,6 +10,7 @@
  */
 namespace Vain\Phalcon\Http\Response\Proxy;
 
+use Phalcon\Http\Response\HeadersInterface as PhalconHeadersInterface;
 use Vain\Core\Http\Response\Proxy\AbstractResponseProxy;
 use Vain\Core\Http\Response\Proxy\HttpResponseProxyInterface;
 use Phalcon\Http\ResponseInterface as PhalconHttpResponseInterface;
@@ -30,7 +31,7 @@ class PhalconResponseProxy extends AbstractResponseProxy implements
     /**
      * @inheritDoc
      */
-    public function setStatusCode($code, $message = null)
+    public function setStatusCode($code, $message = null): PhalconHttpResponseInterface
     {
         $response = $this->popResponse()->setStatusCode($code, $message);
         $this->addResponse($response);
@@ -41,7 +42,7 @@ class PhalconResponseProxy extends AbstractResponseProxy implements
     /**
      * @inheritDoc
      */
-    public function setHeader($name, $value)
+    public function setHeader($name, $value): PhalconHttpResponseInterface
     {
         $response = $this->popResponse()->setHeader($name, $value);
         $this->addResponse($response);
@@ -52,7 +53,7 @@ class PhalconResponseProxy extends AbstractResponseProxy implements
     /**
      * @inheritDoc
      */
-    public function setRawHeader($header)
+    public function setRawHeader($header): PhalconHttpResponseInterface
     {
         $response = $this->popResponse()->setRawHeader($header);
         $this->addResponse($response);
@@ -63,7 +64,7 @@ class PhalconResponseProxy extends AbstractResponseProxy implements
     /**
      * @inheritDoc
      */
-    public function resetHeaders()
+    public function resetHeaders(): PhalconHttpResponseInterface
     {
         $response = $this->popResponse()->resetHeaders();
         $this->addResponse($response);
@@ -74,7 +75,15 @@ class PhalconResponseProxy extends AbstractResponseProxy implements
     /**
      * @inheritDoc
      */
-    public function setExpires(\DateTime $datetime)
+    public function getHeaders(): PhalconHeadersInterface
+    {
+        return $this->getCurrentMessage()->getHeaders();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setExpires(\DateTime $datetime): PhalconHttpResponseInterface
     {
         $response = $this->popResponse()->setExpires($datetime);
         $this->addResponse($response);
@@ -85,7 +94,7 @@ class PhalconResponseProxy extends AbstractResponseProxy implements
     /**
      * @inheritDoc
      */
-    public function setContentLength($contentLength)
+    public function setContentLength($contentLength): PhalconHttpResponseInterface
     {
         $response = $this->popResponse()->setContentLength($contentLength);
         $this->addResponse($response);
@@ -96,7 +105,7 @@ class PhalconResponseProxy extends AbstractResponseProxy implements
     /**
      * @inheritDoc
      */
-    public function setNotModified()
+    public function setNotModified(): PhalconHttpResponseInterface
     {
         $response = $this->popResponse()->setNotModified();
         $this->addResponse($response);
@@ -107,7 +116,7 @@ class PhalconResponseProxy extends AbstractResponseProxy implements
     /**
      * @inheritDoc
      */
-    public function setContentType($contentType, $charset = null)
+    public function setContentType($contentType, $charset = null): PhalconHttpResponseInterface
     {
         $response = $this->popResponse()->setContentType($contentType);
         $this->addResponse($response);
@@ -118,7 +127,7 @@ class PhalconResponseProxy extends AbstractResponseProxy implements
     /**
      * @inheritDoc
      */
-    public function redirect($location = null, $externalRedirect = false, $statusCode = 302)
+    public function redirect($location = null, $externalRedirect = false, $statusCode = 302): PhalconHttpResponseInterface
     {
         $response = $this->popResponse()->redirect($location, $externalRedirect, $statusCode);
         $this->addResponse($response);
@@ -129,7 +138,7 @@ class PhalconResponseProxy extends AbstractResponseProxy implements
     /**
      * @inheritDoc
      */
-    public function setContent($content)
+    public function setContent($content): PhalconHttpResponseInterface
     {
         $response = $this->popResponse()->setContent($content);
         $this->addResponse($response);
@@ -140,7 +149,7 @@ class PhalconResponseProxy extends AbstractResponseProxy implements
     /**
      * @inheritDoc
      */
-    public function setJsonContent($content)
+    public function setJsonContent($content): PhalconHttpResponseInterface
     {
         $response = $this->popResponse()->setJsonContent($content);
         $this->addResponse($response);
@@ -151,7 +160,7 @@ class PhalconResponseProxy extends AbstractResponseProxy implements
     /**
      * @inheritDoc
      */
-    public function appendContent($content)
+    public function appendContent($content): PhalconHttpResponseInterface
     {
         $response = $this->popResponse()->appendContent($content);
         $this->addResponse($response);
@@ -162,7 +171,7 @@ class PhalconResponseProxy extends AbstractResponseProxy implements
     /**
      * @inheritDoc
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->getCurrentMessage()->getContent();
     }
@@ -170,7 +179,7 @@ class PhalconResponseProxy extends AbstractResponseProxy implements
     /**
      * @inheritDoc
      */
-    public function sendHeaders()
+    public function sendHeaders(): PhalconHttpResponseInterface
     {
         return $this->getCurrentMessage()->sendHeaders();
     }
@@ -178,7 +187,7 @@ class PhalconResponseProxy extends AbstractResponseProxy implements
     /**
      * @inheritDoc
      */
-    public function sendCookies()
+    public function sendCookies(): PhalconHttpResponseInterface
     {
         return $this->getCurrentMessage()->sendCookies();
     }
@@ -186,7 +195,7 @@ class PhalconResponseProxy extends AbstractResponseProxy implements
     /**
      * @inheritDoc
      */
-    public function send()
+    public function send(): PhalconHttpResponseInterface
     {
         return $this->getCurrentMessage()->send();
     }
@@ -194,7 +203,15 @@ class PhalconResponseProxy extends AbstractResponseProxy implements
     /**
      * @inheritDoc
      */
-    public function setFileToSend($filePath, $attachmentName = null)
+    public function isSent(): bool
+    {
+        return $this->getCurrentMessage()->isSent();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setFileToSend($filePath, $attachmentName = null): PhalconHttpResponseInterface
     {
         $response = $this->popResponse()->setFileToSend($filePath, $attachmentName);
         $this->addResponse($response);

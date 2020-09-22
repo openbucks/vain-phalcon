@@ -41,25 +41,22 @@ class PhalconEventDispatcher implements
     /**
      * @inheritDoc
      */
-    public function attach($eventType, $handler, $priority = 100)
+    public function attach($eventType, $handler, $priority = 100): void
     {
-        return $this;
     }
 
     /**
      * @inheritDoc
      */
-    public function detach($eventType, $handler)
+    public function detach($eventType, $handler): void
     {
-        return $this;
     }
 
     /**
      * @inheritDoc
      */
-    public function detachAll($type = null)
+    public function detachAll($type = null): void
     {
-        return $this;
     }
 
     /**
@@ -75,7 +72,7 @@ class PhalconEventDispatcher implements
     /**
      * @inheritDoc
      */
-    public function fire($eventType, $source, $data = null)
+    public function fire($eventType, $source, $data = null, bool $cancelable = null)
     {
         return $this->dispatch(new PhalconEvent($eventType, $source, $data));
     }
@@ -83,7 +80,7 @@ class PhalconEventDispatcher implements
     /**
      * @inheritDoc
      */
-    public function getListeners($type)
+    public function getListeners($type): array
     {
         return $this->getHandlers((string)$type);
     }
@@ -91,7 +88,15 @@ class PhalconEventDispatcher implements
     /**
      * @inheritDoc
      */
-    public function getHandlers($eventName) : array
+    public function hasListeners($type): bool
+    {
+        return count($this->getHandlers((string)$type)) > 0;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getHandlers($eventName): array
     {
         return [];
     }

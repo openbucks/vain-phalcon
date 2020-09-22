@@ -27,7 +27,15 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getPost($name = null, $filters = null, $defaultValue = null)
+    public function getHeaders(): array
+    {
+        return $this->getCurrentMessage()->getHeaders();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPost(?string $name = NULL, $filters = NULL, $defaultValue = NULL, bool $notAllowEmpty = NULL, bool $noRecursive = NULL)
     {
         return $this->getCurrentMessage()->getPost($name, $filters, $defaultValue);
     }
@@ -35,7 +43,15 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getQuery($name = null, $filters = null, $defaultValue = null)
+    public function getPut(?string $name = NULL, $filters = NULL, $defaultValue = NULL, bool $notAllowEmpty = NULL, bool $noRecursive = NULL)
+    {
+        return $this->getCurrentMessage()->getPost($name, $filters, $defaultValue);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getQuery(?string $name = NULL, $filters = NULL, $defaultValue = NULL, bool $notAllowEmpty = NULL, bool $noRecursive = NULL)
     {
         return $this->getCurrentMessage()->getQuery($name, $filters, $defaultValue);
     }
@@ -43,7 +59,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function has($name)
+    public function has($name): bool
     {
         return $this->getCurrentMessage()->has($name);
     }
@@ -51,7 +67,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function hasPost($name)
+    public function hasPost($name): bool
     {
         return $this->getCurrentMessage()->hasPost($name);
     }
@@ -59,7 +75,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function hasPut($name)
+    public function hasPut($name): bool
     {
         return $this->getCurrentMessage()->hasPut($name);
     }
@@ -67,7 +83,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function hasQuery($name)
+    public function hasQuery($name): bool
     {
         return $this->getCurrentMessage()->hasQuery($name);
     }
@@ -75,7 +91,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function isAjax()
+    public function isAjax(): bool
     {
         return $this->getCurrentMessage()->isAjax();
     }
@@ -83,7 +99,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function isSoapRequested()
+    public function isSoapRequested(): bool
     {
         return $this->getCurrentMessage()->isSoapRequested();
     }
@@ -91,7 +107,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getRawBody()
+    public function getRawBody(): string
     {
         return $this->getCurrentMessage()->getRawBody();
     }
@@ -99,7 +115,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getJsonRawBody($mode)
+    public function getJsonRawBody(bool $associative = NULL)
     {
         return $this->getCurrentMessage()->getJsonRawBody($mode);
     }
@@ -115,7 +131,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function isMethod($methods, $strict = false)
+    public function isMethod($methods, $strict = false): bool
     {
         return $this->getCurrentMessage()->isMethod($methods, $strict);
     }
@@ -123,7 +139,24 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function hasFiles($onlySuccessful = false)
+    public function isSecure(): bool
+    {
+        return $this->isSecureRequest();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isSoap(): bool
+    {
+        return $this->isSoapRequested();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function hasFiles($onlySuccessful = false): bool
     {
         return $this->getCurrentMessage()->hasFiles($onlySuccessful);
     }
@@ -131,7 +164,15 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getHTTPReferer()
+    public function numFiles(bool $onlySuccessful = NULL): int
+    {
+        return $this->hasFiles($onlySuccessful);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getHTTPReferer(): string
     {
         return $this->getCurrentMessage()->getHTTPReferer();
     }
@@ -139,7 +180,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getAcceptableContent()
+    public function getAcceptableContent(): array
     {
         return $this->getCurrentMessage()->getAcceptableContent();
     }
@@ -147,7 +188,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getBestAccept()
+    public function getBestAccept(): string
     {
         return $this->getCurrentMessage()->getBestAccept();
     }
@@ -155,7 +196,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getClientCharsets()
+    public function getClientCharsets(): array
     {
         return $this->getCurrentMessage()->getClientCharsets();
     }
@@ -163,7 +204,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getBestCharset()
+    public function getBestCharset(): string
     {
         return $this->getCurrentMessage()->getBestCharset();
     }
@@ -171,7 +212,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getLanguages()
+    public function getLanguages(): array
     {
         return $this->getCurrentMessage()->getLanguages();
     }
@@ -179,7 +220,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getBestLanguage()
+    public function getBestLanguage(): string
     {
         return $this->getCurrentMessage()->getBestLanguage();
     }
@@ -187,7 +228,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getBasicAuth()
+    public function getBasicAuth(): ?array
     {
         return $this->getCurrentMessage()->getBasicAuth();
     }
@@ -195,7 +236,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getDigestAuth()
+    public function getDigestAuth(): array
     {
         return $this->getCurrentMessage()->getDigestAuth();
     }
@@ -203,7 +244,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function get($name = null, $filters = null, $default = null)
+    public function get(?string $name = null, $filters = null, $default = null, bool $notAllowEmpty = null, bool $noRecursive = null): mixed
     {
         return $this->getCurrentMessage()->get($name, $filters, $default);
     }
@@ -211,7 +252,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getUploadedFiles($onlySuccessFul = true)
+    public function getUploadedFiles(bool $onlySuccessful = NULL, bool $namedKeys = NULL): array
     {
         return $this->getCurrentMessage()->getUploadedFiles($onlySuccessFul);
     }
@@ -219,7 +260,7 @@ class PhalconRequestProxy extends AbstractRequestProxy implements HttpRequestPro
     /**
      * @inheritDoc
      */
-    public function getPort()
+    public function getPort(): int
     {
         return $this->getCurrentMessage()->getPort();
     }
