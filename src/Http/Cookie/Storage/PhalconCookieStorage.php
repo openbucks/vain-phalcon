@@ -11,6 +11,7 @@
 namespace Vain\Phalcon\Http\Cookie\Storage;
 
 use Phalcon\Http\Response\CookiesInterface as PhalconCookiesInterface;
+use Phalcon\Http\Cookie\CookieInterface as PhalconCookieInterface;
 use Vain\Core\Http\Cookie\Storage\AbstractCookieStorage;
 use Vain\Phalcon\Exception\UnsupportedCookieStorageCallException;
 
@@ -24,7 +25,7 @@ class PhalconCookieStorage extends AbstractCookieStorage implements PhalconCooki
     /**
      * @inheritDoc
      */
-    public function useEncryption($useEncryption)
+    public function useEncryption($useEncryption): PhalconCookiesInterface
     {
         throw new UnsupportedCookieStorageCallException($this, __METHOD__);
     }
@@ -32,7 +33,7 @@ class PhalconCookieStorage extends AbstractCookieStorage implements PhalconCooki
     /**
      * @inheritDoc
      */
-    public function isUsingEncryption()
+    public function isUsingEncryption(): bool
     {
         throw new UnsupportedCookieStorageCallException($this, __METHOD__);
     }
@@ -41,14 +42,15 @@ class PhalconCookieStorage extends AbstractCookieStorage implements PhalconCooki
      * @inheritDoc
      */
     public function set(
-        $name,
+        string $name,
         $value = null,
-        $expire = 0,
-        $path = "/",
-        $secure = null,
-        $domain = null,
-        $httpOnly = null
-    ) {
+        int $expire = null,
+        string $path = null,
+        ?bool $secure = null,
+        ?string $domain = null,
+        ?bool $httpOnly = null,
+        array $options = null
+    ): PhalconCookiesInterface {
         return $this->createCookie(
             $name,
             $value,
@@ -63,7 +65,7 @@ class PhalconCookieStorage extends AbstractCookieStorage implements PhalconCooki
     /**
      * @inheritDoc
      */
-    public function get($name)
+    public function get($name): PhalconCookieInterface
     {
         return $this->getCookie($name);
     }
@@ -71,7 +73,7 @@ class PhalconCookieStorage extends AbstractCookieStorage implements PhalconCooki
     /**
      * @inheritDoc
      */
-    public function has($name)
+    public function has($name): bool
     {
         return $this->hasCookie($name);
     }
@@ -79,7 +81,7 @@ class PhalconCookieStorage extends AbstractCookieStorage implements PhalconCooki
     /**
      * @inheritDoc
      */
-    public function delete($name)
+    public function delete($name): bool
     {
         return $this->removeCookie($name);
     }
@@ -87,7 +89,7 @@ class PhalconCookieStorage extends AbstractCookieStorage implements PhalconCooki
     /**
      * @inheritDoc
      */
-    public function send()
+    public function send(): bool
     {
         throw new UnsupportedCookieStorageCallException($this, __METHOD__);
     }
@@ -95,7 +97,7 @@ class PhalconCookieStorage extends AbstractCookieStorage implements PhalconCooki
     /**
      * @inheritDoc
      */
-    public function reset()
+    public function reset(): PhalconCookiesInterface
     {
         return $this->resetCookies();
     }

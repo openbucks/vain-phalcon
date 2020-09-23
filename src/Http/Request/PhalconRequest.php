@@ -77,7 +77,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function get($name = null, $filters = null, $defaultValue = null)
+    public function get(?string $name = null, $filters = null, $defaultValue = null, bool $notAllowEmpty = null, bool $noRecursive = null)
     {
         return $this->getQuery($name, $filters, $defaultValue);
     }
@@ -112,7 +112,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function getPost($name = null, $filters = null, $defaultValue = null)
+    public function getPost(string $name = null, $filters = null, $defaultValue = null, bool $notAllowEmpty = false, bool $noRecursive = false)
     {
         return $this->getRequestValue($this->getParsedBody(), $name, $filters, $defaultValue);
     }
@@ -120,7 +120,15 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function getQuery($name = null, $filters = null, $defaultValue = null)
+    public function getPut(string $name = null, $filters = null, $defaultValue = null, bool $notAllowEmpty = false, bool $noRecursive = false)
+    {
+        return $this->getRequestValue($this->getParsedBody(), $name, $filters, $defaultValue);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getQuery(string $name = null, $filters = null, $defaultValue = null, bool $notAllowEmpty = false, bool $noRecursive = false)
     {
         return $this->getRequestValue($this->getQueryParams(), $name, $filters, $defaultValue);
     }
@@ -128,7 +136,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function has($name)
+    public function has(string $name): bool
     {
         return ($this->hasQueryParam($name) || $this->hasBodyParam($name));
     }
@@ -136,7 +144,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function hasPost($name)
+    public function hasPost($name): bool
     {
         return ($this->isPost() && $this->hasBodyParam($name));
     }
@@ -144,7 +152,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function hasPut($name)
+    public function hasPut($name): bool
     {
         return ($this->isPut() && $this->hasBodyParam($name));
     }
@@ -152,7 +160,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function hasQuery($name)
+    public function hasQuery($name): bool
     {
         return $this->hasQueryParam($name);
     }
@@ -160,7 +168,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function isAjax()
+    public function isAjax(): bool
     {
         return 'XMLHttpRequest' === $this->getServer('HTTP_X_REQUESTED_WITH');
     }
@@ -168,7 +176,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function isSoapRequested()
+    public function isSoapRequested(): bool
     {
         return ($this->hasServer('HTTP_SOAPACTION') || strstr('application/soap+xml', $this->getContentType()));
     }
@@ -176,7 +184,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function getRawBody()
+    public function getRawBody(): string
     {
         return $this->getContents();
     }
@@ -184,7 +192,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function getJsonRawBody($mode)
+    public function getJsonRawBody(bool $mode = null): array
     {
         return json_decode($this->getContents(), $mode);
     }
@@ -192,7 +200,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function getClientAddress($trustForwardedHeader = false)
+    public function getClientAddress($trustForwardedHeader = false): ?string
     {
         return $this->getServer('REMOTE_ADDR');
     }
@@ -200,7 +208,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function isMethod($methods, $strict = false)
+    public function isMethod($methods, $strict = false): bool
     {
         switch (true) {
             case is_string($methods):
@@ -224,7 +232,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function hasFiles($onlySuccessful = false)
+    public function hasFiles($onlySuccessful = false): bool
     {
         $count = 0;
         foreach ($this->getUploadedFiles() as $file) {
@@ -240,7 +248,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function getHTTPReferer()
+    public function getHTTPReferer(): string
     {
         return $this->getServer('HTTP_REFERER', '');
     }
@@ -248,7 +256,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function getAcceptableContent()
+    public function getAcceptableContent(): array
     {
         if (false === $this->getHeaderStorage()->hasHeader('HTTP_ACCEPT')) {
             return [];
@@ -260,7 +268,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function getBestAccept()
+    public function getBestAccept(): string
     {
         $contents = $this->getAcceptableContent();
 
@@ -270,7 +278,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function getClientCharsets()
+    public function getClientCharsets(): array
     {
         if (false === $this->getHeaderStorage()->hasHeader('HTTP_ACCEPT_CHARSET')) {
             return [];
@@ -282,7 +290,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function getBestCharset()
+    public function getBestCharset(): string
     {
         $clientCharsets = $this->getClientCharsets();
 
@@ -292,7 +300,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function getLanguages()
+    public function getLanguages(): array
     {
         if (false === $this->getHeaderStorage()->hasHeader('HTTP_ACCEPT_LANGUAGE')) {
             return [];
@@ -304,7 +312,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function getBestLanguage()
+    public function getBestLanguage(): string
     {
         $languages = $this->getLanguages();
 
@@ -314,7 +322,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function getBasicAuth()
+    public function getBasicAuth(): ?array
     {
         if (null === ($user = $this->getUri()->getUser()) || null === ($password = $this->getUri()->getPassword())) {
             return null;
@@ -336,7 +344,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function getDigestAuth()
+    public function getDigestAuth(): array
     {
         return null;
     }
@@ -344,7 +352,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function getPort()
+    public function getPort(): int
     {
         return $this->getHttpPort();
     }

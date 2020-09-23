@@ -34,13 +34,21 @@ class PhalconHeadersStorage extends AbstractHeaderStorage implements PhalconHead
     /**
      * @inheritDoc
      */
-    public function get($name)
+    public function get($name): ?string
     {
         if (null === ($header = $this->getHeader($name))) {
             return false;
         }
 
         return implode(', ', $header->getValues());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function has($header): bool
+    {
+        throw new UnsupportedHeaderStorageCallException($this, __METHOD__);
     }
 
     /**
@@ -54,7 +62,7 @@ class PhalconHeadersStorage extends AbstractHeaderStorage implements PhalconHead
     /**
      * @inheritDoc
      */
-    public function send()
+    public function send(): bool
     {
         throw new UnsupportedHeaderStorageCallException($this, __METHOD__);
     }
