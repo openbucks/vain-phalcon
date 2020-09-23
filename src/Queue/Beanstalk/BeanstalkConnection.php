@@ -12,7 +12,7 @@ declare(strict_types = 1);
 
 namespace Vain\Phalcon\Queue\Beanstalk;
 
-use Phalcon\Queue\Beanstalk;
+use Pheanstalk\Pheanstalk;
 use Vain\Core\Connection\AbstractConnection;
 
 /**
@@ -28,9 +28,9 @@ class BeanstalkConnection extends AbstractConnection
     public function doEstablish()
     {
         $config = $this->getConfigData();
-        $connection = new Beanstalk($config);
+        $connection = Pheanstalk::create($config['host'], $config['port']);
         if (isset($config['tube'])) {
-            $connection->choose($config['tube']);
+            $connection->useTube('testtube');
             $connection->watch($config['tube']);
         }
         return $connection;

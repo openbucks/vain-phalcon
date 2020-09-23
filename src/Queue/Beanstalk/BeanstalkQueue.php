@@ -12,8 +12,6 @@ declare(strict_types = 1);
 
 namespace Vain\Phalcon\Queue\Beanstalk;
 
-use Phalcon\Queue\Beanstalk as PhalconBeanstalkQueue;
-use Phalcon\Queue\Beanstalk\Job as PhalconBeanstalkJob;
 use Vain\Core\Queue\AbstractQueue;
 use Vain\Core\Queue\Message\QueueMessageInterface;
 use Vain\Core\Queue\QueueInterface;
@@ -23,12 +21,12 @@ use Vain\Core\Queue\QueueInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  *
- * @method PhalconBeanstalkQueue  getQueue
+ * @method Pheanstalk\Pheanstalk  getQueue
  */
 class BeanstalkQueue extends AbstractQueue
 {
     /**
-     * @var PhalconBeanstalkJob[]
+     * @var Pheanstalk\Job[]
      */
     private $jobs;
 
@@ -69,7 +67,7 @@ class BeanstalkQueue extends AbstractQueue
                 if (false === ($job = $this->getQueue()->reserve())) {
                     return null;
                 }
-                $serializedMessage = $job->getBody();
+                $serializedMessage = $job->getData();
                 $message = $this->getFactoryStorage()->getFactory($serializedMessage['type'])->createFromArray(
                     $serializedMessage
                 );

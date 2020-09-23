@@ -15,9 +15,10 @@
         }
     },
     "require": {
-        "php": ">=7.0",
+        "php": ">=7.4",
         "ext-phalcon": "^4.0",
-        "vain/pdo": "^0.4"
+        "vain/pdo": "^0.4",
+        "pda/pheanstalk": "^4.0"
     },
     "require-dev": {
         "phalcon/devtools": "^4"
