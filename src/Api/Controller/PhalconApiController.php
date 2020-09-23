@@ -51,11 +51,11 @@ class PhalconApiController extends AbstractController
      * @param ApiConfigProviderInterface $apiConfigProvider
      * @param EncoderInterface           $encoder
      */
-    public function initialize(
-        ApiCommandInterface $apiCommand,
-        ApiValidatorInterface $apiValidator,
-        ApiConfigProviderInterface $apiConfigProvider,
-        EncoderInterface $encoder
+    public function init(
+        ApiCommandInterface $apiCommand = null,
+        ApiValidatorInterface $apiValidator = null,
+        ApiConfigProviderInterface $apiConfigProvider = null,
+        EncoderInterface $encoder = null
     ) {
         $this->command = $apiCommand;
         $this->validator = $apiValidator;
@@ -100,7 +100,7 @@ class PhalconApiController extends AbstractController
      */
     public function indexAction()
     {
-        $apiConfig = $this->configProvider->getConfig($this->request->getUri()->getPath());
+        $apiConfig = $this->configProvider->getConfig($this->request->getUri(true));
         $validatorResult = $this->validator->validate($this->request, $apiConfig);
         if (false === $validatorResult->isSuccessful()) {
             $this->response

@@ -37,23 +37,23 @@ class MvcDispatcher extends PhalconMvcDispatcher
      */
     public function getHandlerClass(): string
     {
-        $this->_resolveEmptyProperties();
+        $this->resolveEmptyProperties();
 
-        if (false === strpos("\\", $this->_handlerName)) {
-            $camelizedClass = PhalconText::camelize($this->_handlerName, '_-');
+        if (false === strpos("\\", $this->handlerName)) {
+            $camelizedClass = PhalconText::camelize($this->handlerName, '_-');
         } else {
-            $camelizedClass = $this->_handlerName;
+            $camelizedClass = $this->handlerName;
         }
 
-        if (null === $this->_namespaceName) {
-            return strtolower(sprintf('%s%s%s', $camelizedClass, $this->separator, $this->_handlerSuffix));
+        if (null === $this->namespaceName) {
+            return strtolower(sprintf('%s%s%s', $camelizedClass, $this->separator, $this->handlerSuffix));
         }
 
-        $namespace = $this->_namespaceName;
+        $namespace = $this->namespaceName;
         if ($this->separator !== substr($namespace, -1)) {
             $namespace .= $this->separator;
         }
 
-        return strtolower($namespace . $camelizedClass . $this->_handlerSuffix);
+        return strtolower($namespace . $camelizedClass . $this->handlerSuffix);
     }
 }

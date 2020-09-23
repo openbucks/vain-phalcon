@@ -45,7 +45,7 @@ class PhalconApplication implements HttpApplicationInterface
      */
     public function handleRequest(VainServerRequestInterface $request): VainResponseInterface
     {
-        $this->application->handle($request->getUri()->getPath());
+        $this->application->handle($request->getUri(true));
 
         return $this->responseProxy->getCurrentResponse();
     }

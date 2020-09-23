@@ -25,7 +25,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
-    public function setStatusCode($code, $message = null)
+    public function setStatusCode($code, $message = null): PhalconHttpResponseInterface
     {
         return $this->withStatus($code, $message);
     }
@@ -33,7 +33,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
-    public function setHeader($name, $value)
+    public function setHeader($name, $value): PhalconHttpResponseInterface
     {
         $this->getHeaderStorage()->createHeader($name, $value);
 
@@ -43,7 +43,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
-    public function setRawHeader($header)
+    public function setRawHeader($header): PhalconHttpResponseInterface
     {
         list ($headerName, $headerValue) = explode(':', $header);
         $this->getHeaderStorage()->createHeader($headerName, $headerValue);
@@ -54,7 +54,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
-    public function setContentLength($contentLength)
+    public function setContentLength($contentLength):PhalconHttpResponseInterface
     {
         return $this->withHeader(self::HEADER_CONTENT_LENGTH, $contentLength);
     }
@@ -62,7 +62,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
-    public function setExpires(\DateTime $datetime)
+    public function setExpires(\DateTime $datetime): PhalconHttpResponseInterface
     {
         $cloned = clone $datetime;
         $cloned->setTimezone(new \DateTimeZone("UTC"));
@@ -74,7 +74,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
-    public function setNotModified()
+    public function setNotModified(): PhalconHttpResponseInterface
     {
         return $this->withStatus(304, 'Not modified');
     }
@@ -82,7 +82,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
-    public function setContentType($contentType, $charset = null)
+    public function setContentType($contentType, $charset = null): PhalconHttpResponseInterface
     {
         if (null === $charset) {
             $this->getHeaderStorage()->createHeader(self::HEADER_CONTENT_TYPE, $contentType);
@@ -99,7 +99,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
-    public function redirect($location = null, $externalRedirect = false, $statusCode = 302)
+    public function redirect($location = null, bool $externalRedirect = null, int $statusCode = 302): PhalconHttpResponseInterface
     {
         if ($statusCode < 300 || $statusCode > 308) {
             throw new BadRedirectCodeException($this, $statusCode);
@@ -113,7 +113,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
-    public function setContent($content)
+    public function setContent($content): PhalconHttpResponseInterface
     {
         $this->getBody()->write($content);
 
@@ -123,7 +123,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
-    public function setJsonContent($content)
+    public function setJsonContent($content): PhalconHttpResponseInterface
     {
         if (false === ($encoded = json_encode($content))) {
             throw new JsonErrorException($this, $content);
@@ -135,7 +135,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
-    public function appendContent($content)
+    public function appendContent($content): PhalconHttpResponseInterface
     {
         $this->getBody()->write($content);
 
@@ -145,7 +145,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
-    public function send()
+    public function send(): PhalconHttpResponseInterface
     {
         return $this;
     }
@@ -153,7 +153,15 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
-    public function sendHeaders()
+    public function isSent(): bool
+    {
+        throw new UnsupportedResponseCallException($this, __METHOD__);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function sendHeaders(): PhalconHttpResponseInterface
     {
         return $this;
         //throw new UnsupportedResponseCallException($this, __METHOD__);
@@ -162,7 +170,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
-    public function sendCookies()
+    public function sendCookies(): PhalconHttpResponseInterface
     {
         return $this;
         //throw new UnsupportedResponseCallException($this, __METHOD__);
@@ -171,7 +179,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->getBody()->getContents();
     }
@@ -179,7 +187,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
-    public function resetHeaders()
+    public function resetHeaders(): PhalconHttpResponseInterface
     {
         $copy = clone $this;
         $copy->getHeaderStorage()->resetHeaders();
@@ -190,7 +198,7 @@ class PhalconResponse extends AbstractResponse implements PhalconHttpResponseInt
     /**
      * @inheritDoc
      */
-    public function setFileToSend($filePath, $attachmentName = null)
+    public function setFileToSend($filePath, $attachmentName = null): PhalconHttpResponseInterface
     {
         $this->getHeaderStorage()->resetHeaders();
 

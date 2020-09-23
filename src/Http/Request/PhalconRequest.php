@@ -10,7 +10,7 @@
  */
 namespace Vain\Phalcon\Http\Request;
 
-use Phalcon\FilterInterface as PhalconFilterInterface;
+use Phalcon\Filter\FilterInterface as PhalconFilterInterface;
 use Vain\Core\Http\Cookie\Storage\CookieStorageInterface;
 use Vain\Core\Http\File\VainFileInterface;
 use Vain\Core\Http\Header\Storage\HeaderStorageInterface;
@@ -184,6 +184,14 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
+    public function isSoap(): bool
+    {
+        return $this->isSoapRequested();
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getRawBody(): string
     {
         return $this->getContents();
@@ -232,7 +240,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     /**
      * @inheritDoc
      */
-    public function hasFiles($onlySuccessful = false): bool
+    public function hasFiles(bool $onlySuccessful = false): bool
     {
         $count = 0;
         foreach ($this->getUploadedFiles() as $file) {
@@ -243,6 +251,14 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
         }
 
         return $count;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function numFiles(bool $onlySuccessful = false): int
+    {
+        return $this->hasFiles($onlySuccessful);
     }
 
     /**
@@ -324,7 +340,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
      */
     public function getBasicAuth(): ?array
     {
-        if (null === ($user = $this->getUri()->getUser()) || null === ($password = $this->getUri()->getPassword())) {
+        if (null === ($user = $this->getVUri()->getUser()) || null === ($password = $this->getVUri()->getPassword())) {
             return null;
         }
 
@@ -336,7 +352,7 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
      *
      * @return VainFileInterface[]
      */
-    public function getUploadedFiles($onlySuccessful = null) : array
+    public function getUploadedFiles(bool $onlySuccessful = null, bool $namedKeys = null) : array
     {
         return parent::getUploadedFiles();
     }
@@ -355,5 +371,13 @@ class PhalconRequest extends AbstractServerRequest implements PhalconHttpRequest
     public function getPort(): int
     {
         return $this->getHttpPort();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isSecure() : bool
+    {
+        return $this->isSecureRequest();
     }
 }
