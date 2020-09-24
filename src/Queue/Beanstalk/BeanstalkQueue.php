@@ -51,7 +51,7 @@ class BeanstalkQueue extends AbstractQueue
      */
     public function enqueue(QueueMessageInterface $queueMessage) : QueueInterface
     {
-        $this->getQueue()->put($queueMessage->toArray());
+        $this->getQueue()->put(@serialize($queueMessage->toArray()));
 
         return $this;
     }
@@ -67,7 +67,7 @@ class BeanstalkQueue extends AbstractQueue
                 if (false === ($job = $this->getQueue()->reserve())) {
                     return null;
                 }
-                $serializedMessage = $job->getData();
+                $serializedMessage = @unserialize($job->getData());
                 $message = $this->getFactoryStorage()->getFactory($serializedMessage['type'])->createFromArray(
                     $serializedMessage
                 );
