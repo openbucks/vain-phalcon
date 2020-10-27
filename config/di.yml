@@ -53,7 +53,7 @@ services:
     alias: app.modelsMetadata
   app.mvc.phalcon:
     public: true
-    class: Phalcon\Mvc\Micro
+    class: Phalcon\Mvc\Application
     arguments: ['@app.di']
   http.application:
     public: true

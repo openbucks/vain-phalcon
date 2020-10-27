@@ -10,7 +10,7 @@
  */
 namespace Vain\Phalcon\Application\Mvc;
 
-use Phalcon\Mvc\Micro as PhalconMvcApplication;
+use Phalcon\Mvc\Application as PhalconMvcApplication;
 use Psr\Container\ContainerInterface;
 use Vain\Core\Http\Application\HttpApplicationInterface;
 use Vain\Core\Http\Request\VainServerRequestInterface;
