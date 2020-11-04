@@ -30,7 +30,7 @@ class BeanstalkConnection extends AbstractConnection
         $config = $this->getConfigData();
         $connection = Pheanstalk::create($config['host'], $config['port']);
         if (isset($config['tube'])) {
-            $connection->useTube('testtube');
+            $connection->useTube($config['tube']);
             $connection->watch($config['tube']);
         }
         return $connection;

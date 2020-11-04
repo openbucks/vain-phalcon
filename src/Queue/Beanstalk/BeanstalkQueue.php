@@ -89,10 +89,7 @@ class BeanstalkQueue extends AbstractQueue
         if (false === array_key_exists($messageId, $this->jobs)) {
             return false;
         }
-
-        if (false === $this->jobs[$messageId]->delete()) {
-            return false;
-        }
+        $this->getQueue()->delete($this->jobs[$messageId]);
         unset($this->jobs[$messageId]);
 
         return true;
