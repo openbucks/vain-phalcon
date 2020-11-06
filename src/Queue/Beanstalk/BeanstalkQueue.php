@@ -20,8 +20,6 @@ use Vain\Core\Queue\QueueInterface;
  * Class BeanstalkQueue
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
- *
- * @method Pheanstalk\Pheanstalk  getQueue
  */
 class BeanstalkQueue extends AbstractQueue
 {
@@ -51,7 +49,7 @@ class BeanstalkQueue extends AbstractQueue
      */
     public function enqueue(QueueMessageInterface $queueMessage) : QueueInterface
     {
-        $this->getQueue()->put(@serialize($queueMessage->toArray()));
+        $this->getQueue(true)->put(@serialize($queueMessage->toArray()));
 
         return $this;
     }
@@ -62,11 +60,10 @@ class BeanstalkQueue extends AbstractQueue
     public function doDequeue(array $configData) : ?QueueMessageInterface
     {
         $sleep = isset($configData['sleep']) ? $configData['sleep'] : 500000;
+        $timeout = isset($configData['timeout']) ? $configData['timeout'] : 50;
+
         while (true) {
-            while ($this->getQueue()->peekReady() !== false) {
-                if (false === ($job = $this->getQueue()->reserve())) {
-                    return null;
-                }
+            if ($job = $timeout > 0 ? $this->getQueue(true)->reserveWithTimeout($timeout) : $this->getQueue(true)->reserve()) {
                 $serializedMessage = @unserialize($job->getData());
                 $message = $this->getFactoryStorage()->getFactory($serializedMessage['type'])->createFromArray(
                     $serializedMessage
@@ -89,7 +86,7 @@ class BeanstalkQueue extends AbstractQueue
         if (false === array_key_exists($messageId, $this->jobs)) {
             return false;
         }
-        $this->getQueue()->delete($this->jobs[$messageId]);
+        $this->getQueue(true)->delete($this->jobs[$messageId]);
         unset($this->jobs[$messageId]);
 
         return true;
